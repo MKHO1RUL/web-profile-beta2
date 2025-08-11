@@ -11,7 +11,7 @@ export default function HeroSection() {
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-        <div className="absolute inset-0 bg-[url('/hidden-leaf-silhouette.png')] bg-cover bg-center opacity-20" />
+        <div className="absolute inset-0 bg-[url('/header-back.jpg')] bg-cover bg-center opacity-20" />
       </div>
 
       {/* Chakra Aura Effect */}
@@ -95,7 +95,7 @@ export default function HeroSection() {
           transition={{ duration: 1, delay: 0.6 }}
           className="text-xl md:text-2xl mb-8 text-orange-200"
         >
-          A Shinobi of Code
+          A Machine Learniing Practitioner
         </motion.p>
 
         <motion.div
