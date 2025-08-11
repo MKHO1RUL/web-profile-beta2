@@ -95,7 +95,7 @@ export default function HeroSection() {
           transition={{ duration: 1, delay: 0.6 }}
           className="text-xl md:text-2xl mb-8 text-orange-200"
         >
-          A Machine Learniing Practitioner
+          An AI/Machine Learning Developer
         </motion.p>
 
         <motion.div
@@ -106,11 +106,11 @@ export default function HeroSection() {
         >
           <div className="bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg px-6 py-3">
             <span className="text-orange-400 font-semibold">Rank:</span>
-            <span className="ml-2 text-blue-400">Software Developer - Jounin</span>
+            <span className="ml-2 text-blue-400">AI Enginer - Genin</span>
           </div>
           <div className="bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg px-6 py-3">
             <span className="text-orange-400 font-semibold">Village:</span>
-            <span className="ml-2 text-blue-400">Hidden Code Village</span>
+            <span className="ml-2 text-blue-400">Sidoarjo, East Java - Indonesia</span>
           </div>
         </motion.div>
 
@@ -123,7 +123,7 @@ export default function HeroSection() {
           className="bg-gradient-to-r from-orange-400 to-blue-400 text-slate-900 px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
           onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
         >
-          Begin the Journey
+          Get to Know Me!
         </motion.button>
       </div>
 
@@ -173,7 +173,7 @@ export default function HeroSection() {
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 to-transparent p-6">
                 <h3 className="text-2xl font-bold text-orange-400 mb-2">Khoirul</h3>
                 <p className="text-blue-400 mb-1">AI Engineer - Genin Rank</p>
-                <p className="text-orange-200 text-sm">Machine Learning Practitioner from Sidoarjo, East Java</p>
+                <p className="text-orange-200 text-sm">AI/Machine Learning Developer from Sidoarjo, East Java</p>
               </div>
 
               {/* Decorative chakra effects */}
