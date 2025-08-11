@@ -95,7 +95,7 @@ export default function HeroSection() {
           transition={{ duration: 1, delay: 0.6 }}
           className="text-xl md:text-2xl mb-8 text-orange-200"
         >
-          An AI/Machine Learning Developer
+          An AI/Machine Learning Engineer
         </motion.p>
 
         <motion.div
@@ -106,7 +106,7 @@ export default function HeroSection() {
         >
           <div className="bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg px-6 py-3">
             <span className="text-orange-400 font-semibold">Rank:</span>
-            <span className="ml-2 text-blue-400">AI Enginer - Genin</span>
+            <span className="ml-2 text-blue-400">AI Engineer - Genin</span>
           </div>
           <div className="bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg px-6 py-3">
             <span className="text-orange-400 font-semibold">Village:</span>
