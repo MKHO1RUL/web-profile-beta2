@@ -335,13 +335,6 @@ export default function ProjectsSection() {
                             </div>
                           </div>
 
-                          {/* Side Text */}
-                          <div className="absolute left-1 top-1/2 transform -translate-y-1/2 rotate-90 text-slate-600 text-xs font-bold">
-                            Mission
-                          </div>
-                          <div className="absolute right-1 top-1/2 transform -translate-y-1/2 -rotate-90 text-slate-600 text-xs font-bold">
-                            Report
-                          </div>
                         </div>
                       </motion.div>
                     )}
@@ -362,7 +355,7 @@ export default function ProjectsSection() {
         className="text-center mt-12"
       >
         <p className="text-orange-200/70 text-sm">
-          Click the scrolls to unfurl mission details • The scroll header remains visible when opened
+          Click the scrolls to unfurl mission details
         </p>
       </motion.div>
     </div>
