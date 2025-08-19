@@ -1,16 +1,9 @@
-'use client'
+"use client"
 
-import { motion } from 'framer-motion'
-import { Star, Award, Target, Heart } from 'lucide-react'
+import { motion } from "framer-motion"
+import { User } from "lucide-react"
 
 export default function AboutSection() {
-  const stats = [
-    { label: 'Chakra Control', value: 95, color: 'bg-blue-400' },
-    { label: 'Code Jutsu', value: 90, color: 'bg-orange-400' },
-    { label: 'Team Work', value: 88, color: 'bg-green-400' },
-    { label: 'Problem Solving', value: 92, color: 'bg-purple-400' },
-  ]
-
   return (
     <div className="container mx-auto px-4 py-20">
       <motion.div
@@ -21,14 +14,14 @@ export default function AboutSection() {
         className="text-center mb-16"
       >
         <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-blue-400 bg-clip-text text-transparent">
-          Ninja Profile
+          My Profile
         </h2>
-        <p className="text-orange-200 text-lg">Scroll of Personal Information</p>
+        <p className="text-orange-200 text-lg">A little about me..</p>
       </motion.div>
 
       <div className="max-w-6xl mx-auto">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Ninja Scroll */}
+          {/* Video Introduction */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -36,47 +29,32 @@ export default function AboutSection() {
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="bg-gradient-to-br from-amber-100 to-amber-200 text-slate-800 p-8 rounded-lg shadow-2xl border-4 border-amber-600 relative overflow-hidden">
-              {/* Parchment texture overlay */}
-              <div className="absolute inset-0 bg-[url('/parchment-texture.png')] opacity-10" />
-              
-              <div className="relative z-10">
-                <div className="flex items-center mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-blue-400 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-2xl font-bold text-white">K</span>
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-slate-800">Khoirul</h3>
-                    <p className="text-slate-600">Software Developer - Jounin Rank</p>
-                  </div>
-                </div>
+            <div className="bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg p-6 shadow-2xl relative overflow-hidden">
+              {/* Video Container */}
+              <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
+                <video controls poster="/video-thumbnail.jpg" className="w-full h-full object-cover">
+                  <source src="/introduction-video.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
 
-                <div className="space-y-4">
-                  <div className="flex items-center">
-                    <Award className="w-5 h-5 mr-3 text-orange-600" />
-                    <span>Specialization: Full-Stack Development</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Target className="w-5 h-5 mr-3 text-blue-600" />
-                    <span>Mission: Creating digital solutions</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Heart className="w-5 h-5 mr-3 text-red-600" />
-                    <span>Passion: Clean code & user experience</span>
-                  </div>
-                </div>
-
-                <div className="mt-6 p-4 bg-slate-100 rounded border-l-4 border-orange-400">
-                  <p className="text-sm italic">
-                    "A true ninja never gives up, and neither does a true developer. 
-                    Every bug is just another challenge to overcome on the path to mastery."
-                  </p>
-                </div>
+                {/* Video Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent pointer-events-none" />
               </div>
+
+              <div className="text-center">
+                <h3 className="text-xl font-bold text-orange-400 mb-2">Video Introduction</h3>
+                <p className="text-orange-200 text-sm">
+                  Watch my personal introduction and learn about my journey as an AI engineer
+                </p>
+              </div>
+
+              {/* Decorative Elements */}
+              <div className="absolute top-4 right-4 w-8 h-8 bg-gradient-to-br from-orange-400/20 to-blue-400/20 rounded-full animate-pulse" />
+              <div className="absolute bottom-4 left-4 w-6 h-6 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full animate-pulse" />
             </div>
           </motion.div>
 
-          {/* Stats */}
+          {/* Biography */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -85,48 +63,57 @@ export default function AboutSection() {
             className="space-y-6"
           >
             <h3 className="text-2xl font-bold text-orange-400 mb-6 flex items-center">
-              <Star className="w-6 h-6 mr-2" />
-              Ninja Stats
+              <User className="w-6 h-6 mr-2" />
+              My Story
             </h3>
 
-            {stats.map((stat, index) => (
-              <div key={stat.label} className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-orange-200 font-medium">{stat.label}</span>
-                  <span className="text-blue-400 font-bold">{stat.value}%</span>
-                </div>
-                <div className="w-full bg-slate-700 rounded-full h-3 overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${stat.value}%` }}
-                    transition={{ duration: 1.5, delay: 0.6 + index * 0.1 }}
-                    viewport={{ once: true }}
-                    className={`h-full ${stat.color} rounded-full relative`}
-                  >
-                    <div className="absolute inset-0 bg-white/20 animate-pulse" />
-                  </motion.div>
-                </div>
-              </div>
-            ))}
+            <div className="space-y-4 text-orange-200 leading-relaxed">
+              <p>
+                Greetings! I'm Khoirul, a passionate software developer from Sidoarjo, East Java, Indonesia. My journey
+                into the world of programming began in 2018 when I first discovered the art of coding, much like a young
+                ninja discovering their chakra.
+              </p>
 
+              <p>
+                What started as curiosity quickly evolved into a deep passion for creating digital solutions. I
+                specialize in full-stack development, with expertise in modern technologies like React, Node.js, Python,
+                and various databases. Every project I undertake is approached with the dedication and precision of a
+                true shinobi.
+              </p>
+
+              <p>
+                Beyond technical skills, I believe in the power of continuous learning and collaboration. Just as ninjas
+                train together to become stronger, I thrive in team environments where knowledge is shared and
+                innovative solutions are born. My goal is to create applications that not only function flawlessly but
+                also provide exceptional user experiences.
+              </p>
+
+              <p>
+                When I'm not coding, you can find me exploring new technologies, contributing to open-source projects,
+                or mentoring fellow developers on their own ninja path. I'm always excited to take on new challenges and
+                turn complex problems into elegant solutions.
+              </p>
+            </div>
+
+            {/* Personal Highlights */}
             <div className="mt-8 p-6 bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg">
-              <h4 className="text-lg font-bold text-orange-400 mb-3">Current Mission Status</h4>
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <span className="text-orange-200">Active Projects:</span>
-                  <span className="ml-2 text-blue-400 font-bold">5</span>
+              <h4 className="text-lg font-bold text-orange-400 mb-4">Quick Facts</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div className="flex items-center">
+                  <div className="w-2 h-2 bg-orange-400 rounded-full mr-3"></div>
+                  <span className="text-orange-200">Based in Sidoarjo, East Java</span>
                 </div>
-                <div>
-                  <span className="text-orange-200">Completed:</span>
-                  <span className="ml-2 text-green-400 font-bold">47</span>
+                <div className="flex items-center">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full mr-3"></div>
+                  <span className="text-orange-200">5+ Years Experience</span>
                 </div>
-                <div>
-                  <span className="text-orange-200">Success Rate:</span>
-                  <span className="ml-2 text-yellow-400 font-bold">98%</span>
+                <div className="flex items-center">
+                  <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
+                  <span className="text-orange-200">Full-Stack Developer</span>
                 </div>
-                <div>
-                  <span className="text-orange-200">Rank Points:</span>
-                  <span className="ml-2 text-purple-400 font-bold">2,847</span>
+                <div className="flex items-center">
+                  <div className="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
+                  <span className="text-orange-200">Open Source Contributor</span>
                 </div>
               </div>
             </div>
