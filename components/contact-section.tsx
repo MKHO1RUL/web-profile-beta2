@@ -80,272 +80,280 @@ export default function ContactSection() {
       icon: Github,
       label: "GitHub",
       href: "https://github.com/MKHO1RUL",
-      color: "hover:text-gray-400",
+      color: "hover:text-slate-300",
     },
     {
       icon: Linkedin,
       label: "LinkedIn",
       href: "https://linkedin.com/in/mkhoirulii",
-      color: "hover:text-blue-400",
+      color: "hover:text-blue-300",
     },
     {
       icon: Twitter,
       label: "Twitter",
       href: "https://twitter.com/m_khoiruli",
-      color: "hover:text-sky-400",
+      color: "hover:text-sky-300",
     },
   ]
 
   return (
-    <div className="container mx-auto px-4 py-20">
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
-        className="text-center mb-16"
-      >
-        <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-blue-400 bg-clip-text text-transparent">
-          Send a Messenger Bird
-        </h2>
-        <p className="text-orange-200 text-lg">Ready for your next mission? Let's connect!</p>
-      </motion.div>
+    <div style={{ backgroundColor: "#ff9432" }} className="min-h-screen">
+      <div className="container mx-auto px-4 py-20">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white drop-shadow-lg">Send a Messenger Bird</h2>
+          <p className="text-slate-800 text-lg font-medium">Ready for your next mission? Let's connect!</p>
+        </motion.div>
 
-      <div className="max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* Contact Form - Summoning Circle */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="relative"
-          >
-            {/* Summoning Circle Background */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 60, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                className="w-96 h-96 border-2 border-orange-400/20 rounded-full"
-              />
-              <motion.div
-                animate={{ rotate: -360 }}
-                transition={{ duration: 45, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                className="absolute w-80 h-80 border border-blue-400/20 rounded-full"
-              />
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 30, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                className="absolute w-64 h-64 border border-orange-400/10 rounded-full"
-              />
-            </div>
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+            {/* Contact Form - Summoning Circle */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              {/* Summoning Circle Background */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 60, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                  className="w-96 h-96 border-2 border-slate-800/30 rounded-full"
+                />
+                <motion.div
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 45, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                  className="absolute w-80 h-80 border border-white/40 rounded-full"
+                />
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 30, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                  className="absolute w-64 h-64 border border-slate-800/20 rounded-full"
+                />
+              </div>
 
-            <div className="relative z-10 bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg p-8">
-              <h3 className="text-2xl font-bold text-orange-400 mb-6 text-center">Summoning Jutsu: Contact Form</h3>
+              <div className="relative z-10 bg-white/95 backdrop-blur-md border-2 border-slate-800 rounded-lg p-8 shadow-2xl">
+                <h3 className="text-2xl font-bold text-slate-800 mb-6 text-center">Summoning Jutsu: Contact Form</h3>
 
-              {!isSubmitted ? (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
+                {!isSubmitted ? (
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="name" className="block text-slate-700 text-sm font-medium mb-2">
+                          Ninja Name
+                        </label>
+                        <input
+                          type="text"
+                          id="name"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-300 rounded-lg text-slate-800 placeholder-slate-500 focus:border-slate-800 focus:outline-none transition-colors duration-300"
+                          placeholder="Your name"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="email" className="block text-slate-700 text-sm font-medium mb-2">
+                          Messenger Bird Address
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-300 rounded-lg text-slate-800 placeholder-slate-500 focus:border-slate-800 focus:outline-none transition-colors duration-300"
+                          placeholder="your.email@village.com"
+                        />
+                      </div>
+                    </div>
+
                     <div>
-                      <label htmlFor="name" className="block text-orange-200 text-sm font-medium mb-2">
-                        Ninja Name
+                      <label htmlFor="subject" className="block text-slate-700 text-sm font-medium mb-2">
+                        Mission Type
                       </label>
                       <input
                         type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
+                        id="subject"
+                        name="subject"
+                        value={formData.subject}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 bg-slate-700/50 border border-orange-400/30 rounded-lg text-orange-100 placeholder-orange-300/50 focus:border-orange-400 focus:outline-none transition-colors duration-300"
-                        placeholder="Your name"
+                        className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-300 rounded-lg text-slate-800 placeholder-slate-500 focus:border-slate-800 focus:outline-none transition-colors duration-300"
+                        placeholder="Project collaboration, job opportunity, etc."
                       />
                     </div>
+
                     <div>
-                      <label htmlFor="email" className="block text-orange-200 text-sm font-medium mb-2">
-                        Messenger Bird Address
+                      <label htmlFor="message" className="block text-slate-700 text-sm font-medium mb-2">
+                        Mission Details
                       </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
+                      <textarea
+                        id="message"
+                        name="message"
+                        value={formData.message}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 bg-slate-700/50 border border-orange-400/30 rounded-lg text-orange-100 placeholder-orange-300/50 focus:border-orange-400 focus:outline-none transition-colors duration-300"
-                        placeholder="your.email@village.com"
+                        rows={5}
+                        className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-300 rounded-lg text-slate-800 placeholder-slate-500 focus:border-slate-800 focus:outline-none transition-colors duration-300 resize-none"
+                        placeholder="Tell me about your project or how we can work together..."
                       />
                     </div>
-                  </div>
 
-                  <div>
-                    <label htmlFor="subject" className="block text-orange-200 text-sm font-medium mb-2">
-                      Mission Type
-                    </label>
-                    <input
-                      type="text"
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 bg-slate-700/50 border border-orange-400/30 rounded-lg text-orange-100 placeholder-orange-300/50 focus:border-orange-400 focus:outline-none transition-colors duration-300"
-                      placeholder="Project collaboration, job opportunity, etc."
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="message" className="block text-orange-200 text-sm font-medium mb-2">
-                      Mission Details
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      required
-                      rows={5}
-                      className="w-full px-4 py-3 bg-slate-700/50 border border-orange-400/30 rounded-lg text-orange-100 placeholder-orange-300/50 focus:border-orange-400 focus:outline-none transition-colors duration-300 resize-none"
-                      placeholder="Tell me about your project or how we can work together..."
-                    />
-                  </div>
-
-                  <motion.button
-                    type="submit"
-                    disabled={isSubmitting}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-full bg-gradient-to-r from-orange-400 to-blue-400 text-slate-900 py-4 px-6 rounded-lg font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                          className="w-5 h-5 border-2 border-slate-900 border-t-transparent rounded-full mr-2"
-                        />
-                        Summoning Messenger Bird...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-5 h-5 mr-2" />
-                        Send Message
-                      </>
-                    )}
-                  </motion.button>
-                </form>
-              ) : (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="text-center py-8"
-                >
-                  <motion.div
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-                    className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${isSuccess ? "bg-gradient-to-r from-green-400 to-teal-400" : "bg-gradient-to-r from-red-400 to-pink-400"}`}
-                  >
-                    <Send className="w-8 h-8 text-white" />
-                  </motion.div>
-                  <h4 className={`text-xl font-bold mb-2 ${isSuccess ? "text-green-400" : "text-red-400"}`}>
-                    {isSuccess ? "Message Sent!" : "Submission Failed"}
-                  </h4>
-                  <p className="text-orange-200">{submitMessage}</p>
-                </motion.div>
-              )}
-            </div>
-          </motion.div>
-
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="space-y-8"
-          >
-            <div>
-              <h3 className="text-2xl font-bold text-orange-400 mb-6">Alternative Communication Channels</h3>
-
-              <div className="space-y-4">
-                {contactInfo.map((info, index) => {
-                  const Icon = info.icon
-                  return (
-                    <motion.a
-                      key={info.label}
-                      href={info.href}
-                      target={info.newTab ? "_blank" : "_self"}
-                      rel={info.newTab ? "noopener noreferrer" : ""}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 0.6 + index * 0.1 }}
-                      viewport={{ once: true }}
+                    <motion.button
+                      type="submit"
+                      disabled={isSubmitting}
                       whileHover={{ scale: 1.05 }}
-                      className="flex items-center p-4 bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg hover:border-orange-400/60 transition-all duration-300 group"
+                      whileTap={{ scale: 0.95 }}
+                      className="w-full bg-slate-800 text-white py-4 px-6 rounded-lg font-bold text-lg shadow-lg hover:bg-slate-700 hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                     >
-                      <div className="w-12 h-12 bg-gradient-to-r from-orange-400 to-blue-400 rounded-full flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
-                        <Icon className="w-6 h-6 text-white" />
-                      </div>
-                      <div>
-                        <p className="text-orange-400 font-medium">{info.label}</p>
-                        <p className="text-orange-200 text-sm">{info.value}</p>
-                      </div>
-                    </motion.a>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* Social Links */}
-            <div>
-              <h4 className="text-xl font-bold text-orange-400 mb-4">Follow My Ninja Path</h4>
-              <div className="flex space-x-4">
-                {socialLinks.map((social, index) => {
-                  const Icon = social.icon
-                  return (
-                    <motion.a
-                      key={social.label}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      initial={{ opacity: 0, scale: 0 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.8, delay: 0.8 + index * 0.1 }}
-                      viewport={{ once: true }}
-                      whileHover={{ scale: 1.2 }}
-                      whileTap={{ scale: 0.9 }}
-                      className={`w-12 h-12 bg-slate-800/50 border border-orange-400/30 rounded-full flex items-center justify-center text-orange-400 ${social.color} hover:border-orange-400/60 transition-all duration-300`}
+                      {isSubmitting ? (
+                        <>
+                          <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                            className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2"
+                          />
+                          Summoning Messenger Bird...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-5 h-5 mr-2" />
+                          Send Message
+                        </>
+                      )}
+                    </motion.button>
+                  </form>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="text-center py-8"
+                  >
+                    <motion.div
+                      animate={{ y: [0, -10, 0] }}
+                      transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+                      className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${isSuccess ? "bg-green-600" : "bg-red-600"}`}
                     >
-                      <Icon className="w-5 h-5" />
-                    </motion.a>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* Availability Status */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 1 }}
-              viewport={{ once: true }}
-              className="bg-gradient-to-r from-slate-800/80 to-slate-700/80 backdrop-blur-md border border-orange-400/30 rounded-lg p-6"
-            >
-              <h4 className="text-lg font-bold text-orange-400 mb-3">Current Availability</h4>
-              <div className="flex items-center mb-3">
-                <div className="w-3 h-3 bg-green-400 rounded-full mr-3 animate-pulse" />
-                <span className="text-green-400 font-medium">Available for new missions</span>
-              </div>
-              <p className="text-orange-200 text-sm mb-4">
-                Currently accepting freelance projects and full-time opportunities. Response time: Usually within 24
-                hours.
-              </p>
-              <div className="text-xs text-orange-300">
-                <p>🕐 Timezone: UTC-5 (EST)</p>
-                <p>📅 Best contact days: Monday - Friday</p>
+                      <Send className="w-8 h-8 text-white" />
+                    </motion.div>
+                    <h4 className={`text-xl font-bold mb-2 ${isSuccess ? "text-green-600" : "text-red-600"}`}>
+                      {isSuccess ? "Message Sent!" : "Submission Failed"}
+                    </h4>
+                    <p className="text-slate-700">{submitMessage}</p>
+                  </motion.div>
+                )}
               </div>
             </motion.div>
-          </motion.div>
+
+            {/* Contact Info */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="space-y-8"
+            >
+              <div>
+                <h3 className="text-2xl font-bold text-white mb-6 drop-shadow-lg">
+                  Alternative Communication Channels
+                </h3>
+
+                <div className="space-y-4">
+                  {contactInfo.map((info, index) => {
+                    const Icon = info.icon
+                    return (
+                      <motion.a
+                        key={info.label}
+                        href={info.href}
+                        target={info.newTab ? "_blank" : "_self"}
+                        rel={info.newTab ? "noopener noreferrer" : ""}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.6 + index * 0.1 }}
+                        viewport={{ once: true }}
+                        whileHover={{ scale: 1.05 }}
+                        className="flex items-center p-4 bg-white/95 backdrop-blur-md border-2 border-slate-800 rounded-lg hover:bg-white hover:shadow-xl transition-all duration-300 group"
+                      >
+                        <div className="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                          <Icon className="w-6 h-6 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-slate-800 font-bold">{info.label}</p>
+                          <p className="text-slate-600 text-sm">{info.value}</p>
+                        </div>
+                      </motion.a>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Social Links */}
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1, delay: 0.8 }}
+                viewport={{ once: true }}
+                className="space-y-4"
+              >
+                <h4 className="text-xl font-bold text-white mb-4 drop-shadow-lg">Follow My Ninja Path</h4>
+                <div className="flex space-x-4">
+                  {socialLinks.map((social, index) => {
+                    const Icon = social.icon
+                    return (
+                      <motion.a
+                        key={social.label}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        initial={{ opacity: 0, scale: 0 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8, delay: 0.8 + index * 0.1 }}
+                        viewport={{ once: true }}
+                        whileHover={{ scale: 1.2 }}
+                        whileTap={{ scale: 0.9 }}
+                        className={`w-12 h-12 bg-white/95 border-2 border-slate-800 rounded-full flex items-center justify-center text-slate-800 ${social.color} hover:bg-white hover:shadow-lg transition-all duration-300`}
+                      >
+                        <Icon className="w-5 h-5" />
+                      </motion.a>
+                    )
+                  })}
+                </div>
+              </motion.div>
+
+              {/* Availability Status */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 1 }}
+                viewport={{ once: true }}
+                className="bg-white/95 backdrop-blur-md border-2 border-slate-800 rounded-lg p-6 shadow-xl"
+              >
+                <h4 className="text-lg font-bold text-slate-800 mb-3">Current Availability</h4>
+                <div className="flex items-center mb-3">
+                  <div className="w-3 h-3 bg-green-500 rounded-full mr-3 animate-pulse" />
+                  <span className="text-green-600 font-bold">Available for new missions</span>
+                </div>
+                <p className="text-slate-700 text-sm mb-4 leading-relaxed">
+                  Currently accepting freelance projects and full-time opportunities. Response time: Usually within 24
+                  hours.
+                </p>
+                <div className="text-xs text-slate-600 space-y-1">
+                  <p>🕐 Timezone: UTC+7 (WIB)</p>
+                  <p>📅 Best contact days: Monday - Friday</p>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </div>
