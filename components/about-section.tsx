@@ -2,8 +2,38 @@
 
 import { motion } from "framer-motion"
 import { User } from "lucide-react"
+import { useState, useEffect, useRef } from "react"
 
 export default function AboutSection() {
+  const [isVideoVisible, setIsVideoVisible] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const videoElement = videoRef.current
+    if (!videoElement) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVideoVisible(true)
+            videoElement.play().catch(console.error)
+          } else {
+            setIsVideoVisible(false)
+            videoElement.pause()
+          }
+        })
+      },
+      { threshold: 0.5 }, // Video akan play ketika 50% terlihat
+    )
+
+    observer.observe(videoElement)
+
+    return () => {
+      observer.unobserve(videoElement)
+    }
+  }, [])
+
   return (
     <div className="container mx-auto px-4 py-20">
       <motion.div
@@ -32,13 +62,25 @@ export default function AboutSection() {
             <div className="bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg p-6 shadow-2xl relative overflow-hidden">
               {/* Video Container */}
               <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
-                <video controls poster="/video-thumbnail.jpg" className="w-full h-full object-cover">
+                <video
+                  ref={videoRef}
+                  controls
+                  muted
+                  loop
+                  poster="/video-thumbnail.jpg"
+                  className="w-full h-full object-cover"
+                >
                   <source src="/introduction-video.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
 
                 {/* Video Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent pointer-events-none" />
+              </div>
+
+              {/* Video Status Indicator */}
+              <div className="absolute top-2 left-2 px-2 py-1 bg-slate-900/80 rounded-full text-xs text-orange-400">
+                {isVideoVisible ? "▶ Playing" : "⏸ Paused"}
               </div>
 
               <div className="text-center">
