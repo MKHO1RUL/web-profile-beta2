@@ -49,7 +49,7 @@ export default function Home() {
               <TimelineSection />
             </section>
 
-            <section id="contact" className="min-h-screen py-20">
+            <section id="contact">
               <ContactSection />
             </section>
           </main>
