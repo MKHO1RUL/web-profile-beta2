@@ -6,7 +6,6 @@ import AboutSection from "@/components/about-section"
 import SkillsSection from "@/components/skills-section"
 import ProjectsSection from "@/components/projects-section"
 import TimelineSection from "@/components/timeline-section"
-import TestimonialsSection from "@/components/testimonials-section"
 import ContactSection from "@/components/contact-section"
 import Navigation from "@/components/navigation"
 
@@ -36,10 +35,6 @@ export default function Home() {
 
         <section id="timeline" className="min-h-screen py-20">
           <TimelineSection />
-        </section>
-
-        <section id="testimonials" className="min-h-screen py-20">
-          <TestimonialsSection />
         </section>
 
         <section id="contact">
