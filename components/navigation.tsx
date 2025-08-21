@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Scroll, User, Zap, FolderOpen, Clock, MessageSquare, Mail } from 'lucide-react'
+import { Scroll, User, Zap, FolderOpen, Clock, Mail } from 'lucide-react'
 
 interface NavigationProps {
   currentSection: string
@@ -15,7 +15,6 @@ export default function Navigation({ currentSection, setCurrentSection }: Naviga
     { id: 'skills', label: 'Jutsu', icon: Zap },
     { id: 'projects', label: 'Missions', icon: FolderOpen },
     { id: 'timeline', label: 'Journey', icon: Clock },
-    { id: 'testimonials', label: 'Sensei', icon: MessageSquare },
     { id: 'contact', label: 'Contact', icon: Mail },
   ]
 
