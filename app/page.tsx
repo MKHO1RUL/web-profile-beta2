@@ -17,23 +17,23 @@ export default function Home() {
       <Navigation currentSection={currentSection} setCurrentSection={setCurrentSection} />
 
       <main className="relative">
-        <section id="hero" className="min-h-screen">
+        <section id="hero">
           <HeroSection />
         </section>
 
-        <section id="about" className="min-h-screen py-5">
+        <section id="about">
           <AboutSection />
         </section>
 
-        <section id="skills" className="min-h-screen py-5">
+        <section id="skills">
           <SkillsSection />
         </section>
 
-        <section id="projects" className="min-h-screen py-5">
+        <section id="projects">
           <ProjectsSection />
         </section>
 
-        <section id="timeline" className="min-h-screen py-5">
+        <section id="timeline">
           <TimelineSection />
         </section>
 
