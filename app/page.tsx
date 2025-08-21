@@ -21,19 +21,19 @@ export default function Home() {
           <HeroSection />
         </section>
 
-        <section id="about" className="min-h-screen py-10">
+        <section id="about" className="min-h-screen py-5">
           <AboutSection />
         </section>
 
-        <section id="skills" className="min-h-screen py-10">
+        <section id="skills" className="min-h-screen py-5">
           <SkillsSection />
         </section>
 
-        <section id="projects" className="min-h-screen py-10">
+        <section id="projects" className="min-h-screen py-5">
           <ProjectsSection />
         </section>
 
-        <section id="timeline" className="min-h-screen py-10">
+        <section id="timeline" className="min-h-screen py-5">
           <TimelineSection />
         </section>
 
