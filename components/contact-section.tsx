@@ -97,8 +97,8 @@ export default function ContactSection() {
   ]
 
   return (
-    <div style={{ backgroundColor: "#ff9432" }} className="min-h-screen">
-      <div className="container mx-auto px-4 py-20">
+    <div className="bg-gradient-to-b from-orange-400 to-orange-500 min-h-screen flex flex-col">
+      <div className="container mx-auto px-4 py-20 flex-1">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
