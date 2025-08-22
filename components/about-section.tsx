@@ -104,10 +104,6 @@ export default function AboutSection() {
             viewport={{ once: true }}
             className="space-y-6"
           >
-            <h3 className="text-2xl font-bold text-orange-400 mb-6 flex items-center">
-              <User className="w-6 h-6 mr-2" />
-              My Story
-            </h3>
 
             <div className="space-y-4 text-orange-200 leading-relaxed">
               <p>
