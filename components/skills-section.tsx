@@ -1,12 +1,9 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Zap, Code, Database, Palette, Brain, ChevronLeft, ChevronRight } from "lucide-react"
-import { useState } from "react"
+import { Zap, Code, Database, Palette, Brain } from "lucide-react"
 
 export default function SkillsSection() {
-  const [currentIndex, setCurrentIndex] = useState(0)
-
   const jutsuCategories = [
     {
       title: "Core AI & ML",
@@ -54,25 +51,6 @@ export default function SkillsSection() {
     },
   ]
 
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % Math.max(1, jutsuCategories.length - 2))
-  }
-
-  const prevSlide = () => {
-    setCurrentIndex(
-      (prev) => (prev - 1 + Math.max(1, jutsuCategories.length - 2)) % Math.max(1, jutsuCategories.length - 2),
-    )
-  }
-
-  const getVisibleCategories = () => {
-    const visible = []
-    for (let i = 0; i < 3; i++) {
-      const index = (currentIndex + i) % jutsuCategories.length
-      visible.push(jutsuCategories[index])
-    }
-    return visible
-  }
-
   return (
     <div className="container mx-auto px-4 py-20">
       <motion.div
@@ -89,58 +67,19 @@ export default function SkillsSection() {
       </motion.div>
 
       <div className="max-w-7xl mx-auto">
-        {/* Navigation Controls */}
-        <div className="flex justify-center items-center mb-8 gap-4">
-          <motion.button
-            onClick={prevSlide}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="w-12 h-12 bg-slate-800/50 border border-orange-400/30 rounded-full flex items-center justify-center text-orange-400 hover:border-orange-400/60 transition-all duration-300"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </motion.button>
-
-          {/* Dots Indicator */}
-          <div className="flex gap-2">
-            {Array.from({ length: Math.max(1, jutsuCategories.length - 2) }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  currentIndex === index ? "bg-orange-400" : "bg-slate-600"
-                }`}
-              />
-            ))}
-          </div>
-
-          <motion.button
-            onClick={nextSlide}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="w-12 h-12 bg-slate-800/50 border border-orange-400/30 rounded-full flex items-center justify-center text-orange-400 hover:border-orange-400/60 transition-all duration-300"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </motion.button>
-        </div>
-
-        {/* Skills Categories Slider */}
-        <div className="overflow-hidden">
-          <motion.div
-            className="grid md:grid-cols-3 gap-8"
-            key={currentIndex}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            {getVisibleCategories().map((category, categoryIndex) => {
+        {/* Scrollable Skills Categories */}
+        <div className="overflow-x-auto pb-4">
+          <div className="flex gap-8 min-w-max px-4">
+            {jutsuCategories.map((category, categoryIndex) => {
               const Icon = category.icon
               return (
                 <motion.div
-                  key={`${category.title}-${currentIndex}`}
+                  key={category.title}
                   initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, delay: categoryIndex * 0.2 }}
-                  className="bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg p-6 hover:border-orange-400/60 transition-all duration-300"
+                  viewport={{ once: true }}
+                  className="bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg p-6 hover:border-orange-400/60 transition-all duration-300 flex-shrink-0 w-80"
                 >
                   <div className="text-center mb-6">
                     <div
@@ -156,8 +95,9 @@ export default function SkillsSection() {
                       <motion.div
                         key={skill.tech}
                         initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
+                        whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, delay: categoryIndex * 0.2 + skillIndex * 0.1 }}
+                        viewport={{ once: true }}
                         className="group"
                       >
                         <div className="flex justify-between items-center mb-2">
@@ -170,8 +110,9 @@ export default function SkillsSection() {
                         <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
                           <motion.div
                             initial={{ width: 0 }}
-                            animate={{ width: `${skill.level}%` }}
+                            whileInView={{ width: `${skill.level}%` }}
                             transition={{ duration: 1.5, delay: categoryIndex * 0.2 + skillIndex * 0.1 + 0.5 }}
+                            viewport={{ once: true }}
                             className={`h-full bg-gradient-to-r ${category.color} rounded-full relative`}
                           >
                             <div className="absolute inset-0 bg-white/20 animate-pulse" />
@@ -191,7 +132,12 @@ export default function SkillsSection() {
                 </motion.div>
               )
             })}
-          </motion.div>
+          </div>
+        </div>
+
+        {/* Scroll Hint */}
+        <div className="text-center mt-4">
+          <p className="text-orange-200/60 text-sm">← Scroll horizontally to see more skills →</p>
         </div>
 
         {/* Special Techniques */}
