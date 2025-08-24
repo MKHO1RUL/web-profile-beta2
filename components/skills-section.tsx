@@ -1,9 +1,12 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Zap, Code, Database, Palette, Brain } from "lucide-react"
+import { Zap, Code, Database, Palette, Brain, ChevronLeft, ChevronRight } from "lucide-react"
+import { useState } from "react"
 
 export default function SkillsSection() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
   const jutsuCategories = [
     {
       title: "Core AI & ML",
@@ -51,6 +54,25 @@ export default function SkillsSection() {
     },
   ]
 
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % Math.max(1, jutsuCategories.length - 2))
+  }
+
+  const prevSlide = () => {
+    setCurrentIndex(
+      (prev) => (prev - 1 + Math.max(1, jutsuCategories.length - 2)) % Math.max(1, jutsuCategories.length - 2),
+    )
+  }
+
+  const getVisibleCategories = () => {
+    const visible = []
+    for (let i = 0; i < 3; i++) {
+      const index = (currentIndex + i) % jutsuCategories.length
+      visible.push(jutsuCategories[index])
+    }
+    return visible
+  }
+
   return (
     <div className="container mx-auto px-4 py-20">
       <motion.div
@@ -61,74 +83,115 @@ export default function SkillsSection() {
         className="text-center mb-16"
       >
         <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-blue-400 bg-clip-text text-transparent">
-          My Skills
+          Jutsu Techniques
         </h2>
+        <p className="text-orange-200 text-lg">My Arsenal of Development Skills</p>
       </motion.div>
 
       <div className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {jutsuCategories.map((category, categoryIndex) => {
-            const Icon = category.icon
-            return (
-              <motion.div
-                key={category.title}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: categoryIndex * 0.2 }}
-                viewport={{ once: true }}
-                className="bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg p-6 hover:border-orange-400/60 transition-all duration-300"
-              >
-                <div className="text-center mb-6">
-                  <div
-                    className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r ${category.color} flex items-center justify-center`}
-                  >
-                    <Icon className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold text-orange-400">{category.title}</h3>
-                </div>
+        {/* Navigation Controls */}
+        <div className="flex justify-center items-center mb-8 gap-4">
+          <motion.button
+            onClick={prevSlide}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="w-12 h-12 bg-slate-800/50 border border-orange-400/30 rounded-full flex items-center justify-center text-orange-400 hover:border-orange-400/60 transition-all duration-300"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </motion.button>
 
-                <div className="space-y-4">
-                  {category.skills.map((skill, skillIndex) => (
-                    <motion.div
-                      key={skill.tech}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.8, delay: categoryIndex * 0.2 + skillIndex * 0.1 }}
-                      viewport={{ once: true }}
-                      className="group"
-                    >
-                      <div className="flex justify-between items-center mb-2">
-                        <div>
-                          <p className="text-blue-400 text-sm">{skill.tech}</p>
-                        </div>
-                        <span className="text-orange-400 font-bold text-sm">{skill.level}%</span>
-                      </div>
+          {/* Dots Indicator */}
+          <div className="flex gap-2">
+            {Array.from({ length: Math.max(1, jutsuCategories.length - 2) }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  currentIndex === index ? "bg-orange-400" : "bg-slate-600"
+                }`}
+              />
+            ))}
+          </div>
 
-                      <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${skill.level}%` }}
-                          transition={{ duration: 1.5, delay: categoryIndex * 0.2 + skillIndex * 0.1 + 0.5 }}
-                          viewport={{ once: true }}
-                          className={`h-full bg-gradient-to-r ${category.color} rounded-full relative`}
-                        >
-                          <div className="absolute inset-0 bg-white/20 animate-pulse" />
-                        </motion.div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
+          <motion.button
+            onClick={nextSlide}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="w-12 h-12 bg-slate-800/50 border border-orange-400/30 rounded-full flex items-center justify-center text-orange-400 hover:border-orange-400/60 transition-all duration-300"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </motion.button>
+        </div>
 
+        {/* Skills Categories Slider */}
+        <div className="overflow-hidden">
+          <motion.div
+            className="grid md:grid-cols-3 gap-8"
+            key={currentIndex}
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            {getVisibleCategories().map((category, categoryIndex) => {
+              const Icon = category.icon
+              return (
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="mt-6 p-3 bg-slate-700/50 rounded-lg border border-slate-600 text-center cursor-pointer group"
+                  key={`${category.title}-${currentIndex}`}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: categoryIndex * 0.2 }}
+                  className="bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg p-6 hover:border-orange-400/60 transition-all duration-300"
                 >
-                  <Zap className="w-5 h-5 mx-auto mb-1 text-yellow-400 group-hover:animate-bounce" />
-                  <p className="text-xs text-orange-200">Master Level Achieved</p>
+                  <div className="text-center mb-6">
+                    <div
+                      className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r ${category.color} flex items-center justify-center`}
+                    >
+                      <Icon className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-orange-400">{category.title}</h3>
+                  </div>
+
+                  <div className="space-y-4">
+                    {category.skills.map((skill, skillIndex) => (
+                      <motion.div
+                        key={skill.tech}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8, delay: categoryIndex * 0.2 + skillIndex * 0.1 }}
+                        className="group"
+                      >
+                        <div className="flex justify-between items-center mb-2">
+                          <div>
+                            <p className="text-blue-400 text-sm">{skill.tech}</p>
+                          </div>
+                          <span className="text-orange-400 font-bold text-sm">{skill.level}%</span>
+                        </div>
+
+                        <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${skill.level}%` }}
+                            transition={{ duration: 1.5, delay: categoryIndex * 0.2 + skillIndex * 0.1 + 0.5 }}
+                            className={`h-full bg-gradient-to-r ${category.color} rounded-full relative`}
+                          >
+                            <div className="absolute inset-0 bg-white/20 animate-pulse" />
+                          </motion.div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    className="mt-6 p-3 bg-slate-700/50 rounded-lg border border-slate-600 text-center cursor-pointer group"
+                  >
+                    <Zap className="w-5 h-5 mx-auto mb-1 text-yellow-400 group-hover:animate-bounce" />
+                    <p className="text-xs text-orange-200">Master Level Achieved</p>
+                  </motion.div>
                 </motion.div>
-              </motion.div>
-            )
-          })}
+              )
+            })}
+          </motion.div>
         </div>
 
         {/* Special Techniques */}
