@@ -83,7 +83,6 @@ export default function AboutSection() {
               </div>
 
               <div className="text-center">
-                <h3 className="text-xl font-bold text-orange-400 mb-2">Video Introduction</h3>
                 <p className="text-orange-200 text-sm">
                   Watch my personal introduction and learn about my journey as an AI engineer
                 </p>
