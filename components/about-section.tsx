@@ -1,7 +1,6 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { User } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
 
 export default function AboutSection() {
@@ -50,14 +49,14 @@ export default function AboutSection() {
       </motion.div>
 
       <div className="max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-12 items-start">
           {/* Video Introduction */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
             viewport={{ once: true }}
-            className="relative"
+            className="space-y-6"
           >
             <div className="bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg p-6 shadow-2xl relative overflow-hidden">
               {/* Video Container */}
@@ -94,6 +93,29 @@ export default function AboutSection() {
               <div className="absolute top-4 right-4 w-8 h-8 bg-gradient-to-br from-orange-400/20 to-blue-400/20 rounded-full animate-pulse" />
               <div className="absolute bottom-4 left-4 w-6 h-6 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full animate-pulse" />
             </div>
+
+            {/* Personal Highlights - moved outside and below */}
+            <div className="p-6 bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg">
+              <h4 className="text-lg font-bold text-orange-400 mb-4">Quick Facts</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div className="flex items-center">
+                  <div className="w-2 h-2 bg-orange-400 rounded-full mr-3"></div>
+                  <span className="text-orange-200">Based in Sidoarjo, East Java</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full mr-3"></div>
+                  <span className="text-orange-200">5+ Years Experience</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
+                  <span className="text-orange-200">Full-Stack Developer</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
+                  <span className="text-orange-200">Open Source Contributor</span>
+                </div>
+              </div>
+            </div>
           </motion.div>
 
           {/* Biography */}
@@ -104,7 +126,6 @@ export default function AboutSection() {
             viewport={{ once: true }}
             className="space-y-6"
           >
-
             <div className="space-y-4 text-orange-200 leading-relaxed">
               <p>
                 Greetings! I'm Khoirul, a passionate software developer from Sidoarjo, East Java, Indonesia. My journey
@@ -131,29 +152,6 @@ export default function AboutSection() {
                 or mentoring fellow developers on their own ninja path. I'm always excited to take on new challenges and
                 turn complex problems into elegant solutions.
               </p>
-            </div>
-
-            {/* Personal Highlights */}
-            <div className="mt-8 p-6 bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg">
-              <h4 className="text-lg font-bold text-orange-400 mb-4">Quick Facts</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <div className="flex items-center">
-                  <div className="w-2 h-2 bg-orange-400 rounded-full mr-3"></div>
-                  <span className="text-orange-200">Based in Sidoarjo, East Java</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full mr-3"></div>
-                  <span className="text-orange-200">5+ Years Experience</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
-                  <span className="text-orange-200">Full-Stack Developer</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
-                  <span className="text-orange-200">Open Source Contributor</span>
-                </div>
-              </div>
             </div>
           </motion.div>
         </div>
