@@ -84,7 +84,7 @@ export default function AboutSection() {
 
               <div className="text-center">
                 <p className="text-orange-200 text-sm">
-                  Watch my personal introduction and learn about my journey as an AI engineer
+                  Just a few word from me..
                 </p>
               </div>
 
@@ -107,11 +107,11 @@ export default function AboutSection() {
                 </div>
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
-                  <span className="text-orange-200">Full-Stack Developer</span>
+                  <span className="text-orange-200">AI Engineer</span>
                 </div>
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
-                  <span className="text-orange-200">Open Source Contributor</span>
+                  <span className="text-orange-200">Chill Guy</span>
                 </div>
               </div>
             </div>
