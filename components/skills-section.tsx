@@ -52,7 +52,7 @@ export default function SkillsSection() {
   ]
 
   return (
-    <div className="container mx-auto px-4 py-20">
+    <div className="container mx-auto px-4 py-20 overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -68,7 +68,7 @@ export default function SkillsSection() {
 
       <div className="max-w-7xl mx-auto">
         {/* Scrollable Skills Categories */}
-        <div className="overflow-x-auto pb-4">
+        <div className="overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-track-slate-800/50 scrollbar-thumb-orange-400/60 hover:scrollbar-thumb-orange-400/80 pb-6">
           <div className="flex gap-8 min-w-max px-4">
             {jutsuCategories.map((category, categoryIndex) => {
               const Icon = category.icon
@@ -170,6 +170,33 @@ export default function SkillsSection() {
           </div>
         </motion.div>
       </div>
+
+      <style jsx>{`
+        /* Custom scrollbar styles for webkit browsers */
+        .scrollbar-thin::-webkit-scrollbar {
+          height: 8px;
+        }
+        
+        .scrollbar-track-slate-800\/50::-webkit-scrollbar-track {
+          background: rgba(30, 41, 59, 0.5);
+          border-radius: 4px;
+        }
+        
+        .scrollbar-thumb-orange-400\/60::-webkit-scrollbar-thumb {
+          background: rgba(251, 146, 60, 0.6);
+          border-radius: 4px;
+        }
+        
+        .hover\\:scrollbar-thumb-orange-400\/80::-webkit-scrollbar-thumb:hover {
+          background: rgba(251, 146, 60, 0.8);
+        }
+        
+        /* For Firefox */
+        .scrollbar-thin {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(251, 146, 60, 0.6) rgba(30, 41, 59, 0.5);
+        }
+      `}</style>
     </div>
   )
 }
