@@ -61,9 +61,8 @@ export default function SkillsSection() {
         className="text-center mb-16"
       >
         <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-blue-400 bg-clip-text text-transparent">
-          Jutsu Techniques
+          My Skills
         </h2>
-        <p className="text-orange-200 text-lg">My Arsenal of Development Skills</p>
       </motion.div>
 
       <div className="max-w-7xl mx-auto">
@@ -133,11 +132,6 @@ export default function SkillsSection() {
               )
             })}
           </div>
-        </div>
-
-        {/* Scroll Hint */}
-        <div className="text-center mt-4">
-          <p className="text-orange-200/60 text-sm">← Scroll horizontally to see more skills →</p>
         </div>
 
         {/* Special Techniques */}
