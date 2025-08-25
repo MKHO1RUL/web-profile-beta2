@@ -10,10 +10,10 @@ export default function SkillsSection() {
       icon: Brain,
       color: "from-orange-400 to-red-400",
       skills: [
-        { name: "React", tech: "React", level: 95 },
-        { name: "CSS/Tailwind", tech: "CSS/Tailwind", level: 90 },
-        { name: "Next.js", tech: "Next.js", level: 88 },
-        { name: "TypeScript", tech: "TypeScript", level: 85 },
+        { name: "Machine Learning", tech: "Forecasting, Classification", level: 95 },
+        { name: "Deep Learning", tech: "RNN/LSTM/GRU, CNN, Transformer", level: 90 },
+        { name: "NLP/LLM", tech: "Text Preprocessing, Sentiment Analysis, Chatbot", level: 88 },
+        { name: "Generative AI", tech: "Generative LLMs, Agentic AI", level: 85 },
       ],
     },
     {
