@@ -10,10 +10,10 @@ export default function SkillsSection() {
       icon: Brain,
       color: "from-orange-400 to-red-400",
       skills: [
-        { tech: "React", level: 95 },
-        { tech: "CSS/Tailwind", level: 90 },
-        { tech: "Next.js", level: 88 },
-        { tech: "TypeScript", level: 85 },
+        { name: "React", tech: "React", level: 95 },
+        { name: "CSS/Tailwind", tech: "CSS/Tailwind", level: 90 },
+        { name: "Next.js", tech: "Next.js", level: 88 },
+        { name: "TypeScript", tech: "TypeScript", level: 85 },
       ],
     },
     {
@@ -21,10 +21,10 @@ export default function SkillsSection() {
       icon: Database,
       color: "from-blue-400 to-purple-400",
       skills: [
-        { tech: "Python", level: 92 },
-        { tech: "Node.js", level: 87 },
-        { tech: "PostgreSQL", level: 83 },
-        { tech: "API Design", level: 89 },
+        { name: "Python", tech: "Python", level: 92 },
+        { name: "Node.js", tech: "Node.js", level: 87 },
+        { name: "PostgreSQL", tech: "PostgreSQL", level: 83 },
+        { name: "API Design", tech: "API Design", level: 89 },
       ],
     },
     {
@@ -32,10 +32,10 @@ export default function SkillsSection() {
       icon: Code,
       color: "from-green-400 to-teal-400",
       skills: [
-        { tech: "Machine Learning", level: 78 },
-        { tech: "Data Analysis", level: 82 },
-        { tech: "Problem Solving", level: 94 },
-        { tech: "DevOps", level: 75 },
+        { name: "Machine Learning", tech: "Machine Learning", level: 78 },
+        { name: "Data Analysis", tech: "Data Analysis", level: 82 },
+        { name: "Problem Solving", tech: "Problem Solving", level: 94 },
+        { name: "DevOps", tech: "DevOps", level: 75 },
       ],
     },
     {
@@ -43,10 +43,10 @@ export default function SkillsSection() {
       icon: TrendingUp,
       color: "from-purple-400 to-pink-400",
       skills: [
-        { tech: "Data Visualization", level: 88 },
-        { tech: "Statistical Analysis", level: 85 },
-        { tech: "Big Data Processing", level: 80 },
-        { tech: "Business Intelligence", level: 82 },
+        { name: "Data Visualization", tech: "Data Visualization", level: 88 },
+        { name: "Statistical Analysis", tech: "Statistical Analysis", level: 85 },
+        { name: "Big Data Processing", tech: "Big Data Processing", level: 80 },
+        { name: "Business Intelligence", tech: "Business Intelligence", level: 82 },
       ],
     },
   ]
@@ -61,8 +61,9 @@ export default function SkillsSection() {
         className="text-center mb-16"
       >
         <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-blue-400 bg-clip-text text-transparent">
-          My Skills
+          Jutsu Techniques
         </h2>
+        <p className="text-orange-200 text-lg">My Arsenal of Development Skills</p>
       </motion.div>
 
       <div className="max-w-7xl mx-auto">
@@ -92,7 +93,7 @@ export default function SkillsSection() {
                   <div className="space-y-4">
                     {category.skills.map((skill, skillIndex) => (
                       <motion.div
-                        key={skill.tech}
+                        key={skill.name}
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, delay: categoryIndex * 0.2 + skillIndex * 0.1 }}
@@ -101,7 +102,7 @@ export default function SkillsSection() {
                       >
                         <div className="flex justify-between items-center mb-2">
                           <div>
-                            <p className="text-blue-400 text-sm">{skill.tech}</p>
+                            <p className="text-blue-400 text-sm">{skill.name}</p>
                           </div>
                           <span className="text-orange-400 font-bold text-sm">{skill.level}%</span>
                         </div>
