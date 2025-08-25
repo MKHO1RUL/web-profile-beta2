@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Zap, Code, Database, Palette, Brain } from "lucide-react"
+import { Zap, Code, Database, TrendingUp, Brain } from "lucide-react"
 
 export default function SkillsSection() {
   const jutsuCategories = [
@@ -40,7 +40,7 @@ export default function SkillsSection() {
     },
     {
       title: "Data Science & Analytics",
-      icon: Palette,
+      icon: TrendingUp,
       color: "from-purple-400 to-pink-400",
       skills: [
         { tech: "Data Visualization", level: 88 },
