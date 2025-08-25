@@ -10,9 +10,9 @@ export default function SkillsSection() {
       icon: Brain,
       color: "from-orange-400 to-red-400",
       skills: [
-        { name: "Machine Learning", tech: "Classification, Forecasting", level: 95 },
-        { name: "Deep Learning", tech: "RNN/LSTM/GRU, CNN, Transformer", level: 90 },
-        { name: "NLP", tech: "Next.js", level: 88 },
+        { name: "React", tech: "React", level: 95 },
+        { name: "CSS/Tailwind", tech: "CSS/Tailwind", level: 90 },
+        { name: "Next.js", tech: "Next.js", level: 88 },
         { name: "TypeScript", tech: "TypeScript", level: 85 },
       ],
     },
@@ -102,7 +102,8 @@ export default function SkillsSection() {
                       >
                         <div className="flex justify-between items-center mb-2">
                           <div>
-                            <p className="text-blue-400 text-sm">{skill.name}</p>
+                            <p className="text-orange-200 font-medium text-sm">{skill.name}</p>
+                            <p className="text-blue-400 text-xs">{skill.tech}</p>
                           </div>
                           <span className="text-orange-400 font-bold text-sm">{skill.level}%</span>
                         </div>
