@@ -1,12 +1,11 @@
-import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold, type Content } from "@google/genai"
+import { GoogleGenAI, HarmCategory, HarmBlockThreshold, type Content } from "@google/genai"
 import { knowledgeBase } from "@/lib/knowledge-base"
 
 const MODEL_NAME = "gemini-1.5-flash-latest"
 const API_KEY = process.env.GEMINI_API_KEY || ""
 
-const genAI = new GoogleGenAI(API_KEY)
-
 // Define the persona and knowledge base as a system instruction for better results.
+// Ini aman untuk berada di top-level karena hanya sebuah objek konstan.
 const systemInstruction = {
   role: "system",
   parts: [
@@ -31,13 +30,16 @@ ${knowledgeBase}
   ],
 }
 
-const model = genAI.getGenerativeModel({
-  model: MODEL_NAME,
-  systemInstruction: systemInstruction,
-})
-
 export async function POST(req: Request) {
   try {
+    // Inisialisasi Google AI client dan model di dalam handler
+    // untuk menghindari eksekusi saat proses build.
+    const genAI = new GoogleGenAI(API_KEY)
+    const model = genAI.getGenerativeModel({
+      model: MODEL_NAME,
+      systemInstruction: systemInstruction,
+    })
+
     const { history, message } = await req.json()
 
     // Construct the full conversation history
