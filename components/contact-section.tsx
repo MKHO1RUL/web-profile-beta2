@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Send, Mail, MapPin, Github, Linkedin, Twitter, MessageCircle } from "lucide-react"
 import { sendContactEmail } from "@/app/actions" // Import Server Action
@@ -18,6 +18,18 @@ export default function ContactSection() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [submitMessage, setSubmitMessage] = useState("")
   const [isSuccess, setIsSuccess] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -96,13 +108,17 @@ export default function ContactSection() {
     },
   ]
 
+  // Reduced animation duration for mobile
+  const animationDuration = isMobile ? 0.6 : 1
+  const animationDelay = isMobile ? 0.1 : 0.2
+
   return (
     <div className="bg-gradient-to-b from-orange-400 to-orange-500 min-h-screen flex flex-col">
       <div className="container mx-auto px-4 py-20 flex-1">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
+          transition={{ duration: animationDuration }}
           viewport={{ once: true }}
           className="text-center mb-16"
         >
@@ -114,30 +130,32 @@ export default function ContactSection() {
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Contact Form - Summoning Circle */}
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, x: isMobile ? 0 : -50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.2 }}
+              transition={{ duration: animationDuration, delay: animationDelay }}
               viewport={{ once: true }}
               className="relative"
             >
-              {/* Summoning Circle Background */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 60, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                  className="w-96 h-96 border-2 border-slate-800/30 rounded-full"
-                />
-                <motion.div
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 45, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                  className="absolute w-80 h-80 border border-white/40 rounded-full"
-                />
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 30, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                  className="absolute w-64 h-64 border border-slate-800/20 rounded-full"
-                />
-              </div>
+              {/* Summoning Circle Background - Simplified for mobile */}
+              {!isMobile && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 60, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                    className="w-96 h-96 border-2 border-slate-800/30 rounded-full"
+                  />
+                  <motion.div
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 45, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                    className="absolute w-80 h-80 border border-white/40 rounded-full"
+                  />
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 30, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                    className="absolute w-64 h-64 border border-slate-800/20 rounded-full"
+                  />
+                </div>
+              )}
 
               <div className="relative z-10 bg-white/95 backdrop-blur-md border-2 border-slate-800 rounded-lg p-8 shadow-2xl">
                 <h3 className="text-2xl font-bold text-slate-800 mb-6 text-center">Summoning Jutsu: Contact Form</h3>
@@ -212,7 +230,7 @@ export default function ContactSection() {
                     <motion.button
                       type="submit"
                       disabled={isSubmitting}
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={!isMobile ? { scale: 1.05 } : {}}
                       whileTap={{ scale: 0.95 }}
                       className="w-full bg-slate-800 text-white py-4 px-6 rounded-lg font-bold text-lg shadow-lg hover:bg-slate-700 hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                     >
@@ -240,8 +258,8 @@ export default function ContactSection() {
                     className="text-center py-8"
                   >
                     <motion.div
-                      animate={{ y: [0, -10, 0] }}
-                      transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+                      animate={!isMobile ? { y: [0, -10, 0] } : {}}
+                      transition={!isMobile ? { duration: 2, repeat: Number.POSITIVE_INFINITY } : {}}
                       className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${isSuccess ? "bg-green-600" : "bg-red-600"}`}
                     >
                       <Send className="w-8 h-8 text-white" />
@@ -257,9 +275,9 @@ export default function ContactSection() {
 
             {/* Contact Info */}
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
+              initial={{ opacity: 0, x: isMobile ? 0 : 50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.4 }}
+              transition={{ duration: animationDuration, delay: animationDelay * 2 }}
               viewport={{ once: true }}
               className="space-y-8"
             >
@@ -279,9 +297,9 @@ export default function ContactSection() {
                         rel={info.newTab ? "noopener noreferrer" : ""}
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.6 + index * 0.1 }}
+                        transition={{ duration: animationDuration, delay: animationDelay * 3 + index * 0.1 }}
                         viewport={{ once: true }}
-                        whileHover={{ scale: 1.05 }}
+                        whileHover={!isMobile ? { scale: 1.05 } : {}}
                         className="flex items-center p-4 bg-white/95 backdrop-blur-md border-2 border-slate-800 rounded-lg hover:bg-white hover:shadow-xl transition-all duration-300 group"
                       >
                         <div className="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
@@ -299,9 +317,9 @@ export default function ContactSection() {
 
               {/* Social Links */}
               <motion.div
-                initial={{ opacity: 0, x: 50 }}
+                initial={{ opacity: 0, x: isMobile ? 0 : 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1, delay: 0.8 }}
+                transition={{ duration: animationDuration, delay: animationDelay * 4 }}
                 viewport={{ once: true }}
                 className="space-y-4"
               >
@@ -317,9 +335,9 @@ export default function ContactSection() {
                         rel="noopener noreferrer"
                         initial={{ opacity: 0, scale: 0 }}
                         whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.8 + index * 0.1 }}
+                        transition={{ duration: animationDuration, delay: animationDelay * 4 + index * 0.1 }}
                         viewport={{ once: true }}
-                        whileHover={{ scale: 1.2 }}
+                        whileHover={!isMobile ? { scale: 1.2 } : {}}
                         whileTap={{ scale: 0.9 }}
                         className={`w-12 h-12 bg-white/95 border-2 border-slate-800 rounded-full flex items-center justify-center text-slate-800 ${social.color} hover:bg-white hover:shadow-lg transition-all duration-300`}
                       >
@@ -334,7 +352,7 @@ export default function ContactSection() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 1 }}
+                transition={{ duration: animationDuration, delay: animationDelay * 5 }}
                 viewport={{ once: true }}
                 className="bg-white/95 backdrop-blur-md border-2 border-slate-800 rounded-lg p-6 shadow-xl"
               >
