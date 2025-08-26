@@ -2,7 +2,7 @@ import { GoogleGenAI, HarmCategory, HarmBlockThreshold, type Content } from "@go
 import { knowledgeBase } from "@/lib/knowledge-base"
 
 const MODEL_NAME = "gemini-1.5-flash-latest"
-const API_KEY = process.env.GEMINI_API_KEY || ""
+const API_KEY = process.env.GEMINI_API_KEY
 
 // Define the persona and knowledge base as a system instruction for better results.
 // Ini aman untuk berada di top-level karena hanya sebuah objek konstan.
@@ -56,6 +56,10 @@ export async function POST(req: Request) {
     return new Response(response.text());
   } catch (error) {
     console.error("Error in chat API:", error)
-    return new Response("Sorry, something went wrong. My chakra is a bit low right now.", { status: 500 })
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    return new Response(
+      `Sorry, something went wrong. My chakra is a bit low right now. (Error: ${errorMessage})`, 
+      { status: 500 }
+    )
   }
 }
