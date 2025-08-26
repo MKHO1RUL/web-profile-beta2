@@ -1,7 +1,7 @@
-'use client'
+"use client"
 
-import { motion } from 'framer-motion'
-import { Scroll, User, Zap, FolderOpen, Clock, Mail } from 'lucide-react'
+import { motion } from "framer-motion"
+import { Scroll, User, Zap, FolderOpen, Mail } from "lucide-react"
 
 interface NavigationProps {
   currentSection: string
@@ -10,18 +10,17 @@ interface NavigationProps {
 
 export default function Navigation({ currentSection, setCurrentSection }: NavigationProps) {
   const navItems = [
-    { id: 'hero', label: 'Home', icon: Scroll },
-    { id: 'about', label: 'About', icon: User },
-    { id: 'skills', label: 'Jutsu', icon: Zap },
-    { id: 'projects', label: 'Missions', icon: FolderOpen },
-    { id: 'timeline', label: 'Journey', icon: Clock },
-    { id: 'contact', label: 'Contact', icon: Mail },
+    { id: "hero", label: "Home", icon: Scroll },
+    { id: "about", label: "About", icon: User },
+    { id: "skills", label: "Jutsu", icon: Zap },
+    { id: "projects", label: "Missions", icon: FolderOpen },
+    { id: "contact", label: "Contact", icon: Mail },
   ]
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+      element.scrollIntoView({ behavior: "smooth" })
       setCurrentSection(sectionId)
     }
   }
@@ -41,9 +40,7 @@ export default function Navigation({ currentSection, setCurrentSection }: Naviga
               key={item.id}
               onClick={() => scrollToSection(item.id)}
               className={`p-3 rounded-full transition-all duration-300 group relative ${
-                currentSection === item.id
-                  ? 'bg-orange-400 text-slate-900'
-                  : 'text-orange-400 hover:bg-orange-400/20'
+                currentSection === item.id ? "bg-orange-400 text-slate-900" : "text-orange-400 hover:bg-orange-400/20"
               }`}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
