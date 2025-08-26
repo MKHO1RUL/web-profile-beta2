@@ -1,8 +1,9 @@
 "use client"
 
 import { motion, AnimatePresence } from "framer-motion"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Scroll, User, Zap, FolderOpen, Mail, Menu, X } from "lucide-react"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 interface NavigationProps {
   currentSection: string
@@ -11,18 +12,7 @@ interface NavigationProps {
 
 export default function Navigation({ currentSection, setCurrentSection }: NavigationProps) {
   const [isExpanded, setIsExpanded] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-
-    checkMobile()
-    window.addEventListener("resize", checkMobile)
-
-    return () => window.removeEventListener("resize", checkMobile)
-  }, [])
+  const isMobile = useIsMobile()
 
   const navItems = [
     { id: "hero", label: "Home", icon: Scroll },

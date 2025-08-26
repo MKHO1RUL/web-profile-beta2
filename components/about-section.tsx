@@ -2,22 +2,12 @@
 
 import { motion } from "framer-motion"
 import { useState, useEffect, useRef } from "react"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 export default function AboutSection() {
   const [isVideoVisible, setIsVideoVisible] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-
-    checkMobile()
-    window.addEventListener("resize", checkMobile)
-
-    return () => window.removeEventListener("resize", checkMobile)
-  }, [])
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     const videoElement = videoRef.current

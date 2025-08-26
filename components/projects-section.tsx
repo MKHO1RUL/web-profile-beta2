@@ -1,24 +1,14 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ExternalLink, Github, Filter, Star } from "lucide-react"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 export default function ProjectsSection() {
   const [selectedFilter, setSelectedFilter] = useState("all")
   const [openScrolls, setOpenScrolls] = useState<number[]>([])
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-
-    checkMobile()
-    window.addEventListener("resize", checkMobile)
-
-    return () => window.removeEventListener("resize", checkMobile)
-  }, [])
+  const isMobile = useIsMobile()
 
   const projects = [
     {

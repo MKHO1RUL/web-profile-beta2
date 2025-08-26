@@ -2,10 +2,11 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { Send, Mail, MapPin, Github, Linkedin, Twitter, MessageCircle } from "lucide-react"
 import { sendContactEmail } from "@/app/actions" // Import Server Action
+import { useIsMobile } from "@/hooks/use-mobile"
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -18,18 +19,7 @@ export default function ContactSection() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [submitMessage, setSubmitMessage] = useState("")
   const [isSuccess, setIsSuccess] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-
-    checkMobile()
-    window.addEventListener("resize", checkMobile)
-
-    return () => window.removeEventListener("resize", checkMobile)
-  }, [])
+  const isMobile = useIsMobile()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
