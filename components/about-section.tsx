@@ -45,6 +45,7 @@ export default function AboutSection() {
         <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-blue-400 bg-clip-text text-transparent">
           My Profile
         </h2>
+        <p className="text-orange-200 text-lg">A little about me..</p>
       </motion.div>
 
       <div className="max-w-6xl mx-auto">
@@ -82,8 +83,9 @@ export default function AboutSection() {
               </div>
 
               <div className="text-center">
+                <h3 className="text-xl font-bold text-orange-400 mb-2">Video Introduction</h3>
                 <p className="text-orange-200 text-sm">
-                  Just a few word from me..
+                  Watch my personal introduction and learn about my journey as an AI engineer
                 </p>
               </div>
 
@@ -92,8 +94,8 @@ export default function AboutSection() {
               <div className="absolute bottom-4 left-4 w-6 h-6 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full animate-pulse" />
             </div>
 
-            {/* Personal Highlights - moved outside and below */}
-            <div className="p-6 bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg">
+            {/* Personal Highlights - Desktop only */}
+            <div className="hidden md:block p-6 bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg">
               <h4 className="text-lg font-bold text-orange-400 mb-4">Quick Facts</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                 <div className="flex items-center">
@@ -106,11 +108,11 @@ export default function AboutSection() {
                 </div>
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
-                  <span className="text-orange-200">AI Engineer</span>
+                  <span className="text-orange-200">Full-Stack Developer</span>
                 </div>
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
-                  <span className="text-orange-200">Chill Guy</span>
+                  <span className="text-orange-200">Open Source Contributor</span>
                 </div>
               </div>
             </div>
@@ -153,6 +155,35 @@ export default function AboutSection() {
             </div>
           </motion.div>
         </div>
+
+        {/* Personal Highlights - Mobile only, placed below biography */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.6 }}
+          viewport={{ once: true }}
+          className="md:hidden mt-12 p-6 bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg"
+        >
+          <h4 className="text-lg font-bold text-orange-400 mb-4">Quick Facts</h4>
+          <div className="grid grid-cols-1 gap-4 text-sm">
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-orange-400 rounded-full mr-3"></div>
+              <span className="text-orange-200">Based in Sidoarjo, East Java</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-blue-400 rounded-full mr-3"></div>
+              <span className="text-orange-200">5+ Years Experience</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
+              <span className="text-orange-200">Full-Stack Developer</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
+              <span className="text-orange-200">Open Source Contributor</span>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </div>
   )
