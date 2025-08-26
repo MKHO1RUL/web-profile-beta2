@@ -5,7 +5,6 @@ import HeroSection from "@/components/hero-section"
 import AboutSection from "@/components/about-section"
 import SkillsSection from "@/components/skills-section"
 import ProjectsSection from "@/components/projects-section"
-import TimelineSection from "@/components/timeline-section"
 import ContactSection from "@/components/contact-section"
 import Navigation from "@/components/navigation"
 
@@ -31,10 +30,6 @@ export default function Home() {
 
         <section id="projects">
           <ProjectsSection />
-        </section>
-
-        <section id="timeline">
-          <TimelineSection />
         </section>
 
         <section id="contact">
