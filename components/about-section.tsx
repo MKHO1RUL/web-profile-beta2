@@ -5,7 +5,19 @@ import { useState, useEffect, useRef } from "react"
 
 export default function AboutSection() {
   const [isVideoVisible, setIsVideoVisible] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
 
   useEffect(() => {
     const videoElement = videoRef.current
@@ -23,7 +35,7 @@ export default function AboutSection() {
           }
         })
       },
-      { threshold: 0.5 }, // Video akan play ketika 50% terlihat
+      { threshold: 0.5 },
     )
 
     observer.observe(videoElement)
@@ -33,12 +45,15 @@ export default function AboutSection() {
     }
   }, [])
 
+  // Reduced animation duration for mobile
+  const animationDuration = isMobile ? 0.6 : 1
+
   return (
     <div className="container mx-auto px-4 py-20">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: animationDuration }}
         viewport={{ once: true }}
         className="text-center mb-16"
       >
@@ -52,9 +67,9 @@ export default function AboutSection() {
         <div className="grid md:grid-cols-2 gap-12 items-start">
           {/* Video Introduction */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: isMobile ? 0 : -50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
+            transition={{ duration: animationDuration, delay: isMobile ? 0.1 : 0.2 }}
             viewport={{ once: true }}
             className="space-y-6"
           >
@@ -89,9 +104,13 @@ export default function AboutSection() {
                 </p>
               </div>
 
-              {/* Decorative Elements */}
-              <div className="absolute top-4 right-4 w-8 h-8 bg-gradient-to-br from-orange-400/20 to-blue-400/20 rounded-full animate-pulse" />
-              <div className="absolute bottom-4 left-4 w-6 h-6 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full animate-pulse" />
+              {/* Reduced decorative elements for mobile */}
+              {!isMobile && (
+                <>
+                  <div className="absolute top-4 right-4 w-8 h-8 bg-gradient-to-br from-orange-400/20 to-blue-400/20 rounded-full animate-pulse" />
+                  <div className="absolute bottom-4 left-4 w-6 h-6 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full animate-pulse" />
+                </>
+              )}
             </div>
 
             {/* Personal Highlights - Desktop only */}
@@ -120,9 +139,9 @@ export default function AboutSection() {
 
           {/* Biography */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: isMobile ? 0 : 50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.4 }}
+            transition={{ duration: animationDuration, delay: isMobile ? 0.2 : 0.4 }}
             viewport={{ once: true }}
             className="space-y-6"
           >
@@ -158,9 +177,9 @@ export default function AboutSection() {
 
         {/* Personal Highlights - Mobile only, placed below biography */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.6 }}
+          transition={{ duration: animationDuration, delay: 0.3 }}
           viewport={{ once: true }}
           className="md:hidden mt-12 p-6 bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg"
         >
