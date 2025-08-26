@@ -1,10 +1,10 @@
-import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold, type Content } from "@google/genai"
+import { GoogleGenAI, HarmCategory, HarmBlockThreshold, type Content } from "@google/genai"
 import { knowledgeBase } from "@/lib/knowledge-base"
 
 const MODEL_NAME = "gemini-1.5-flash-latest"
 const API_KEY = process.env.GEMINI_API_KEY || ""
 
-const genAI = new GoogleGenerativeAI(API_KEY)
+const genAI = new GoogleGenAI(API_KEY)
 
 // Define the persona and knowledge base as a system instruction for better results.
 const systemInstruction = {
