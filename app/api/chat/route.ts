@@ -31,11 +31,6 @@ ${knowledgeBase}
   ],
 }
 
-const model = genAI.getGenerativeModel({
-  model: MODEL_NAME,
-  systemInstruction: systemInstruction,
-})
-
 export async function POST(req: Request) {
   try {
     const { history, message } = await req.json()
@@ -43,8 +38,10 @@ export async function POST(req: Request) {
     // Construct the full conversation history
     const contents: Content[] = [...history, { role: "user", parts: [{ text: message }] }]
 
-    const result = await model.generateContent({
+    const result = await genAI.models.generateContent({
+      model: MODEL_NAME,
       contents: contents,
+      systemInstruction: systemInstruction,
       generationConfig: {
         maxOutputTokens: 1000,
         temperature: 0.7,
