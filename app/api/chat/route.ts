@@ -1,4 +1,4 @@
-import { GoogleGenAI, HarmCategory, HarmBlockThreshold, type Content } from "@google/genai"
+import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold, type Content } from "@google/genai"
 import { knowledgeBase } from "@/lib/knowledge-base"
 
 const MODEL_NAME = "gemini-1.5-flash-latest"
@@ -31,6 +31,11 @@ ${knowledgeBase}
   ],
 }
 
+const model = genAI.getGenerativeModel({
+  model: MODEL_NAME,
+  systemInstruction: systemInstruction,
+})
+
 export async function POST(req: Request) {
   try {
     const { history, message } = await req.json()
@@ -38,10 +43,8 @@ export async function POST(req: Request) {
     // Construct the full conversation history
     const contents: Content[] = [...history, { role: "user", parts: [{ text: message }] }]
 
-    const result = await genAI.models.generateContent({
-      model: MODEL_NAME,
+    const result = await model.generateContent({
       contents: contents,
-      systemInstruction: systemInstruction,
       generationConfig: {
         maxOutputTokens: 1000,
         temperature: 0.7,
