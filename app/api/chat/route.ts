@@ -32,6 +32,10 @@ ${knowledgeBase}
 
 export async function POST(req: Request) {
   try {
+    if (!API_KEY) {
+      throw new Error("The GEMINI_API_KEY environment variable is not set.");
+    }
+
     // Inisialisasi Google AI client dan model di dalam handler
     // untuk menghindari eksekusi saat proses build.
     const genAI = new GoogleGenAI(API_KEY);
@@ -41,21 +45,14 @@ export async function POST(req: Request) {
     // Construct the full conversation history
     const contents: Content[] = [...history, { role: "user", parts: [{ text: message }] }];
 
-    // The new SDK uses `genAI.models.generateContent` directly.
-    const result = await genAI.models.generateContent({
-      model: MODEL_NAME,
-      contents: contents,
-      systemInstruction: systemInstruction,
-      generationConfig: {
-        maxOutputTokens: 1000,
-        temperature: 0.7,
-      },
-    });
+    const model = genAI.getGenerativeModel({ model: MODEL_NAME, systemInstruction });
+
+    const result = await model.generateContent({ contents });
 
     const response = result.response;
     return new Response(response.text());
   } catch (error) {
-    console.error("Error in chat API:", error)
+    console.error("Error in chat API:", error);
     const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
     return new Response(
       `Sorry, something went wrong. My chakra is a bit low right now. (Error: ${errorMessage})`, 
