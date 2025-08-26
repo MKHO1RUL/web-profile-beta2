@@ -1,4 +1,4 @@
-import { GoogleGenAI, HarmCategory, HarmBlockThreshold, type Content } from "@google/genai"
+import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold, type Content } from "@google/generative-ai"
 import { knowledgeBase } from "@/lib/knowledge-base"
 
 const MODEL_NAME = "gemini-1.5-flash-latest"
@@ -33,28 +33,28 @@ ${knowledgeBase}
 export async function POST(req: Request) {
   try {
     if (!API_KEY) {
-      throw new Error("The GEMINI_API_KEY environment variable is not set on the server.");
+      throw new Error("The GEMINI_API_KEY environment variable is not set on the server.")
     }
 
-    // Inisialisasi Google AI client dan model di dalam handler
-    // untuk menghindari eksekusi saat proses build.
-    // PERBAIKAN UTAMA: API Key harus berada di dalam sebuah objek.
-    const genAI = new GoogleGenAI(API_KEY);
+    const genAI = new GoogleGenerativeAI(API_KEY)
 
-    const { history, message } = await req.json();
+    const model = genAI.getGenerativeModel({
+      model: MODEL_NAME,
+      systemInstruction: systemInstruction,
+    })
+
+    const { history, message } = await req.json()
 
     // Construct the full conversation history
-    const contents: Content[] = [...history, { role: "user", parts: [{ text: message }] }];
+    const contents: Content[] = [...history, { role: "user", parts: [{ text: message }] }]
 
-    const model = genAI.getGenerativeModel({ model: MODEL_NAME, systemInstruction });
+    const result = await model.generateContent({ contents })
 
-    const result = await model.generateContent({ contents });
-
-    const response = result.response;
-    return new Response(response.text());
+    const response = result.response
+    return new Response(response.text())
   } catch (error) {
-    console.error("Error in chat API:", error);
-    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    console.error("Error in chat API:", error)
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred"
     return new Response(
       `Server Error: ${errorMessage}`,
       { status: 500 }
