@@ -34,27 +34,26 @@ export async function POST(req: Request) {
   try {
     // Inisialisasi Google AI client dan model di dalam handler
     // untuk menghindari eksekusi saat proses build.
-    const genAI = new GoogleGenAI(API_KEY)
-    const model = genAI.getGenerativeModel({
-      model: MODEL_NAME,
-      systemInstruction: systemInstruction,
-    })
+    const genAI = new GoogleGenAI(API_KEY);
 
-    const { history, message } = await req.json()
+    const { history, message } = await req.json();
 
     // Construct the full conversation history
-    const contents: Content[] = [...history, { role: "user", parts: [{ text: message }] }]
+    const contents: Content[] = [...history, { role: "user", parts: [{ text: message }] }];
 
-    const result = await model.generateContent({
+    // The new SDK uses `genAI.models.generateContent` directly.
+    const result = await genAI.models.generateContent({
+      model: MODEL_NAME,
       contents: contents,
+      systemInstruction: systemInstruction,
       generationConfig: {
         maxOutputTokens: 1000,
         temperature: 0.7,
       },
-    })
+    });
 
-    const response = result.response
-    return new Response(response.text())
+    const response = result.response;
+    return new Response(response.text());
   } catch (error) {
     console.error("Error in chat API:", error)
     return new Response("Sorry, something went wrong. My chakra is a bit low right now.", { status: 500 })
