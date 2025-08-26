@@ -33,11 +33,12 @@ ${knowledgeBase}
 export async function POST(req: Request) {
   try {
     if (!API_KEY) {
-      throw new Error("The GEMINI_API_KEY environment variable is not set.");
+      throw new Error("The GEMINI_API_KEY environment variable is not set on the server.");
     }
 
     // Inisialisasi Google AI client dan model di dalam handler
     // untuk menghindari eksekusi saat proses build.
+    // PERBAIKAN UTAMA: API Key harus berada di dalam sebuah objek.
     const genAI = new GoogleGenAI(API_KEY);
 
     const { history, message } = await req.json();
@@ -55,7 +56,7 @@ export async function POST(req: Request) {
     console.error("Error in chat API:", error);
     const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
     return new Response(
-      `Sorry, something went wrong. My chakra is a bit low right now. (Error: ${errorMessage})`, 
+      `Server Error: ${errorMessage}`,
       { status: 500 }
     )
   }

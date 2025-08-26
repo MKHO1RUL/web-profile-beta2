@@ -48,16 +48,20 @@ export default function Chatbot() {
       })
 
       if (!res.ok) {
-        throw new Error("Failed to get response from server")
+        // Jika respons tidak OK (misal, status 500), baca pesan error dari body
+        const errorText = await res.text()
+        throw new Error(errorText || "Failed to get response from server")
       }
 
       const modelResponse = await res.text()
       setMessages((prev) => [...prev, { role: "model", text: modelResponse }])
     } catch (error) {
       console.error(error)
+      // Tampilkan pesan error yang sebenarnya di dalam chat
+      const displayError = error instanceof Error ? error.message : "An unknown error occurred."
       setMessages((prev) => [
         ...prev,
-        { role: "model", text: "Sorry, I'm having trouble connecting. Please try again later." },
+        { role: "model", text: `Oops! Something went wrong. ${displayError}` },
       ])
     } finally {
       setIsLoading(false)
