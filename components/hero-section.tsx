@@ -1,11 +1,46 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { ChevronDown, X } from "lucide-react"
 
 export default function HeroSection() {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
+
+  // Reduced animations for mobile
+  const chakraAnimation = isMobile
+    ? {
+        scale: [1, 1.1, 1],
+        opacity: [0.2, 0.4, 0.2],
+      }
+    : {
+        scale: [1, 1.2, 1],
+        opacity: [0.3, 0.6, 0.3],
+      }
+
+  const chakraTransition = isMobile
+    ? {
+        duration: 6,
+        repeat: Number.POSITIVE_INFINITY,
+        ease: "easeInOut",
+      }
+    : {
+        duration: 4,
+        repeat: Number.POSITIVE_INFINITY,
+        ease: "easeInOut",
+      }
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -14,56 +49,59 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-[url('/header-back.jpg')] bg-cover bg-center opacity-20" />
       </div>
 
-      {/* Chakra Aura Effect */}
-      <div className="absolute inset-0">
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-          }}
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-            delay: 1,
-          }}
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-orange-400/20 rounded-full blur-3xl"
-        />
-      </div>
+      {/* Chakra Aura Effect - Reduced for mobile */}
+      {!isMobile && (
+        <div className="absolute inset-0">
+          <motion.div
+            animate={chakraAnimation}
+            transition={chakraTransition}
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{
+              scale: [1.2, 1, 1.2],
+              opacity: [0.2, 0.4, 0.2],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Number.POSITIVE_INFINITY,
+              ease: "easeInOut",
+              delay: 1,
+            }}
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-orange-400/20 rounded-full blur-3xl"
+          />
+        </div>
+      )}
 
       {/* Main Content */}
       <div className="relative z-10 text-center px-4">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
+          transition={{ duration: isMobile ? 0.6 : 1 }}
           className="mb-8"
         >
           <div className="w-32 h-32 mx-auto mb-6 relative">
             <motion.div
               animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+              transition={{
+                duration: isMobile ? 30 : 20,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "linear",
+              }}
               className="absolute inset-0 border-4 border-orange-400/30 rounded-full"
             />
             <motion.div
               animate={{ rotate: -360 }}
-              transition={{ duration: 15, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+              transition={{
+                duration: isMobile ? 20 : 15,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "linear",
+              }}
               className="absolute inset-2 border-2 border-blue-400/30 rounded-full"
             />
             <motion.div
-              whileHover={{ scale: 1.1 }}
+              whileHover={!isMobile ? { scale: 1.1 } : {}}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsModalOpen(true)}
               className="absolute inset-4 bg-gradient-to-br from-orange-400 to-blue-400 rounded-full flex items-center justify-center overflow-hidden cursor-pointer group"
@@ -83,7 +121,7 @@ export default function HeroSection() {
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.3 }}
+          transition={{ duration: isMobile ? 0.6 : 1, delay: isMobile ? 0.2 : 0.3 }}
           className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-blue-400 bg-clip-text text-transparent"
         >
           Hi, I'm Khoirul
@@ -92,7 +130,7 @@ export default function HeroSection() {
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.6 }}
+          transition={{ duration: isMobile ? 0.6 : 1, delay: isMobile ? 0.3 : 0.6 }}
           className="text-xl md:text-2xl mb-8 text-orange-200"
         >
           An AI/Machine Learning Engineer
@@ -101,7 +139,7 @@ export default function HeroSection() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.9 }}
+          transition={{ duration: isMobile ? 0.6 : 1, delay: isMobile ? 0.4 : 0.9 }}
           className="flex flex-col md:flex-row items-center justify-center gap-4 mb-12"
         >
           <div className="bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg px-6 py-3">
@@ -117,8 +155,8 @@ export default function HeroSection() {
         <motion.button
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 1.2 }}
-          whileHover={{ scale: 1.05 }}
+          transition={{ duration: isMobile ? 0.6 : 1, delay: isMobile ? 0.5 : 1.2 }}
+          whileHover={!isMobile ? { scale: 1.05 } : {}}
           whileTap={{ scale: 0.95 }}
           className="bg-gradient-to-r from-orange-400 to-blue-400 text-slate-900 px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
           onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
@@ -127,10 +165,10 @@ export default function HeroSection() {
         </motion.button>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Scroll Indicator - Simplified for mobile */}
       <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+        animate={{ y: isMobile ? [0, 5, 0] : [0, 10, 0] }}
+        transition={{ duration: isMobile ? 3 : 2, repeat: Number.POSITIVE_INFINITY }}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-orange-400"
       >
         <ChevronDown size={32} />
@@ -176,32 +214,36 @@ export default function HeroSection() {
                 <p className="text-orange-200 text-sm">AI/Machine Learning Developer from Sidoarjo, East Java</p>
               </div>
 
-              {/* Decorative chakra effects */}
-              <motion.div
-                animate={{
-                  scale: [1, 1.1, 1],
-                  opacity: [0.3, 0.6, 0.3],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                }}
-                className="absolute top-4 left-4 w-8 h-8 bg-blue-400/30 rounded-full blur-sm"
-              />
-              <motion.div
-                animate={{
-                  scale: [1.1, 1, 1.1],
-                  opacity: [0.2, 0.5, 0.2],
-                }}
-                transition={{
-                  duration: 2.5,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                  delay: 1,
-                }}
-                className="absolute top-8 right-8 w-6 h-6 bg-orange-400/30 rounded-full blur-sm"
-              />
+              {/* Reduced decorative chakra effects for mobile */}
+              {!isMobile && (
+                <>
+                  <motion.div
+                    animate={{
+                      scale: [1, 1.1, 1],
+                      opacity: [0.3, 0.6, 0.3],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Number.POSITIVE_INFINITY,
+                      ease: "easeInOut",
+                    }}
+                    className="absolute top-4 left-4 w-8 h-8 bg-blue-400/30 rounded-full blur-sm"
+                  />
+                  <motion.div
+                    animate={{
+                      scale: [1.1, 1, 1.1],
+                      opacity: [0.2, 0.5, 0.2],
+                    }}
+                    transition={{
+                      duration: 2.5,
+                      repeat: Number.POSITIVE_INFINITY,
+                      ease: "easeInOut",
+                      delay: 1,
+                    }}
+                    className="absolute top-8 right-8 w-6 h-6 bg-orange-400/30 rounded-full blur-sm"
+                  />
+                </>
+              )}
             </div>
           </motion.div>
         </motion.div>
