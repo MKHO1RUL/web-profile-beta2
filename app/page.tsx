@@ -7,6 +7,7 @@ import SkillsSection from "@/components/skills-section"
 import ProjectsSection from "@/components/projects-section"
 import ContactSection from "@/components/contact-section"
 import Navigation from "@/components/navigation"
+import Chatbot from "@/components/chatbot"
 
 export default function Home() {
   const [currentSection, setCurrentSection] = useState("hero")
@@ -14,6 +15,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-orange-100 overflow-x-hidden">
       <Navigation currentSection={currentSection} setCurrentSection={setCurrentSection} />
+      <Chatbot />
 
       <main className="relative">
         <section id="hero">
