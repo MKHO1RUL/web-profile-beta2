@@ -1,12 +1,24 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ExternalLink, Github, Filter, Star } from "lucide-react"
 
 export default function ProjectsSection() {
   const [selectedFilter, setSelectedFilter] = useState("all")
   const [openScrolls, setOpenScrolls] = useState<number[]>([])
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
 
   const projects = [
     {
@@ -125,12 +137,16 @@ export default function ProjectsSection() {
 
   const isScrollOpen = (projectId: number) => openScrolls.includes(projectId)
 
+  // Reduced animation duration for mobile
+  const animationDuration = isMobile ? 0.6 : 1
+  const animationDelay = isMobile ? 0.05 : 0.1
+
   return (
     <div className="container mx-auto px-4 py-20">
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: animationDuration }}
         viewport={{ once: true }}
         className="text-center mb-16"
       >
@@ -144,7 +160,7 @@ export default function ProjectsSection() {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.2 }}
+        transition={{ duration: animationDuration, delay: animationDelay }}
         viewport={{ once: true }}
         className="flex flex-wrap justify-center gap-4 mb-12"
       >
@@ -152,7 +168,7 @@ export default function ProjectsSection() {
           <motion.button
             key={filter.id}
             onClick={() => setSelectedFilter(filter.id)}
-            whileHover={{ scale: 1.05 }}
+            whileHover={!isMobile ? { scale: 1.05 } : {}}
             whileTap={{ scale: 0.95 }}
             className={`px-6 py-3 rounded-full border transition-all duration-300 ${
               selectedFilter === filter.id
@@ -175,15 +191,15 @@ export default function ProjectsSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: isMobile ? 0.3 : 0.5 }}
             className="grid md:grid-cols-1 lg:grid-cols-2 gap-6"
           >
             {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
+                transition={{ duration: animationDuration, delay: index * animationDelay }}
                 className="group relative flex justify-center"
               >
                 <div className="w-full max-w-md">
@@ -191,7 +207,7 @@ export default function ProjectsSection() {
                   <motion.div
                     onClick={() => toggleScroll(project.id)}
                     className={`cursor-pointer transition-transform duration-300 relative z-10 ${
-                      isScrollOpen(project.id) ? "scale-105" : "hover:scale-105"
+                      isScrollOpen(project.id) ? "scale-105" : !isMobile && "hover:scale-105"
                     }`}
                   >
                     {/* Horizontal Cylindrical Scroll - Wider */}
@@ -222,9 +238,11 @@ export default function ProjectsSection() {
                       </div>
 
                       {/* Click indicator */}
-                      <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-orange-200 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        {isScrollOpen(project.id) ? "Click to close" : "Click to open"}
-                      </div>
+                      {!isMobile && (
+                        <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-orange-200 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          {isScrollOpen(project.id) ? "Click to close" : "Click to open"}
+                        </div>
+                      )}
                     </div>
                   </motion.div>
 
@@ -235,7 +253,7 @@ export default function ProjectsSection() {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.6, ease: "easeInOut" }}
+                        transition={{ duration: isMobile ? 0.4 : 0.6, ease: "easeInOut" }}
                         className="overflow-hidden"
                       >
                         {/* Expanded Parchment Content */}
@@ -274,6 +292,7 @@ export default function ProjectsSection() {
                                 src={project.image || "/placeholder.svg"}
                                 alt={project.title}
                                 className="w-full h-full object-cover"
+                                loading="lazy"
                               />
                             </div>
 
@@ -316,7 +335,7 @@ export default function ProjectsSection() {
                             <div className="flex gap-3">
                               <motion.a
                                 href={project.github}
-                                whileHover={{ scale: 1.05 }}
+                                whileHover={!isMobile ? { scale: 1.05 } : {}}
                                 whileTap={{ scale: 0.95 }}
                                 className="flex-1 bg-slate-800 text-white py-3 px-4 rounded-lg text-center text-sm font-medium hover:bg-slate-700 transition-colors duration-300 flex items-center justify-center"
                               >
@@ -325,7 +344,7 @@ export default function ProjectsSection() {
                               </motion.a>
                               <motion.a
                                 href={project.live}
-                                whileHover={{ scale: 1.05 }}
+                                whileHover={!isMobile ? { scale: 1.05 } : {}}
                                 whileTap={{ scale: 0.95 }}
                                 className="flex-1 bg-gradient-to-r from-orange-400 to-blue-400 text-white py-3 px-4 rounded-lg text-center text-sm font-medium hover:shadow-lg transition-all duration-300 flex items-center justify-center"
                               >
@@ -334,7 +353,6 @@ export default function ProjectsSection() {
                               </motion.a>
                             </div>
                           </div>
-
                         </div>
                       </motion.div>
                     )}
@@ -350,12 +368,12 @@ export default function ProjectsSection() {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.5 }}
+        transition={{ duration: animationDuration, delay: 0.5 }}
         viewport={{ once: true }}
         className="text-center mt-12"
       >
         <p className="text-orange-200/70 text-sm">
-          Click the scrolls to unfurl mission details
+          {isMobile ? "Tap the scrolls to view mission details" : "Click the scrolls to unfurl mission details"}
         </p>
       </motion.div>
     </div>
