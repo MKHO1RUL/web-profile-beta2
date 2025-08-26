@@ -1,19 +1,33 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useState, useEffect } from "react"
 import { Zap, Code, Database, TrendingUp, Brain } from "lucide-react"
 
 export default function SkillsSection() {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
+
   const jutsuCategories = [
     {
       title: "Core AI & ML",
       icon: Brain,
       color: "from-orange-400 to-red-400",
       skills: [
-        { name: "Machine Learning", tech: "Forecasting, Classification", level: 95 },
-        { name: "Deep Learning", tech: "RNN/LSTM/GRU, CNN, Transformer", level: 90 },
-        { name: "NLP/LLM", tech: "Text Preprocessing, Sentiment Analysis, Chatbot", level: 88 },
-        { name: "Generative AI", tech: "Generative LLMs, Agentic AI", level: 85 },
+        { name: "React", tech: "React", level: 95 },
+        { name: "CSS/Tailwind", tech: "CSS/Tailwind", level: 90 },
+        { name: "Next.js", tech: "Next.js", level: 88 },
+        { name: "TypeScript", tech: "TypeScript", level: 85 },
       ],
     },
     {
@@ -51,12 +65,16 @@ export default function SkillsSection() {
     },
   ]
 
+  // Reduced animation duration for mobile
+  const animationDuration = isMobile ? 0.6 : 1
+  const animationDelay = isMobile ? 0.1 : 0.2
+
   return (
     <div className="container mx-auto px-4 py-20 overflow-hidden">
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: animationDuration }}
         viewport={{ once: true }}
         className="text-center mb-16"
       >
@@ -75,9 +93,9 @@ export default function SkillsSection() {
               return (
                 <motion.div
                   key={category.title}
-                  initial={{ opacity: 0, y: 50 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1, delay: categoryIndex * 0.2 }}
+                  transition={{ duration: animationDuration, delay: categoryIndex * animationDelay }}
                   viewport={{ once: true }}
                   className="bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg p-6 hover:border-orange-400/60 transition-all duration-300 flex-shrink-0 w-80"
                 >
@@ -96,7 +114,10 @@ export default function SkillsSection() {
                         key={skill.name}
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8, delay: categoryIndex * 0.2 + skillIndex * 0.1 }}
+                        transition={{
+                          duration: animationDuration,
+                          delay: categoryIndex * animationDelay + skillIndex * (animationDelay / 2),
+                        }}
                         viewport={{ once: true }}
                         className="group"
                       >
@@ -112,11 +133,14 @@ export default function SkillsSection() {
                           <motion.div
                             initial={{ width: 0 }}
                             whileInView={{ width: `${skill.level}%` }}
-                            transition={{ duration: 1.5, delay: categoryIndex * 0.2 + skillIndex * 0.1 + 0.5 }}
+                            transition={{
+                              duration: isMobile ? 1 : 1.5,
+                              delay: categoryIndex * animationDelay + skillIndex * (animationDelay / 2) + 0.3,
+                            }}
                             viewport={{ once: true }}
                             className={`h-full bg-gradient-to-r ${category.color} rounded-full relative`}
                           >
-                            <div className="absolute inset-0 bg-white/20 animate-pulse" />
+                            {!isMobile && <div className="absolute inset-0 bg-white/20 animate-pulse" />}
                           </motion.div>
                         </div>
                       </motion.div>
@@ -124,10 +148,12 @@ export default function SkillsSection() {
                   </div>
 
                   <motion.div
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={!isMobile ? { scale: 1.05 } : {}}
                     className="mt-6 p-3 bg-slate-700/50 rounded-lg border border-slate-600 text-center cursor-pointer group"
                   >
-                    <Zap className="w-5 h-5 mx-auto mb-1 text-yellow-400 group-hover:animate-bounce" />
+                    <Zap
+                      className={`w-5 h-5 mx-auto mb-1 text-yellow-400 ${!isMobile && "group-hover:animate-bounce"}`}
+                    />
                     <p className="text-xs text-orange-200">Master Level Achieved</p>
                   </motion.div>
                 </motion.div>
@@ -138,9 +164,9 @@ export default function SkillsSection() {
 
         {/* Special Techniques */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.8 }}
+          transition={{ duration: animationDuration, delay: animationDelay * 4 }}
           viewport={{ once: true }}
           className="mt-16 text-center"
         >
@@ -153,7 +179,10 @@ export default function SkillsSection() {
                     key={technique}
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.8, delay: 1 + index * 0.1 }}
+                    transition={{
+                      duration: animationDuration,
+                      delay: animationDelay * 5 + index * (animationDelay / 2),
+                    }}
                     viewport={{ once: true }}
                     className="bg-slate-800/50 border border-blue-400/30 rounded-lg p-4 hover:border-blue-400/60 transition-all duration-300"
                   >
