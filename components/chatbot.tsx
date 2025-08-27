@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { MessageSquare, Send, X, Bot, User, Loader } from "lucide-react"
+import { Send, X, Bot, User, Loader } from "lucide-react"
 
 interface Message {
   role: "user" | "model"

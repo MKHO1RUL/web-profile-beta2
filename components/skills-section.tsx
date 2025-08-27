@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import { useState } from "react"
-import { Zap, Code, Database, TrendingUp, Brain } from "lucide-react"
+import { Zap, Code, Database, Bot, Brain } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
 
 export default function SkillsSection() {
@@ -11,7 +11,7 @@ export default function SkillsSection() {
   const jutsuCategories = [
     {
       title: "Core AI & ML",
-      icon: Brain,
+      icon: Bot,
       color: "from-orange-400 to-red-400",
       skills: [
         { name: "Machine Learning", tech: "Forecasting, Classification, Clustering, Computer Vision", level: 95 },
@@ -44,7 +44,7 @@ export default function SkillsSection() {
     },
     {
       title: "Data Science & Analytics",
-      icon: TrendingUp,
+      icon: Brain,
       color: "from-purple-400 to-pink-400",
       skills: [
         { name: "Data Visualization", tech: "Data Visualization", level: 88 },
