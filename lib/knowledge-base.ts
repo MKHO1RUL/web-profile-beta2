@@ -54,6 +54,6 @@ My full name is Muhammad Khoirul Irsyadul Ibad, a passionate AI Engineer from Si
 - **LinkedIn**: linkedin.com/mkhoirulii
 - **GitHub**: github.com/MKHO1RUL
 - **Twitter**: twitter.com/m_khoiruli
-or you can send the message directly at the bottom of this page.
+- or you can send the message directly at the bottom of this page.
 
 `;

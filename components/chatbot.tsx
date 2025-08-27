@@ -142,40 +142,42 @@ export default function Chatbot() {
             </div>
 
             {/* Messages */}
-            <div ref={chatContainerRef} className="flex-1 p-4 space-y-4 overflow-y-auto scrollbar-thin scrollbar-track-slate-800/50 scrollbar-thumb-orange-400/60">
-              {messages.map((msg, index) => (
-                <div key={index} className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                  {msg.role === "model" && (
-                    <div className="w-8 h-8 rounded-full bg-slate-700 flex-shrink-0 flex items-center justify-center">
-                      <Bot size={18} className="text-orange-400" />
+            <div ref={chatContainerRef} className="flex-1 overflow-y-auto scrollbar-thin scrollbar-track-slate-800/50 scrollbar-thumb-orange-400/60 pr-2">
+              <div className="p-4 space-y-4">
+                {messages.map((msg, index) => (
+                  <div key={index} className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                    {msg.role === "model" && (
+                      <div className="w-8 h-8 rounded-full bg-slate-700 flex-shrink-0 flex items-center justify-center">
+                        <Bot size={18} className="text-orange-400" />
+                      </div>
+                    )}
+                    <div
+                      className={`max-w-[80%] p-3 rounded-xl ${
+                        msg.role === "user"
+                          ? "bg-blue-500 text-white rounded-br-none"
+                          : "bg-slate-700 text-orange-100 rounded-bl-none"
+                      }`}
+                    >
+                      <p className="text-sm leading-relaxed">{msg.text}</p>
                     </div>
-                  )}
-                  <div
-                    className={`max-w-[80%] p-3 rounded-xl ${
-                      msg.role === "user"
-                        ? "bg-blue-500 text-white rounded-br-none"
-                        : "bg-slate-700 text-orange-100 rounded-bl-none"
-                    }`}
-                  >
-                    <p className="text-sm leading-relaxed">{msg.text}</p>
+                    {msg.role === "user" && (
+                      <div className="w-8 h-8 rounded-full bg-slate-700 flex-shrink-0 flex items-center justify-center">
+                        <User size={18} className="text-blue-300" />
+                      </div>
+                    )}
                   </div>
-                   {msg.role === "user" && (
-                    <div className="w-8 h-8 rounded-full bg-slate-700 flex-shrink-0 flex items-center justify-center">
-                      <User size={18} className="text-blue-300" />
-                    </div>
-                  )}
-                </div>
-              ))}
-              {isLoading && (
-                 <div className="flex gap-3 justify-start">
+                ))}
+                {isLoading && (
+                  <div className="flex gap-3 justify-start">
                     <div className="w-8 h-8 rounded-full bg-slate-700 flex-shrink-0 flex items-center justify-center">
                       <Bot size={18} className="text-orange-400" />
                     </div>
                     <div className="max-w-[80%] p-3 rounded-xl bg-slate-700 text-orange-100 rounded-bl-none flex items-center">
-                       <Loader className="w-5 h-5 animate-spin text-orange-400" />
+                      <Loader className="w-5 h-5 animate-spin text-orange-400" />
                     </div>
                   </div>
-              )}
+                )}
+              </div>
             </div>
 
             {/* Input Form */}
