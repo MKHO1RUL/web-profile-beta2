@@ -86,19 +86,19 @@ const config: Config = {
   					height: '0'
   				}
   			},
-			'scroll-text': {
-				from: { 
+			'scroll-x': {
+				'0%': { 
 					transform: 'translateX(0)' 
 				},
-				to: { 
-					transform: 'translateX(min(0px, 160px - 100%))' 
+				'100%': { 
+					transform: 'translateX(-50%)' 
 				},
 			},
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
-			'scroll-text': 'scroll-text 5s ease-in-out 1s infinite alternate',
+			"scroll-x": "scroll-x 40s linear infinite",
   		},
   	},
   },

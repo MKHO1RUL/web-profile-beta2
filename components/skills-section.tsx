@@ -116,8 +116,8 @@ export default function SkillsSection() {
                             <p className="text-orange-200 font-medium text-sm">{skill.name}</p>
                             <div className="w-40 overflow-hidden">
                               <motion.p
-                                className="text-blue-400 text-xs whitespace-nowrap animate-scroll-text"
-                                initial={{ animationPlayState: "paused" }}
+                                className="text-blue-400 text-xs whitespace-nowrap scroll-on-view"
+                                style={{ animationPlayState: "paused" }}
                                 whileInView={{ animationPlayState: "running" }}
                                 viewport={{ once: false, margin: "0px 0px -50px 0px" }}
                               >
@@ -194,6 +194,46 @@ export default function SkillsSection() {
           </div>
         </motion.div>
       </div>
+
+      <style jsx>{`
+        /* Custom scrollbar styles for webkit browsers */
+        .scrollbar-thin::-webkit-scrollbar {
+          height: 8px;
+        }
+        
+        .scrollbar-track-slate-800\/50::-webkit-scrollbar-track {
+          background: rgba(30, 41, 59, 0.5);
+          border-radius: 4px;
+        }
+        
+        .scrollbar-thumb-orange-400\/60::-webkit-scrollbar-thumb {
+          background: rgba(251, 146, 60, 0.6);
+          border-radius: 4px;
+        }
+        
+        .hover\\:scrollbar-thumb-orange-400\/80::-webkit-scrollbar-thumb:hover {
+          background: rgba(251, 146, 60, 0.8);
+        }
+        
+        /* For Firefox */
+        .scrollbar-thin {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(251, 146, 60, 0.6) rgba(30, 41, 59, 0.5);
+        }
+
+        @keyframes scroll-text {
+          from {
+            transform: translateX(0);
+          }
+          to {
+            transform: translateX(min(0px, 160px - 100%));
+          }
+        }
+
+        .scroll-on-view {
+          animation: scroll-text 5s ease-in-out 1s infinite alternate;
+        }
+      `}</style>
     </div>
   )
 }
