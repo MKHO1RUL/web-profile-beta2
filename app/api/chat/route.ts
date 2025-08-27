@@ -33,7 +33,7 @@ ${knowledgeBase}
 export async function POST(req: Request) {
   try {
     if (!API_KEY) {
-      throw new Error("The GEMINI_API_KEY environment variable is not set on the server.")
+      throw new Error("The GEMINI_API_KEY environment variable is not set on the server.");
     }
 
     const genAI = new GoogleGenerativeAI(API_KEY)
@@ -43,18 +43,31 @@ export async function POST(req: Request) {
       systemInstruction: systemInstruction,
     })
 
-    const { history, message } = await req.json()
+    const { history, message } = await req.json();
 
     // Construct the full conversation history
-    const contents: Content[] = [...history, { role: "user", parts: [{ text: message }] }]
+    const contents: Content[] = [...history, { role: "user", parts: [{ text: message }] }];
 
-    const result = await model.generateContent({ contents })
+    const resultStream = await model.generateContentStream({ contents });
 
-    const response = result.response
-    return new Response(response.text())
+    const stream = new ReadableStream({
+      async start(controller) {
+        const encoder = new TextEncoder();
+        for await (const chunk of resultStream.stream) {
+          controller.enqueue(encoder.encode(chunk.text()));
+        }
+        controller.close();
+      },
+    });
+
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+      },
+    });
   } catch (error) {
-    console.error("Error in chat API:", error)
-    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred"
+    console.error("Error in chat API:", error);
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
     return new Response(
       `Server Error: ${errorMessage}`,
       { status: 500 }
