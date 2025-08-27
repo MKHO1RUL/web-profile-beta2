@@ -14,7 +14,7 @@ export default function SkillsSection() {
       icon: Brain,
       color: "from-orange-400 to-red-400",
       skills: [
-        { name: "Machine Learning", tech: "Forecasting, Classification, Clustering", level: 95 },
+        { name: "Machine Learning", tech: "Forecasting, Classification, Clustering, Computer Vision", level: 95 },
         { name: "CSS/Tailwind", tech: "CSS/Tailwind", level: 90 },
         { name: "Next.js", tech: "Next.js", level: 88 },
         { name: "TypeScript", tech: "TypeScript", level: 85 },
