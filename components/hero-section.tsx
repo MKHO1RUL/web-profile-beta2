@@ -217,7 +217,7 @@ export default function App() {
             {/* Enlarged image */}
             <div className="relative">
               <img
-                src="https://placehold.co/800x800/F97316/1E293B?text=Khoirul"
+                src="/profile-expand.jpg"
                 alt="Profile Picture - Enlarged"
                 className="w-full h-auto max-h-[70vh] object-contain"
               />
