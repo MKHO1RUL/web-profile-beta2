@@ -3,65 +3,77 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { ChevronDown, X } from "lucide-react"
-import { useIsMobile } from "@/hooks/use-mobile"
 
-export default function HeroSection() {
+// Asumsi hook ini ada dan berfungsi dengan benar
+// import { useIsMobile } from "@/hooks/use-mobile"
+const useIsMobile = () => {
+    // Placeholder untuk fungsionalitas hook
+    if (typeof window !== 'undefined') {
+        const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+        
+        useState(() => {
+            const handleResize = () => setIsMobile(window.innerWidth < 768);
+            window.addEventListener('resize', handleResize);
+            return () => window.removeEventListener('resize', handleResize);
+        });
+
+        return isMobile;
+    }
+    return false;
+}
+
+
+export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const isMobile = useIsMobile()
 
-  // Reduced animations for mobile
-  const chakraAnimation = isMobile
-    ? {
-        scale: [1, 1.1, 1],
-        opacity: [0.2, 0.4, 0.2],
-      }
-    : {
-        scale: [1, 1.2, 1],
-        opacity: [0.3, 0.6, 0.3],
-      }
+  // Animasi yang disesuaikan untuk seluler/desktop
+  const chakraAnimation1 = {
+    scale: isMobile ? [1, 1.1, 1] : [1, 1.2, 1],
+    opacity: isMobile ? [0.2, 0.4, 0.2] : [0.3, 0.6, 0.3],
+  }
 
-  const chakraTransition = isMobile
-    ? {
-        duration: 6,
-        repeat: Number.POSITIVE_INFINITY,
-        ease: "easeInOut",
-      }
-    : {
-        duration: 4,
-        repeat: Number.POSITIVE_INFINITY,
-        ease: "easeInOut",
-      }
+  const chakraTransition1 = {
+    duration: isMobile ? 6 : 4,
+    repeat: Number.POSITIVE_INFINITY,
+    ease: "easeInOut",
+  }
+  
+  const chakraAnimation2 = {
+      scale: isMobile ? [1.1, 1, 1.1] : [1.2, 1, 1.2],
+      opacity: isMobile ? [0.1, 0.3, 0.1] : [0.2, 0.4, 0.2],
+  }
+
+  const chakraTransition2 = {
+      duration: isMobile ? 5 : 3,
+      repeat: Number.POSITIVE_INFINITY,
+      ease: "easeInOut",
+      delay: 1,
+  }
+
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-900">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-        <div className="absolute inset-0 bg-[url('/header-back.jpg')] bg-cover bg-center opacity-20" />
+        {/* Ganti dengan URL gambar yang valid atau hapus jika tidak ada */}
+        <div className="absolute inset-0 bg-[url('https://placehold.co/1920x1080/0F172A/334155?text=Background')] bg-cover bg-center opacity-20" />
       </div>
 
-      {/* Chakra Aura Effect - Reduced for mobile */}
-      {!isMobile && (
-        <div className="absolute inset-0">
-          <motion.div
-            animate={chakraAnimation}
-            transition={chakraTransition}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"
-          />
-          <motion.div
-            animate={{
-              scale: [1.2, 1, 1.2],
-              opacity: [0.2, 0.4, 0.2],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "easeInOut",
-              delay: 1,
-            }}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-orange-400/20 rounded-full blur-3xl"
-          />
-        </div>
-      )}
+      {/* --- PERBAIKAN --- */}
+      {/* Kondisi !isMobile dihapus agar aura selalu tampil */}
+      <div className="absolute inset-0">
+        <motion.div
+          animate={chakraAnimation1}
+          transition={chakraTransition1}
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"
+        />
+        <motion.div
+          animate={chakraAnimation2}
+          transition={chakraTransition2}
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-orange-400/20 rounded-full blur-3xl"
+        />
+      </div>
 
       {/* Main Content */}
       <div className="relative z-10 text-center px-4">
@@ -97,7 +109,7 @@ export default function HeroSection() {
               className="absolute inset-4 bg-gradient-to-br from-orange-400 to-blue-400 rounded-full flex items-center justify-center overflow-hidden cursor-pointer group"
             >
               <img
-                src="/profile-img.jpg"
+                src="https://placehold.co/150x150/F97316/1E293B?text=Khoirul"
                 alt="Profile Picture"
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
               />
@@ -155,7 +167,7 @@ export default function HeroSection() {
         </motion.button>
       </div>
 
-      {/* Scroll Indicator - Simplified for mobile */}
+      {/* Scroll Indicator */}
       <motion.div
         animate={{ y: isMobile ? [0, 5, 0] : [0, 10, 0] }}
         transition={{ duration: isMobile ? 3 : 2, repeat: Number.POSITIVE_INFINITY }}
@@ -181,59 +193,23 @@ export default function HeroSection() {
             className="relative max-w-2xl max-h-[80vh] bg-slate-800 rounded-2xl overflow-hidden border-4 border-orange-400/50 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close button */}
             <button
               onClick={() => setIsModalOpen(false)}
               className="absolute top-4 right-4 z-10 w-10 h-10 bg-slate-900/80 hover:bg-slate-900 rounded-full flex items-center justify-center text-orange-400 hover:text-orange-300 transition-colors duration-300"
             >
               <X size={20} />
             </button>
-
-            {/* Enlarged image */}
             <div className="relative">
               <img
-                src="/profile-img.jpg"
+                src="https://placehold.co/800x800/F97316/1E293B?text=Khoirul"
                 alt="Profile Picture - Enlarged"
-                className="w-full h-auto max-h-[70vh] object-cover"
+                className="w-full h-auto max-h-[70vh] object-contain"
               />
-
-              {/* Overlay with ninja info */}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 to-transparent p-6">
                 <h3 className="text-2xl font-bold text-orange-400 mb-2">Khoirul</h3>
                 <p className="text-blue-400 mb-1">AI Engineer - Genin Rank</p>
                 <p className="text-orange-200 text-sm">AI/Machine Learning Developer from Sidoarjo, East Java</p>
               </div>
-
-              {/* Reduced decorative chakra effects for mobile */}
-              {!isMobile && (
-                <>
-                  <motion.div
-                    animate={{
-                      scale: [1, 1.1, 1],
-                      opacity: [0.3, 0.6, 0.3],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: "easeInOut",
-                    }}
-                    className="absolute top-4 left-4 w-8 h-8 bg-blue-400/30 rounded-full blur-sm"
-                  />
-                  <motion.div
-                    animate={{
-                      scale: [1.1, 1, 1.1],
-                      opacity: [0.2, 0.5, 0.2],
-                    }}
-                    transition={{
-                      duration: 2.5,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: "easeInOut",
-                      delay: 1,
-                    }}
-                    className="absolute top-8 right-8 w-6 h-6 bg-orange-400/30 rounded-full blur-sm"
-                  />
-                </>
-              )}
             </div>
           </motion.div>
         </motion.div>
