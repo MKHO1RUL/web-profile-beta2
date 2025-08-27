@@ -224,7 +224,7 @@ export default function App() {
 
               {/* Overlay with ninja info */}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 to-transparent p-6">
-                <h3 className="text-2xl font-bold text-orange-400 mb-2">Khoirul</h3>
+                <h3 className="text-2xl font-bold text-orange-400 mb-2">Muhammad Khoirul</h3>
                 <p className="text-blue-400 mb-1">AI Engineer - Genin Rank</p>
                 <p className="text-orange-200 text-sm">AI/Machine Learning Developer from Sidoarjo, East Java</p>
               </div>
