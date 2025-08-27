@@ -1,69 +1,9 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useState, useRef, useLayoutEffect } from "react"
+import { useState } from "react"
 import { Zap, CodeXml, Database, BrainCog, ChartArea } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
-
-const ScrollingTech = ({ text }: { text: string }) => {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const textRef = useRef<HTMLParagraphElement>(null)
-  const [isOverflowing, setIsOverflowing] = useState(false)
-
-  useLayoutEffect(() => {
-    const checkOverflow = () => {
-      if (textRef.current && containerRef.current) {
-        const isOverflow = textRef.current.scrollWidth > containerRef.current.clientWidth
-        setIsOverflowing(isOverflow)
-      }
-    }
-
-    checkOverflow()
-
-    const resizeObserver = new ResizeObserver(checkOverflow)
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current)
-    }
-
-    return () => {
-      if (containerRef.current) {
-        resizeObserver.unobserve(containerRef.current)
-      }
-    }
-  }, [text])
-
-  const duration = (textRef.current?.scrollWidth ?? 0) / 35
-
-  const marqueeVariants = {
-    animate: {
-      x: [0, -(textRef.current?.scrollWidth ?? 0) + (containerRef.current?.clientWidth ?? 0)],
-      transition: {
-        x: {
-          repeat: Infinity,
-          repeatType: "mirror",
-          duration: duration < 5 ? 5 : duration,
-          ease: "linear",
-          delay: 1.5,
-          repeatDelay: 1.5,
-        },
-      },
-    },
-  }
-
-  return (
-    <div ref={containerRef} className="w-full overflow-hidden">
-      <motion.p
-        ref={textRef}
-        className="text-blue-400 text-xs inline-block whitespace-nowrap"
-        variants={isOverflowing ? marqueeVariants : {}}
-        whileInView="animate"
-        viewport={{ once: false, amount: "all" }}
-      >
-        {text}
-      </motion.p>
-    </div>
-  )
-}
 
 export default function SkillsSection() {
   const isMobile = useIsMobile()
@@ -115,7 +55,6 @@ export default function SkillsSection() {
     },
   ]
 
-  // Reduced animation duration for mobile
   const animationDuration = isMobile ? 0.6 : 1
   const animationDelay = isMobile ? 0.1 : 0.2
 
@@ -135,7 +74,6 @@ export default function SkillsSection() {
       </motion.div>
 
       <div className="max-w-7xl mx-auto">
-        {/* Scrollable Skills Categories */}
         <div className="overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-track-slate-800/50 scrollbar-thumb-orange-400/60 hover:scrollbar-thumb-orange-400/80 pb-6">
           <div className="flex gap-8 min-w-max px-4">
             {jutsuCategories.map((category, categoryIndex) => {
@@ -174,7 +112,15 @@ export default function SkillsSection() {
                         <div className="flex justify-between items-center mb-2">
                           <div>
                             <p className="text-orange-200 font-medium text-sm">{skill.name}</p>
-                            <ScrollingTech text={skill.tech} />
+                            <div className="relative h-5 overflow-hidden w-40">
+                              <motion.p
+                                className="text-blue-400 text-xs"
+                                animate={{ y: ["0%", "-100%"] }}
+                                transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+                              >
+                                {skill.tech}
+                              </motion.p>
+                            </div>
                           </div>
                           <span className="text-orange-400 font-bold text-sm">{skill.level}%</span>
                         </div>
@@ -212,7 +158,6 @@ export default function SkillsSection() {
           </div>
         </div>
 
-        {/* Special Techniques */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -247,26 +192,20 @@ export default function SkillsSection() {
       </div>
 
       <style jsx>{`
-        /* Custom scrollbar styles for webkit browsers */
         .scrollbar-thin::-webkit-scrollbar {
           height: 8px;
         }
-        
         .scrollbar-track-slate-800\/50::-webkit-scrollbar-track {
           background: rgba(30, 41, 59, 0.5);
           border-radius: 4px;
         }
-        
         .scrollbar-thumb-orange-400\/60::-webkit-scrollbar-thumb {
           background: rgba(251, 146, 60, 0.6);
           border-radius: 4px;
         }
-        
         .hover\\:scrollbar-thumb-orange-400\/80::-webkit-scrollbar-thumb:hover {
           background: rgba(251, 146, 60, 0.8);
         }
-        
-        /* For Firefox */
         .scrollbar-thin {
           scrollbar-width: thin;
           scrollbar-color: rgba(251, 146, 60, 0.6) rgba(30, 41, 59, 0.5);
