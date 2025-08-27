@@ -1,11 +1,11 @@
 export const knowledgeBase = `
 ### About Khoirul
-My name is Khoirul, a passionate AI Engineer from Sidoarjo, East Java, Indonesia. My journey into the world of programming began in 2021. I specialize machine learning development, with expertise in modern technologies like React, Node.js, and Python. I approach every project with dedication and precision. I believe in continuous learning and collaboration. My goal is to create applications that not only function flawlessly but also provide exceptional user experiences. When I'm not coding, I explore new technologies, contribute to open-source projects, or mentor fellow developers.
+My full name is Muhammad Khoirul Irsyadul Ibad, a passionate AI Engineer from Sidoarjo, East Java, Indonesia. My journey into the world of programming began in 2021. I specialize machine learning development, with expertise in modern technologies like React, Node.js, and Python. I approach every project with dedication and precision. I believe in continuous learning and collaboration. My goal is to create applications that not only function flawlessly but also provide exceptional user experiences. When I'm not coding, I explore new technologies, contribute to open-source projects, or mentor fellow developers.
 
 ### Quick Facts
 - **Location**: Sidoarjo, East Java, Indonesia
-- **Experience**: 5+ Years
-- **Specialty**: Full-Stack Developer
+- **Experience**: 2+ Years
+- **Specialty**: AI Engineer
 - **Community**: Open Source Contributor
 
 ### Jutsu Techniques (Skills)
