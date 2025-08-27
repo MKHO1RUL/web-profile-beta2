@@ -1,9 +1,69 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useState } from "react"
-import { Zap, CodeXml, Database, BrainCog, ChartArea, CodeXmlIcon } from "lucide-react"
+import { useState, useRef, useLayoutEffect } from "react"
+import { Zap, CodeXml, Database, BrainCog, ChartArea } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
+
+const ScrollingTech = ({ text }: { text: string }) => {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const textRef = useRef<HTMLParagraphElement>(null)
+  const [isOverflowing, setIsOverflowing] = useState(false)
+
+  useLayoutEffect(() => {
+    const checkOverflow = () => {
+      if (textRef.current && containerRef.current) {
+        const isOverflow = textRef.current.scrollWidth > containerRef.current.clientWidth
+        setIsOverflowing(isOverflow)
+      }
+    }
+
+    checkOverflow()
+
+    const resizeObserver = new ResizeObserver(checkOverflow)
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current)
+    }
+
+    return () => {
+      if (containerRef.current) {
+        resizeObserver.unobserve(containerRef.current)
+      }
+    }
+  }, [text])
+
+  const duration = (textRef.current?.scrollWidth ?? 0) / 35
+
+  const marqueeVariants = {
+    animate: {
+      x: [0, -(textRef.current?.scrollWidth ?? 0) + (containerRef.current?.clientWidth ?? 0)],
+      transition: {
+        x: {
+          repeat: Infinity,
+          repeatType: "mirror",
+          duration: duration < 5 ? 5 : duration,
+          ease: "linear",
+          delay: 1.5,
+          repeatDelay: 1.5,
+        },
+      },
+    },
+  }
+
+  return (
+    <div ref={containerRef} className="w-full overflow-hidden">
+      <motion.p
+        ref={textRef}
+        className="text-blue-400 text-xs inline-block whitespace-nowrap"
+        variants={isOverflowing ? marqueeVariants : {}}
+        whileInView="animate"
+        viewport={{ once: false, amount: "all" }}
+      >
+        {text}
+      </motion.p>
+    </div>
+  )
+}
 
 export default function SkillsSection() {
   const isMobile = useIsMobile()
@@ -114,7 +174,7 @@ export default function SkillsSection() {
                         <div className="flex justify-between items-center mb-2">
                           <div>
                             <p className="text-orange-200 font-medium text-sm">{skill.name}</p>
-                            <p className="text-blue-400 text-xs">{skill.tech}</p>
+                            <ScrollingTech text={skill.tech} />
                           </div>
                           <span className="text-orange-400 font-bold text-sm">{skill.level}%</span>
                         </div>
