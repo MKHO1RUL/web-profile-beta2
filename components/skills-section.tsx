@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { Zap, CodeXml, Database, BrainCog, ChartArea } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
 
@@ -97,50 +97,67 @@ export default function SkillsSection() {
                   </div>
 
                   <div className="space-y-4">
-                    {category.skills.map((skill, skillIndex) => (
-                      <motion.div
-                        key={skill.name}
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{
-                          duration: animationDuration,
-                          delay: categoryIndex * animationDelay + skillIndex * (animationDelay / 2),
-                        }}
-                        viewport={{ once: true }}
-                        className="group"
-                      >
-                        <div className="flex justify-between items-center mb-2">
-                          <div>
-                            <p className="text-orange-200 font-medium text-sm">{skill.name}</p>
-                            <div className="relative h-5 overflow-hidden w-40">
-                              <motion.p
-                                className="text-blue-400 text-xs"
-                                animate={{ y: ["0%", "-100%"] }}
-                                transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                              >
-                                {skill.tech}
-                              </motion.p>
-                            </div>
-                          </div>
-                          <span className="text-orange-400 font-bold text-sm">{skill.level}%</span>
-                        </div>
+                    {category.skills.map((skill, skillIndex) => {
+                      const textRef = useRef<HTMLParagraphElement>(null)
+                      const containerRef = useRef<HTMLDivElement>(null)
+                      const [shouldAnimate, setShouldAnimate] = useState(false)
 
-                        <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${skill.level}%` }}
-                            transition={{
-                              duration: isMobile ? 1 : 1.5,
-                              delay: categoryIndex * animationDelay + skillIndex * (animationDelay / 2) + 0.3,
-                            }}
-                            viewport={{ once: true }}
-                            className={`h-full bg-gradient-to-r ${category.color} rounded-full relative`}
-                          >
-                            {!isMobile && <div className="absolute inset-0 bg-white/20 animate-pulse" />}
-                          </motion.div>
-                        </div>
-                      </motion.div>
-                    ))}
+                      useEffect(() => {
+                        if (textRef.current && containerRef.current) {
+                          const textHeight = textRef.current.scrollHeight
+                          const containerHeight = containerRef.current.clientHeight
+                          if (textHeight > containerHeight) {
+                            setShouldAnimate(true)
+                          }
+                        }
+                      }, [])
+
+                      return (
+                        <motion.div
+                          key={skill.name}
+                          initial={{ opacity: 0, x: -20 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{
+                            duration: animationDuration,
+                            delay: categoryIndex * animationDelay + skillIndex * (animationDelay / 2),
+                          }}
+                          viewport={{ once: true }}
+                          className="group"
+                        >
+                          <div className="flex justify-between items-center mb-2">
+                            <div>
+                              <p className="text-orange-200 font-medium text-sm">{skill.name}</p>
+                              <div ref={containerRef} className="relative h-5 overflow-hidden w-40">
+                                <motion.p
+                                  ref={textRef}
+                                  className="text-blue-400 text-xs"
+                                  animate={shouldAnimate ? { y: ["0%", "-100%"] } : {}}
+                                  transition={shouldAnimate ? { duration: 6, repeat: Infinity, ease: "linear" } : {}}
+                                >
+                                  {skill.tech}
+                                </motion.p>
+                              </div>
+                            </div>
+                            <span className="text-orange-400 font-bold text-sm">{skill.level}%</span>
+                          </div>
+
+                          <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              whileInView={{ width: `${skill.level}%` }}
+                              transition={{
+                                duration: isMobile ? 1 : 1.5,
+                                delay: categoryIndex * animationDelay + skillIndex * (animationDelay / 2) + 0.3,
+                              }}
+                              viewport={{ once: true }}
+                              className={`h-full bg-gradient-to-r ${category.color} rounded-full relative`}
+                            >
+                              {!isMobile && <div className="absolute inset-0 bg-white/20 animate-pulse" />}
+                            </motion.div>
+                          </div>
+                        </motion.div>
+                      )
+                    })}
                   </div>
 
                   <motion.div
