@@ -1,6 +1,6 @@
 export const knowledgeBase = `
 ### About Khoirul
-My name is Khoirul, a passionate software developer from Sidoarjo, East Java, Indonesia. My journey into the world of programming began in 2018. I specialize in full-stack development, with expertise in modern technologies like React, Node.js, and Python. I approach every project with dedication and precision. I believe in continuous learning and collaboration. My goal is to create applications that not only function flawlessly but also provide exceptional user experiences. When I'm not coding, I explore new technologies, contribute to open-source projects, or mentor fellow developers.
+My name is Khoirul, a passionate AI Engineer from Sidoarjo, East Java, Indonesia. My journey into the world of programming began in 2021. I specialize machine learning development, with expertise in modern technologies like React, Node.js, and Python. I approach every project with dedication and precision. I believe in continuous learning and collaboration. My goal is to create applications that not only function flawlessly but also provide exceptional user experiences. When I'm not coding, I explore new technologies, contribute to open-source projects, or mentor fellow developers.
 
 ### Quick Facts
 - **Location**: Sidoarjo, East Java, Indonesia
@@ -47,4 +47,13 @@ My name is Khoirul, a passionate software developer from Sidoarjo, East Java, In
 - **Data Visualization Tool (A-Rank)**: Interactive data visualization platform.
 - **Mobile Fitness App (B-Rank)**: Cross-platform mobile app for fitness tracking.
 - **Blockchain Voting System (S-Rank)**: Secure and transparent voting system on the blockchain.
+
+### Contacts
+- **Email**: irulkhoirul414@gmail.com
+- **Whatsapp**: +6287896218227
+- **LinkedIn**: linkedin.com/mkhoirulii
+- **GitHub**: github.com/MKHO1RUL
+- **Twitter**: twitter.com/m_khoiruli
+or you can send the message directly at the bottom of this page.
+
 `;
