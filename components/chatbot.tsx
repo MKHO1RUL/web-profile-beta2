@@ -62,9 +62,14 @@ export default function Chatbot() {
       const reader = res.body.getReader()
       const decoder = new TextDecoder()
       let done = false
+      let isFirst = true
 
       while (!done) {
         const { value, done: readerDone } = await reader.read()
+        if (isFirst) {
+          setIsLoading(false)
+          isFirst = false
+        }
         done = readerDone
         const chunk = decoder.decode(value, { stream: true })
 
@@ -78,6 +83,7 @@ export default function Chatbot() {
         })
       }
     } catch (error) {
+      setIsLoading(false)
       console.error(error)
       const displayError = error instanceof Error ? error.message : "An unknown error occurred."
       setMessages((prev) => {
@@ -88,8 +94,6 @@ export default function Chatbot() {
         }
         return [...prev, { role: "model", text: `Oops! Something went wrong. ${displayError}` }];
       });
-    } finally {
-      setIsLoading(false)
     }
   }
 
