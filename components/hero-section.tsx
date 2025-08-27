@@ -3,9 +3,24 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { ChevronDown, X } from "lucide-react"
-import { useIsMobile } from "@/hooks/use-mobile"
 
-export default function HeroSection() {
+const useIsMobile = () => {
+    // Placeholder untuk fungsionalitas hook
+    if (typeof window !== 'undefined') {
+        const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+        
+        useState(() => {
+            const handleResize = () => setIsMobile(window.innerWidth < 768);
+            window.addEventListener('resize', handleResize);
+            return () => window.removeEventListener('resize', handleResize);
+        });
+
+        return isMobile;
+    }
+    return false;
+}
+
+export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const isMobile = useIsMobile()
 
@@ -33,9 +48,10 @@ export default function HeroSection() {
       }
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-900">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
+         {/* Ganti dengan URL gambar yang valid atau hapus jika tidak ada */}
         <div className="absolute inset-0 bg-[url('/header-back.jpg')] bg-cover bg-center opacity-20" />
       </div>
 
@@ -72,23 +88,32 @@ export default function HeroSection() {
           className="mb-8"
         >
           <div className="w-32 h-32 mx-auto mb-6 relative">
+            {/* --- PERBAIKAN 1 --- */}
             <motion.div
-              animate={{ rotate: 360 }}
-              transition={{
-                duration: isMobile ? 30 : 20,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "linear",
+              animate={{
+                scale: [1, 1.05, 1],
+                opacity: [0.7, 1, 0.7]
               }}
-              className="absolute inset-0 border-4 border-orange-400/30 rounded-full"
+              transition={{
+                duration: 3,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "easeInOut",
+              }}
+              className="absolute inset-0 border-4 border-orange-400 rounded-full"
             />
+            {/* --- PERBAIKAN 2 --- */}
             <motion.div
-              animate={{ rotate: -360 }}
-              transition={{
-                duration: isMobile ? 20 : 15,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "linear",
+              animate={{
+                scale: [1, 1.08, 1],
+                opacity: [0.5, 1, 0.5]
               }}
-              className="absolute inset-2 border-2 border-blue-400/30 rounded-full"
+              transition={{
+                duration: 3,
+                delay: 0.5,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "easeInOut",
+              }}
+              className="absolute inset-2 border-2 border-blue-400 rounded-full"
             />
             <motion.div
               whileHover={!isMobile ? { scale: 1.1 } : {}}
@@ -192,9 +217,9 @@ export default function HeroSection() {
             {/* Enlarged image */}
             <div className="relative">
               <img
-                src="/profile-img.jpg"
+                src="https://placehold.co/800x800/F97316/1E293B?text=Khoirul"
                 alt="Profile Picture - Enlarged"
-                className="w-full h-auto max-h-[70vh] object-cover"
+                className="w-full h-auto max-h-[70vh] object-contain"
               />
 
               {/* Overlay with ninja info */}
