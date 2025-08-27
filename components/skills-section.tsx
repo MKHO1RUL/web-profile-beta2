@@ -117,7 +117,7 @@ export default function SkillsSection() {
                             <div className="w-40 overflow-hidden">
                               <motion.p
                                 className="text-blue-400 text-xs whitespace-nowrap scroll-on-view"
-                                style={{ animationPlayState: "paused" }}
+                                initial={{ animationPlayState: "paused" }}
                                 whileInView={{ animationPlayState: "running" }}
                                 viewport={{ once: false, margin: "0px 0px -50px 0px" }}
                               >
