@@ -9,7 +9,7 @@ interface Message {
   text: string
 }
 
-export default function Chatbot() {
+export default function App() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -142,7 +142,8 @@ export default function Chatbot() {
             </div>
 
             {/* Messages */}
-            <div ref={chatContainerRef} className="flex-1 p-4 space-y-4 overflow-y-auto scrollbar-thin scrollbar-track-slate-800/50 scrollbar-thumb-orange-400/60">
+            {/* THIS IS THE MODIFIED LINE */}
+            <div ref={chatContainerRef} className="flex-1 p-4 space-y-4 overflow-y-auto scrollbar-thin scrollbar-track-slate-800/50 scrollbar-thumb-orange-400/60 hover:scrollbar-thumb-orange-400/80">
               {messages.map((msg, index) => (
                 <div key={index} className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                   {msg.role === "model" && (
@@ -159,22 +160,22 @@ export default function Chatbot() {
                   >
                     <p className="text-sm leading-relaxed">{msg.text}</p>
                   </div>
-                   {msg.role === "user" && (
-                    <div className="w-8 h-8 rounded-full bg-slate-700 flex-shrink-0 flex items-center justify-center">
-                      <User size={18} className="text-blue-300" />
-                    </div>
-                  )}
+                    {msg.role === "user" && (
+                     <div className="w-8 h-8 rounded-full bg-slate-700 flex-shrink-0 flex items-center justify-center">
+                       <User size={18} className="text-blue-300" />
+                     </div>
+                   )}
                 </div>
               ))}
               {isLoading && (
-                 <div className="flex gap-3 justify-start">
-                    <div className="w-8 h-8 rounded-full bg-slate-700 flex-shrink-0 flex items-center justify-center">
-                      <Bot size={18} className="text-orange-400" />
-                    </div>
-                    <div className="max-w-[80%] p-3 rounded-xl bg-slate-700 text-orange-100 rounded-bl-none flex items-center">
-                       <Loader className="w-5 h-5 animate-spin text-orange-400" />
-                    </div>
-                  </div>
+                   <div className="flex gap-3 justify-start">
+                     <div className="w-8 h-8 rounded-full bg-slate-700 flex-shrink-0 flex items-center justify-center">
+                       <Bot size={18} className="text-orange-400" />
+                     </div>
+                     <div className="max-w-[80%] p-3 rounded-xl bg-slate-700 text-orange-100 rounded-bl-none flex items-center">
+                         <Loader className="w-5 h-5 animate-spin text-orange-400" />
+                     </div>
+                   </div>
               )}
             </div>
 
@@ -207,6 +208,29 @@ export default function Chatbot() {
           </motion.div>
         )}
       </AnimatePresence>
+      
+      {/* THIS STYLE BLOCK IS ADDED */}
+      <style jsx>{`
+        .scrollbar-thin::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+        .scrollbar-track-slate-800\\/50::-webkit-scrollbar-track {
+          background: rgba(30, 41, 59, 0.5);
+          border-radius: 4px;
+        }
+        .scrollbar-thumb-orange-400\\/60::-webkit-scrollbar-thumb {
+          background: rgba(251, 146, 60, 0.6);
+          border-radius: 4px;
+        }
+        .hover\\:scrollbar-thumb-orange-400\\/80::-webkit-scrollbar-thumb:hover {
+          background: rgba(251, 146, 60, 0.8);
+        }
+        .scrollbar-thin {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(251, 146, 60, 0.6) rgba(30, 41, 59, 0.5);
+        }
+      `}</style>
     </>
   )
 }
