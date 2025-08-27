@@ -14,7 +14,7 @@ export const knowledgeBase: KnowledgeChunk[] = [
   },
   {
     id: "skills-ml",
-    text: "My core AI & ML skills include: React (95%), CSS/Tailwind (90%), Next.js (88%), and TypeScript (85%).",
+    text: "My core AI & ML skills include: Machine learning (95%), Deep Learning (90%), Natural Language Processing (NLP) (88%), and Generative AI (85%).",
   },
   {
     id: "skills-mlops",
@@ -38,6 +38,6 @@ export const knowledgeBase: KnowledgeChunk[] = [
   },
   {
     id: "contact",
-    text: "You can contact me via Email at irulkhoirul414@gmail.com, Whatsapp at +6287896218227, LinkedIn at linkedin.com/mkhoirulii, GitHub at github.com/MKHO1RUL, Twitter at twitter.com/m_khoiruli, or directly at the bottom of this website.",
+    text: "You can contact me via Email at irulkhoirul414@gmail.com, Whatsapp at +6287896218227, LinkedIn at linkedin.com/mkhoirulii, GitHub at github.com/MKHO1RUL, Twitter at twitter.com/m_khoiruli, or directly on my email using message form at the bottom of this website.",
   },
 ];
