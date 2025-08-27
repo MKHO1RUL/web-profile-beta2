@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Bot, X, Send, Loader2, User, MessageCircle } from "lucide-react"
+import { MessageSquare, Send, X, Bot, User, Loader } from "lucide-react"
 
 interface Message {
   role: "user" | "model"
@@ -10,11 +10,11 @@ interface Message {
 }
 
 export default function Chatbot() {
-  const [isChatOpen, setIsChatOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "model",
-      text: "Hello! I'm Irul's AI assistant, powered by Gemini. Ask me anything about his skills, projects, or experience!",
+      text: "Greetings! I am Khoirul's AI assistant. Ask me anything about his skills, projects, or experience!",
     },
   ])
   const [input, setInput] = useState("")
@@ -27,27 +27,24 @@ export default function Chatbot() {
     }
   }, [messages])
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!input.trim() || isLoading) return
+  const handleSend = async () => {
+    if (input.trim() === "" || isLoading) return
 
     const userMessage: Message = { role: "user", text: input }
-    const newMessages = [...messages, userMessage]
-    setMessages(newMessages)
+    setMessages((prev) => [...prev, userMessage])
     setInput("")
     setIsLoading(true)
 
     try {
+      const history = messages.map((msg) => ({
+        role: msg.role,
+        parts: [{ text: msg.text }],
+      }))
+
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          history: newMessages.slice(0, -1).map((msg) => ({
-            role: msg.role,
-            parts: [{ text: msg.text }],
-          })),
-          message: input,
-        }),
+        body: JSON.stringify({ history, message: input }),
       })
 
       if (!res.ok) {
@@ -59,6 +56,7 @@ export default function Chatbot() {
         throw new Error("Response body is null")
       }
 
+      // Add a placeholder for the model's response
       setMessages((prev) => [...prev, { role: "model", text: "" }])
 
       const reader = res.body.getReader()
@@ -96,74 +94,119 @@ export default function Chatbot() {
         }
         return [...prev, { role: "model", text: `Oops! Something went wrong. ${displayError}` }];
       });
+
     }
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">
+    <>
+      {/* Chat Toggle Button */}
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-r from-orange-400 to-blue-400 rounded-full text-white flex items-center justify-center shadow-lg z-50"
+      >
+        <AnimatePresence mode="wait">
+          {isOpen ? (
+            <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
+              <X size={30} />
+            </motion.div>
+          ) : (
+            <motion.div key="open" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
+              <Bot size={30} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.button>
+
+      {/* Chat Window */}
       <AnimatePresence>
-        {isChatOpen && (
+        {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.5 }}
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 50, scale: 0.5 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="w-80 h-[450px] bg-gray-900/80 backdrop-blur-md border border-blue-500/30 rounded-lg shadow-2xl shadow-blue-500/10 flex flex-col overflow-hidden"
+            exit={{ opacity: 0, y: 50, scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="fixed bottom-24 right-6 w-[calc(100vw-3rem)] max-w-md h-[70vh] max-h-[600px] bg-slate-800/80 backdrop-blur-md border border-orange-400/30 rounded-2xl shadow-2xl flex flex-col z-50 overflow-hidden"
           >
-            <div className="p-4 bg-gray-900/50 border-b border-blue-500/30 flex items-center space-x-3">
-              <Bot className="h-8 w-8 text-blue-400" />
+            {/* Header */}
+            <div className="flex-shrink-0 p-4 border-b border-orange-400/20 flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-blue-400 rounded-full flex items-center justify-center">
+                <Bot className="text-slate-900" />
+              </div>
               <div>
-                <h3 className="font-bold text-white">AI Assistant</h3>
-                <p className="text-xs text-gray-400">Powered by Gemini</p>
+                <h3 className="font-bold text-orange-400">Khoirul's AI Assistant</h3>
+                <p className="text-xs text-blue-300">Ready for your mission</p>
               </div>
             </div>
-            <div ref={chatContainerRef} className="flex-1 p-4 space-y-4 overflow-y-auto">
+
+            {/* Messages */}
+            <div ref={chatContainerRef} className="flex-1 p-4 space-y-4 overflow-y-auto scrollbar-thin scrollbar-track-slate-800/50 scrollbar-thumb-orange-400/60">
               {messages.map((msg, index) => (
-                <div key={index} className={`flex items-start gap-3 ${msg.role === "user" ? "justify-end" : ""}`}>
-                  {msg.role === "model" && <Bot className="h-6 w-6 text-blue-400 flex-shrink-0" />}
-                  <div className={`max-w-[80%] p-3 rounded-lg ${msg.role === "user" ? "bg-blue-600/50 text-white" : "bg-gray-800/60 text-gray-300"}`}>
-                    <p className="text-sm whitespace-pre-wrap">{msg.text}</p>
+                <div key={index} className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                  {msg.role === "model" && (
+                    <div className="w-8 h-8 rounded-full bg-slate-700 flex-shrink-0 flex items-center justify-center">
+                      <Bot size={18} className="text-orange-400" />
+                    </div>
+                  )}
+                  <div
+                    className={`max-w-[80%] p-3 rounded-xl ${
+                      msg.role === "user"
+                        ? "bg-blue-500 text-white rounded-br-none"
+                        : "bg-slate-700 text-orange-100 rounded-bl-none"
+                    }`}
+                  >
+                    <p className="text-sm leading-relaxed">{msg.text}</p>
                   </div>
-                  {msg.role === "user" && <User className="h-6 w-6 text-gray-400 flex-shrink-0" />}
+                   {msg.role === "user" && (
+                    <div className="w-8 h-8 rounded-full bg-slate-700 flex-shrink-0 flex items-center justify-center">
+                      <User size={18} className="text-blue-300" />
+                    </div>
+                  )}
                 </div>
               ))}
               {isLoading && (
-                <div className="flex items-start gap-3">
-                  <Bot className="h-6 w-6 text-blue-400 flex-shrink-0" />
-                  <div className="max-w-[80%] p-3 rounded-lg bg-gray-800/60 text-gray-300">
-                    <div className="flex items-center space-x-2">
-                      <span className="h-2 w-2 bg-blue-400 rounded-full animate-pulse delay-0"></span>
-                      <span className="h-2 w-2 bg-blue-400 rounded-full animate-pulse delay-150"></span>
-                      <span className="h-2 w-2 bg-blue-400 rounded-full animate-pulse delay-300"></span>
+                 <div className="flex gap-3 justify-start">
+                    <div className="w-8 h-8 rounded-full bg-slate-700 flex-shrink-0 flex items-center justify-center">
+                      <Bot size={18} className="text-orange-400" />
+                    </div>
+                    <div className="max-w-[80%] p-3 rounded-xl bg-slate-700 text-orange-100 rounded-bl-none flex items-center">
+                       <Loader className="w-5 h-5 animate-spin text-orange-400" />
                     </div>
                   </div>
-                </div>
               )}
             </div>
-            <form onSubmit={handleSubmit} className="p-4 bg-gray-900/50 border-t border-blue-500/30 flex items-center">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask me anything..."
-                className="flex-1 bg-transparent border-none focus:ring-0 text-white placeholder-gray-500"
-                disabled={isLoading}
-              />
-              <button type="submit" disabled={isLoading || !input.trim()} className="p-2 rounded-full text-white disabled:text-gray-500 disabled:cursor-not-allowed hover:bg-blue-500/20 transition-colors">
-                {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
-              </button>
-            </form>
+
+            {/* Input Form */}
+            <div className="p-4 border-t border-orange-400/20">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  handleSend()
+                }}
+                className="flex items-center gap-2"
+              >
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Ask about my skills..."
+                  className="flex-1 w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-full text-orange-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                  disabled={isLoading}
+                />
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-10 h-10 flex-shrink-0 bg-orange-400 text-slate-900 rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isLoading ? <Loader className="w-5 h-5 animate-spin" /> : <Send size={18} />}
+                </button>
+              </form>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-      <motion.button
-        onClick={() => setIsChatOpen(!isChatOpen)}
-        className="p-3 bg-blue-600/80 backdrop-blur-sm text-white rounded-full shadow-lg shadow-blue-500/20 hover:bg-blue-500 transition-all"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-      >
-        {isChatOpen ? <X className="h-6 w-6" /> : <Bot className="h-6 w-6" />}
-      </motion.button>
-    </div>
+    </>
   )
 }
