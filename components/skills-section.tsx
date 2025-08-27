@@ -114,16 +114,7 @@ export default function SkillsSection() {
                         <div className="flex justify-between items-center mb-2">
                           <div>
                             <p className="text-orange-200 font-medium text-sm">{skill.name}</p>
-                            <div className="w-40 overflow-hidden">
-                              <motion.p
-                                className="text-blue-400 text-xs whitespace-nowrap scroll-on-view"
-                                style={{ animationPlayState: "paused" }}
-                                whileInView={{ animationPlayState: "running" }}
-                                viewport={{ once: false, margin: "0px 0px -50px 0px" }}
-                              >
-                                {skill.tech}
-                              </motion.p>
-                            </div>
+                            <p className="text-blue-400 text-xs">{skill.tech}</p>
                           </div>
                           <span className="text-orange-400 font-bold text-sm">{skill.level}%</span>
                         </div>
@@ -219,19 +210,6 @@ export default function SkillsSection() {
         .scrollbar-thin {
           scrollbar-width: thin;
           scrollbar-color: rgba(251, 146, 60, 0.6) rgba(30, 41, 59, 0.5);
-        }
-
-        @keyframes scroll-text {
-          from {
-            transform: translateX(0);
-          }
-          to {
-            transform: translateX(min(0px, 160px - 100%));
-          }
-        }
-
-        .scroll-on-view {
-          animation: scroll-text 5s ease-in-out 1s infinite alternate;
         }
       `}</style>
     </div>
