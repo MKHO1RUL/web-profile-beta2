@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Bot, X, Send, Loader2, User } from "lucide-react"
+import { Bot, X, Send, Loader2, User, MessageCircle } from "lucide-react"
 
 interface Message {
   role: "user" | "model"
@@ -162,7 +162,6 @@ export default function Chatbot() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
-        {/* PERUBAHAN DI SINI: Mengganti MessageCircle dengan Bot */}
         {isChatOpen ? <X className="h-6 w-6" /> : <Bot className="h-6 w-6" />}
       </motion.button>
     </div>
