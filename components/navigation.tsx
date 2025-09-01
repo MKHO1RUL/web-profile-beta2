@@ -16,9 +16,9 @@ export default function Navigation({ currentSection, setCurrentSection }: Naviga
 
   const navItems = [
     { id: "hero", label: "Home", icon: Scroll },
-    { id: "about", label: "About", icon: User },
-    { id: "skills", label: "Jutsu", icon: Zap },
-    { id: "projects", label: "Missions", icon: FolderOpen },
+    { id: "about", label: "Profile", icon: User },
+    { id: "skills", label: "Skills", icon: Zap },
+    { id: "projects", label: "Projects", icon: FolderOpen },
     { id: "contact", label: "Contact", icon: Mail },
   ]
 
@@ -27,7 +27,6 @@ export default function Navigation({ currentSection, setCurrentSection }: Naviga
     if (element) {
       element.scrollIntoView({ behavior: "smooth" })
       setCurrentSection(sectionId)
-      // Auto close on mobile after navigation
       if (isMobile) {
         setIsExpanded(false)
       }
@@ -38,7 +37,6 @@ export default function Navigation({ currentSection, setCurrentSection }: Naviga
     setIsExpanded(!isExpanded)
   }
 
-  // Desktop version (unchanged)
   if (!isMobile) {
     return (
       <motion.nav
@@ -76,10 +74,8 @@ export default function Navigation({ currentSection, setCurrentSection }: Naviga
     )
   }
 
-  // Mobile version with expandable menu
   return (
     <>
-      {/* Mobile Toggle Button */}
       <motion.button
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -117,11 +113,9 @@ export default function Navigation({ currentSection, setCurrentSection }: Naviga
         </AnimatePresence>
       </motion.button>
 
-      {/* Mobile Expanded Menu */}
       <AnimatePresence>
         {isExpanded && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -131,7 +125,6 @@ export default function Navigation({ currentSection, setCurrentSection }: Naviga
               onClick={() => setIsExpanded(false)}
             />
 
-            {/* Navigation Menu */}
             <motion.nav
               initial={{ x: -300, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -139,13 +132,10 @@ export default function Navigation({ currentSection, setCurrentSection }: Naviga
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="fixed left-4 top-20 z-50 bg-slate-800/95 backdrop-blur-md rounded-2xl p-4 border border-orange-400/30 shadow-2xl min-w-[200px]"
             >
-              {/* Menu Header */}
               <div className="text-center mb-4 pb-3 border-b border-orange-400/20">
                 <h3 className="text-orange-400 font-bold text-sm">Navigation</h3>
-                <p className="text-orange-200/70 text-xs">Choose your path</p>
               </div>
 
-              {/* Navigation Items */}
               <div className="space-y-2">
                 {navItems.map((item, index) => {
                   const Icon = item.icon
@@ -166,7 +156,6 @@ export default function Navigation({ currentSection, setCurrentSection }: Naviga
                       <Icon size={18} className="mr-3 flex-shrink-0" />
                       <span className="font-medium text-sm">{item.label}</span>
 
-                      {/* Active Indicator */}
                       {currentSection === item.id && (
                         <motion.div
                           initial={{ scale: 0 }}
@@ -179,9 +168,8 @@ export default function Navigation({ currentSection, setCurrentSection }: Naviga
                 })}
               </div>
 
-              {/* Menu Footer */}
               <div className="mt-4 pt-3 border-t border-orange-400/20 text-center">
-                <p className="text-orange-200/50 text-xs">Ninja Portfolio</p>
+                <p className="text-orange-200/50 text-xs">MKII</p>
               </div>
             </motion.nav>
           </>

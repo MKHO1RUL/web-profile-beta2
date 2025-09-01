@@ -127,7 +127,6 @@ export default function ProjectsSection() {
 
   const isScrollOpen = (projectId: number) => openScrolls.includes(projectId)
 
-  // Reduced animation duration for mobile
   const animationDuration = isMobile ? 0.6 : 1
   const animationDelay = isMobile ? 0.05 : 0.1
 
@@ -141,12 +140,10 @@ export default function ProjectsSection() {
         className="text-center mb-16"
       >
         <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-blue-400 bg-clip-text text-transparent">
-          Missions Completed
+          My Projects
         </h2>
-        <p className="text-orange-200 text-lg">Portfolio of Successful Operations</p>
       </motion.div>
 
-      {/* Filters */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -173,7 +170,6 @@ export default function ProjectsSection() {
         ))}
       </motion.div>
 
-      {/* Projects Grid */}
       <div className="max-w-7xl mx-auto">
         <AnimatePresence mode="wait">
           <motion.div
@@ -193,28 +189,22 @@ export default function ProjectsSection() {
                 className="group relative flex justify-center"
               >
                 <div className="w-full max-w-md">
-                  {/* Closed Scroll - Always Visible */}
                   <motion.div
                     onClick={() => toggleScroll(project.id)}
                     className={`cursor-pointer transition-transform duration-300 relative z-10 ${
                       isScrollOpen(project.id) ? "scale-105" : !isMobile && "hover:scale-105"
                     }`}
                   >
-                    {/* Horizontal Cylindrical Scroll - Wider */}
                     <div className="relative w-full h-16">
-                      {/* Left Cap - Smaller */}
                       <div className="absolute left-0 top-0 w-4 h-full bg-gradient-to-r from-red-600 to-red-700 rounded-l-lg border-2 border-red-800 shadow-lg">
                         <div className="absolute left-1 top-1/2 transform -translate-y-1/2 w-1 h-10 bg-gradient-to-r from-red-400 to-red-500 rounded-full" />
                       </div>
 
-                      {/* Main Body - Wider content area */}
                       <div className="absolute left-3 top-0 right-3 h-full bg-gradient-to-b from-teal-600 to-teal-700 border-y-2 border-teal-800 shadow-lg flex items-center justify-between px-4">
-                        {/* Project Title */}
                         <div className="flex-1 text-center">
                           <div className="text-white text-sm font-bold">{project.title}</div>
                         </div>
 
-                        {/* Level Badge */}
                         <div
                           className={`px-3 py-1 rounded-full text-xs font-bold text-white bg-gradient-to-r ${getDifficultyColor(project.difficulty)} ml-4`}
                         >
@@ -222,12 +212,10 @@ export default function ProjectsSection() {
                         </div>
                       </div>
 
-                      {/* Right Cap - Smaller */}
                       <div className="absolute right-0 top-0 w-4 h-full bg-gradient-to-l from-red-600 to-red-700 rounded-r-lg border-2 border-red-800 shadow-lg">
                         <div className="absolute right-1 top-1/2 transform -translate-y-1/2 w-1 h-10 bg-gradient-to-l from-red-400 to-red-500 rounded-full" />
                       </div>
 
-                      {/* Click indicator */}
                       {!isMobile && (
                         <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-orange-200 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                           {isScrollOpen(project.id) ? "Click to close" : "Click to open"}
@@ -236,7 +224,6 @@ export default function ProjectsSection() {
                     </div>
                   </motion.div>
 
-                  {/* Open Scroll Content - Expands downward */}
                   <AnimatePresence>
                     {isScrollOpen(project.id) && (
                       <motion.div
@@ -246,21 +233,16 @@ export default function ProjectsSection() {
                         transition={{ duration: isMobile ? 0.4 : 0.6, ease: "easeInOut" }}
                         className="overflow-hidden"
                       >
-                        {/* Expanded Parchment Content */}
                         <div className="relative w-full bg-gradient-to-br from-amber-50 to-amber-100 border-4 border-amber-600 border-t-0 rounded-b-lg shadow-2xl">
-                          {/* Left Cap Extension */}
                           <div className="absolute left-0 top-0 w-4 h-full bg-gradient-to-r from-red-600 to-red-700 border-r-2 border-red-800">
                             <div className="absolute left-1 top-4 w-1 h-16 bg-gradient-to-r from-red-400 to-red-500 rounded-full" />
                           </div>
 
-                          {/* Right Cap Extension */}
                           <div className="absolute right-0 top-0 w-4 h-full bg-gradient-to-l from-red-600 to-red-700 border-l-2 border-red-800">
                             <div className="absolute right-1 top-4 w-1 h-16 bg-gradient-to-l from-red-400 to-red-500 rounded-full" />
                           </div>
 
-                          {/* Decorative Border */}
                           <div className="absolute inset-0 mx-4">
-                            {/* Bottom Border Pattern */}
                             <div className="absolute bottom-2 left-0 right-0 h-3 bg-gradient-to-r from-amber-300 to-amber-400 flex items-center justify-around rounded">
                               {[...Array(16)].map((_, i) => (
                                 <div key={i} className="w-1.5 h-1.5 bg-teal-600 rounded-full opacity-60" />
@@ -268,15 +250,12 @@ export default function ProjectsSection() {
                             </div>
                           </div>
 
-                          {/* Content */}
                           <div className="relative z-10 px-8 py-6">
-                            {/* Header */}
                             <div className="text-center mb-4">
                               <h3 className="text-xl font-bold text-slate-800 mb-1">{project.title}</h3>
                               <p className="text-slate-600 text-sm">{project.subtitle}</p>
                             </div>
 
-                            {/* Project Image */}
                             <div className="relative h-32 overflow-hidden rounded-lg mb-4 border-2 border-amber-600">
                               <img
                                 src={project.image || "/placeholder.svg"}
@@ -286,12 +265,10 @@ export default function ProjectsSection() {
                               />
                             </div>
 
-                            {/* Description */}
                             <p className="text-slate-700 text-sm mb-4 leading-relaxed text-center">
                               {project.description}
                             </p>
 
-                            {/* Tech Stack */}
                             <div className="flex flex-wrap gap-2 mb-4 justify-center">
                               {project.tech.map((tech) => (
                                 <span
@@ -303,7 +280,6 @@ export default function ProjectsSection() {
                               ))}
                             </div>
 
-                            {/* Status and Rating */}
                             <div className="flex items-center justify-between mb-4">
                               <span
                                 className={`px-3 py-1 rounded-full text-xs font-medium ${
@@ -321,7 +297,6 @@ export default function ProjectsSection() {
                               </div>
                             </div>
 
-                            {/* Action Buttons */}
                             <div className="flex gap-3">
                               <motion.a
                                 href={project.github}
@@ -354,7 +329,6 @@ export default function ProjectsSection() {
         </AnimatePresence>
       </div>
 
-      {/* Instructions */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -363,7 +337,7 @@ export default function ProjectsSection() {
         className="text-center mt-12"
       >
         <p className="text-orange-200/70 text-sm">
-          {isMobile ? "Tap the scrolls to view mission details" : "Click the scrolls to unfurl mission details"}
+          {isMobile ? "Tap the scrolls to view projects details" : "Click the scrolls to unfurl projects details"}
         </p>
       </motion.div>
     </div>

@@ -10,14 +10,14 @@ export default function SkillsSection() {
 
   const jutsuCategories = [
     {
-      title: "Core AI & ML",
+      title: "AI & ML",
       icon: BrainCog,
       color: "from-orange-400 to-red-400",
       skills: [
         { name: "Machine Learning", tech: "Forecasting, Classification, Clustering, Computer Vision", level: 95 },
-        { name: "CSS/Tailwind", tech: "CSS/Tailwind", level: 90 },
-        { name: "Next.js", tech: "Next.js", level: 88 },
-        { name: "TypeScript", tech: "TypeScript", level: 85 },
+        { name: "Deep Learning", tech: "RNN/LSTM/GRU, CNN, Transformer", level: 90 },
+        { name: "NLP", tech: "Text Classification, Sentiment Analysis, Chatbot", level: 95 },
+        { name: "Generative AI", tech: "LLM Fine-tuning, RAG", level: 85 },
       ],
     },
     {
@@ -25,10 +25,10 @@ export default function SkillsSection() {
       icon: Database,
       color: "from-blue-400 to-purple-400",
       skills: [
-        { name: "Python", tech: "Python", level: 92 },
-        { name: "Node.js", tech: "Node.js", level: 87 },
-        { name: "PostgreSQL", tech: "PostgreSQL", level: 83 },
-        { name: "API Design", tech: "API Design", level: 89 },
+        { name: "Model Deployment", tech: "FastAPI, Flask", level: 80 },
+        { name: "Model Monitoring & Logging", tech: "Grafana, ELK Stack", level: 70 },
+        { name: "Experiment Tracking & Workflow", tech: "MLflow, DVC, Airflow", level: 70 },
+        { name: "Vector Database & Orchestration", tech: "Pinecone, LangChain", level: 85 },
       ],
     },
     {
@@ -36,10 +36,10 @@ export default function SkillsSection() {
       icon: CodeXml,
       color: "from-green-400 to-teal-400",
       skills: [
-        { name: "Machine Learning", tech: "Machine Learning", level: 78 },
-        { name: "Data Analysis", tech: "Data Analysis", level: 82 },
-        { name: "Problem Solving", tech: "Problem Solving", level: 94 },
-        { name: "DevOps", tech: "DevOps", level: 75 },
+        { name: "Programming Language", tech: "Python, C++, PHP, JavaScript", level: 90 },
+        { name: "Libraries", tech: "NumPy, Pandas, Scikit-learn", level: 90 },
+        { name: "Version Control", tech: "Git, Github", level: 95 },
+        { name: "Dev Tools", tech: "VS Code, Jupyter Notebook", level: 90 },
       ],
     },
     {
@@ -47,10 +47,10 @@ export default function SkillsSection() {
       icon: ChartArea,
       color: "from-purple-400 to-pink-400",
       skills: [
-        { name: "Data Visualization", tech: "Data Visualization", level: 88 },
-        { name: "Statistical Analysis", tech: "Statistical Analysis", level: 85 },
-        { name: "Big Data Processing", tech: "Big Data Processing", level: 80 },
-        { name: "Business Intelligence", tech: "Business Intelligence", level: 82 },
+        { name: "Data Collection & Cleaning", tech: "Pandas, NumPy", level: 95 },
+        { name: "Exploratory Data Analysis", tech: "Matplotlib, Seaborn, Pandas Profiling", level: 85 },
+        { name: "Feature Engineering", tech: "Scikit-learn, Featuretools", level: 70 },
+        { name: "Data Visualization", tech: "Matplotlib, Seaborn, Plotly", level: 85 },
       ],
     },
   ]
@@ -68,9 +68,8 @@ export default function SkillsSection() {
         className="text-center mb-16"
       >
         <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-blue-400 bg-clip-text text-transparent">
-          Jutsu Techniques
+          My Skills
         </h2>
-        <p className="text-orange-200 text-lg">My Arsenal of Development Skills</p>
       </motion.div>
 
       <div className="max-w-7xl mx-auto">
@@ -167,7 +166,7 @@ export default function SkillsSection() {
                     <Zap
                       className={`w-5 h-5 mx-auto mb-1 text-yellow-400 ${!isMobile && "group-hover:animate-bounce"}`}
                     />
-                    <p className="text-xs text-orange-200">Master Level Achieved</p>
+                    <p className="text-xs text-orange-200">Main Skills</p>
                   </motion.div>
                 </motion.div>
               )
@@ -183,9 +182,9 @@ export default function SkillsSection() {
           className="mt-16 text-center"
         >
           <div className="bg-gradient-to-r from-slate-800/80 to-slate-700/80 backdrop-blur-md border border-orange-400/30 rounded-lg p-8">
-            <h3 className="text-2xl font-bold text-orange-400 mb-4">Secret Techniques</h3>
+            <h3 className="text-2xl font-bold text-orange-400 mb-4">Supporting Skills</h3>
             <div className="grid md:grid-cols-4 gap-4">
-              {["Clean Code Mastery", "Agile Methodology", "Team Leadership", "Continuous Learning"].map(
+              {["Mathematics & Statistics", "Optimization", "Chill & Collaborative", "Continuous Learning"].map(
                 (technique, index) => (
                   <motion.div
                     key={technique}

@@ -56,7 +56,6 @@ export default function App() {
         throw new Error("Response body is null")
       }
 
-      // Add a placeholder for the model's response
       setMessages((prev) => [...prev, { role: "model", text: "" }])
 
       const reader = res.body.getReader()
@@ -100,7 +99,6 @@ export default function App() {
 
   return (
     <>
-      {/* Chat Toggle Button */}
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
@@ -120,7 +118,6 @@ export default function App() {
         </AnimatePresence>
       </motion.button>
 
-      {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -130,19 +127,15 @@ export default function App() {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="fixed bottom-24 right-6 w-[calc(100vw-3rem)] max-w-md h-[70vh] max-h-[600px] bg-slate-800/80 backdrop-blur-md border border-orange-400/30 rounded-2xl shadow-2xl flex flex-col z-50 overflow-hidden"
           >
-            {/* Header */}
             <div className="flex-shrink-0 p-4 border-b border-orange-400/20 flex items-center gap-3">
               <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-blue-400 rounded-full flex items-center justify-center">
                 <Bot className="text-slate-900" />
               </div>
               <div>
                 <h3 className="font-bold text-orange-400">Khoirul's AI Assistant</h3>
-                <p className="text-xs text-blue-300">Ready for your mission</p>
               </div>
             </div>
 
-            {/* Messages */}
-            {/* THIS IS THE MODIFIED LINE */}
             <div ref={chatContainerRef} className="flex-1 p-4 space-y-4 overflow-y-auto scrollbar-thin scrollbar-track-slate-800/50 scrollbar-thumb-orange-400/60 hover:scrollbar-thumb-orange-400/80">
               {messages.map((msg, index) => (
                 <div key={index} className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
@@ -179,7 +172,6 @@ export default function App() {
               )}
             </div>
 
-            {/* Input Form */}
             <div className="p-4 border-t border-orange-400/20">
               <form
                 onSubmit={(e) => {
@@ -209,7 +201,6 @@ export default function App() {
         )}
       </AnimatePresence>
       
-      {/* THIS STYLE BLOCK IS ADDED */}
       <style jsx>{`
         .scrollbar-thin::-webkit-scrollbar {
           width: 8px;

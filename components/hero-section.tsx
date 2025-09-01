@@ -5,7 +5,6 @@ import { motion } from "framer-motion"
 import { ChevronDown, X } from "lucide-react"
 
 const useIsMobile = () => {
-    // Placeholder untuk fungsionalitas hook
     if (typeof window !== 'undefined') {
         const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
         
@@ -24,7 +23,6 @@ export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const isMobile = useIsMobile()
 
-  // Reduced animations for mobile
   const chakraAnimation = isMobile
     ? {
         scale: [1, 1.1, 1],
@@ -49,13 +47,10 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-900">
-      {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-         {/* Ganti dengan URL gambar yang valid atau hapus jika tidak ada */}
         <div className="absolute inset-0 bg-[url('/header-back.jpg')] bg-cover bg-center opacity-20" />
       </div>
 
-      {/* Chakra Aura Effect - Reduced for mobile */}
       {!isMobile && (
         <div className="absolute inset-0">
           <motion.div
@@ -79,7 +74,6 @@ export default function App() {
         </div>
       )}
 
-      {/* Main Content */}
       <div className="relative z-10 text-center px-4">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -88,7 +82,6 @@ export default function App() {
           className="mb-8"
         >
           <div className="w-32 h-32 mx-auto mb-6 relative">
-            {/* --- PERBAIKAN 1 --- */}
             <motion.div
               animate={{
                 scale: [1, 1.05, 1],
@@ -101,7 +94,6 @@ export default function App() {
               }}
               className="absolute inset-0 border-4 border-orange-400 rounded-full"
             />
-            {/* --- PERBAIKAN 2 --- */}
             <motion.div
               animate={{
                 scale: [1, 1.08, 1],
@@ -180,7 +172,6 @@ export default function App() {
         </motion.button>
       </div>
 
-      {/* Scroll Indicator - Simplified for mobile */}
       <motion.div
         animate={{ y: isMobile ? [0, 5, 0] : [0, 10, 0] }}
         transition={{ duration: isMobile ? 3 : 2, repeat: Number.POSITIVE_INFINITY }}
@@ -189,7 +180,6 @@ export default function App() {
         <ChevronDown size={32} />
       </motion.div>
 
-      {/* Modal for enlarged image */}
       {isModalOpen && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -206,7 +196,6 @@ export default function App() {
             className="relative max-w-2xl max-h-[80vh] bg-slate-800 rounded-2xl overflow-hidden border-4 border-orange-400/50 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close button */}
             <button
               onClick={() => setIsModalOpen(false)}
               className="absolute top-4 right-4 z-10 w-10 h-10 bg-slate-900/80 hover:bg-slate-900 rounded-full flex items-center justify-center text-orange-400 hover:text-orange-300 transition-colors duration-300"
@@ -214,7 +203,6 @@ export default function App() {
               <X size={20} />
             </button>
 
-            {/* Enlarged image */}
             <div className="relative">
               <img
                 src="/profile-expand.jpg"
@@ -222,14 +210,12 @@ export default function App() {
                 className="w-full h-auto max-h-[70vh] object-contain"
               />
 
-              {/* Overlay with ninja info */}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 to-transparent p-6">
                 <h3 className="text-2xl font-bold text-orange-400 mb-2">Muhammad Khoirul</h3>
-                <p className="text-blue-400 mb-1">AI Engineer - Genin Rank</p>
+                <p className="text-blue-400 mb-1">AI Engineer - Genin</p>
                 <p className="text-orange-200 text-sm">AI/Machine Learning Developer from Sidoarjo, East Java</p>
               </div>
 
-              {/* Reduced decorative chakra effects for mobile */}
               {!isMobile && (
                 <>
                   <motion.div

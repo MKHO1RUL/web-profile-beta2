@@ -5,7 +5,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'MKII',
-  description: 'Welcome to my world',
+  description: 'Muhammad Khoirul Portofolio Website',
   generator: 'v0.dev',
 }
 

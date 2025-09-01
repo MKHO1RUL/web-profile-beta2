@@ -35,7 +35,6 @@ export default function AboutSection() {
     }
   }, [])
 
-  // Reduced animation duration for mobile
   const animationDuration = isMobile ? 0.6 : 1
 
   return (
@@ -50,12 +49,10 @@ export default function AboutSection() {
         <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-blue-400 bg-clip-text text-transparent">
           My Profile
         </h2>
-        <p className="text-orange-200 text-lg">A little about me..</p>
       </motion.div>
 
       <div className="max-w-6xl mx-auto">
         <div className="grid md:grid-cols-2 gap-12 items-start">
-          {/* Video Introduction */}
           <motion.div
             initial={{ opacity: 0, x: isMobile ? 0 : -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -64,7 +61,6 @@ export default function AboutSection() {
             className="space-y-6"
           >
             <div className="bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg p-6 shadow-2xl relative overflow-hidden">
-              {/* Video Container */}
               <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
                 <video
                   ref={videoRef}
@@ -78,23 +74,19 @@ export default function AboutSection() {
                   Your browser does not support the video tag.
                 </video>
 
-                {/* Video Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent pointer-events-none" />
               </div>
 
-              {/* Video Status Indicator */}
               <div className="absolute top-2 left-2 px-2 py-1 bg-slate-900/80 rounded-full text-xs text-orange-400">
                 {isVideoVisible ? "▶ Playing" : "⏸ Paused"}
               </div>
 
               <div className="text-center">
-                <h3 className="text-xl font-bold text-orange-400 mb-2">Video Introduction</h3>
                 <p className="text-orange-200 text-sm">
-                  Watch my personal introduction and learn about my journey as an AI engineer
+                  Just a few word from me..
                 </p>
               </div>
 
-              {/* Reduced decorative elements for mobile */}
               {!isMobile && (
                 <>
                   <div className="absolute top-4 right-4 w-8 h-8 bg-gradient-to-br from-orange-400/20 to-blue-400/20 rounded-full animate-pulse" />
@@ -103,31 +95,28 @@ export default function AboutSection() {
               )}
             </div>
 
-            {/* Personal Highlights - Desktop only */}
             <div className="hidden md:block p-6 bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg">
-              <h4 className="text-lg font-bold text-orange-400 mb-4">Quick Facts</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-orange-400 rounded-full mr-3"></div>
-                  <span className="text-orange-200">Based in Sidoarjo, East Java</span>
+                  <span className="text-orange-200">AI Engineer</span>
                 </div>
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-blue-400 rounded-full mr-3"></div>
-                  <span className="text-orange-200">5+ Years Experience</span>
+                  <span className="text-orange-200">Strong analytical skills</span>
                 </div>
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
-                  <span className="text-orange-200">Full-Stack Developer</span>
+                  <span className="text-orange-200">Chill & collaborative</span>
                 </div>
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
-                  <span className="text-orange-200">Open Source Contributor</span>
+                  <span className="text-orange-200">Continuous Learner</span>
                 </div>
               </div>
             </div>
           </motion.div>
 
-          {/* Biography */}
           <motion.div
             initial={{ opacity: 0, x: isMobile ? 0 : 50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -137,35 +126,24 @@ export default function AboutSection() {
           >
             <div className="space-y-4 text-orange-200 leading-relaxed">
               <p>
-                Greetings! I'm Khoirul, a passionate software developer from Sidoarjo, East Java, Indonesia. My journey
-                into the world of programming began in 2018 when I first discovered the art of coding, much like a young
-                ninja discovering their chakra.
+                Greetings! I'm Khoirul, a passionate AI Engineer from Sidoarjo, East Java, Indonesia. My journey into the world of programming began in 2021 when I first entered university. I graduated with a degree in Mathematics from Universitas Airlangga, where I focused on computational mathematics.
               </p>
 
               <p>
-                What started as curiosity quickly evolved into a deep passion for creating digital solutions. I
-                specialize in full-stack development, with expertise in modern technologies like React, Node.js, Python,
-                and various databases. Every project I undertake is approached with the dedication and precision of a
-                true shinobi.
+                I started learning programming with C++, which introduced me to object-oriented programming. My very first project during university was developing a full-stack online bookstore website using PHP and MySQL. As time went on, I took a course in artificial intelligence, and that was the moment I became deeply interested in the field of machine learning.
               </p>
 
               <p>
-                Beyond technical skills, I believe in the power of continuous learning and collaboration. Just as ninjas
-                train together to become stronger, I thrive in team environments where knowledge is shared and
-                innovative solutions are born. My goal is to create applications that not only function flawlessly but
-                also provide exceptional user experiences.
+                Beyond academic projects, I have developed strong technical skills in modern frameworks and tools. I work extensively with React and Next.js for building responsive and dynamic user interfaces, while leveraging Node.js for backend services. I also utilize Tailwind CSS to streamline UI development and ensure clean, maintainable styling. These experiences have strengthened my ability to deliver full-stack applications efficiently.
               </p>
 
               <p>
-                When I'm not coding, you can find me exploring new technologies, contributing to open-source projects,
-                or mentoring fellow developers on their own ninja path. I'm always excited to take on new challenges and
-                turn complex problems into elegant solutions.
+                In addition, my focus lies in the field of machine learning and AI development. I am proficient in Python and its data science ecosystem, including libraries such as TensorFlow, PyTorch, and scikit-learn. I have experience in tasks ranging from forecasting and classification to image processing. I approach every project with a mindset of continuous learning, aiming to create solutions that are both technically sound and impactful.
               </p>
             </div>
           </motion.div>
         </div>
 
-        {/* Personal Highlights - Mobile only, placed below biography */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -173,23 +151,22 @@ export default function AboutSection() {
           viewport={{ once: true }}
           className="md:hidden mt-12 p-6 bg-slate-800/50 backdrop-blur-md border border-orange-400/30 rounded-lg"
         >
-          <h4 className="text-lg font-bold text-orange-400 mb-4">Quick Facts</h4>
           <div className="grid grid-cols-1 gap-4 text-sm">
             <div className="flex items-center">
               <div className="w-2 h-2 bg-orange-400 rounded-full mr-3"></div>
-              <span className="text-orange-200">Based in Sidoarjo, East Java</span>
+              <span className="text-orange-200">AI Engineer</span>
             </div>
             <div className="flex items-center">
               <div className="w-2 h-2 bg-blue-400 rounded-full mr-3"></div>
-              <span className="text-orange-200">5+ Years Experience</span>
+              <span className="text-orange-200">Strong analytical skills</span>
             </div>
             <div className="flex items-center">
               <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
-              <span className="text-orange-200">Full-Stack Developer</span>
+              <span className="text-orange-200">Chill & collaborative</span>
             </div>
             <div className="flex items-center">
               <div className="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
-              <span className="text-orange-200">Open Source Contributor</span>
+              <span className="text-orange-200">Continuous Learner</span>
             </div>
           </div>
         </motion.div>

@@ -5,7 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { Send, Mail, MapPin, Github, Linkedin, Twitter, MessageCircle } from "lucide-react"
-import { sendContactEmail } from "@/app/actions" // Import Server Action
+import { sendContactEmail } from "@/app/actions"
 import { useIsMobile } from "@/hooks/use-mobile"
 
 export default function ContactSection() {
@@ -31,7 +31,7 @@ export default function ContactSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    setSubmitMessage("") // Clear previous messages
+    setSubmitMessage("")
 
     const form = e.currentTarget as HTMLFormElement
     const formData = new FormData(form)
@@ -43,7 +43,6 @@ export default function ContactSection() {
     setIsSuccess(result.success)
     setSubmitMessage(result.message)
 
-    // Reset form and message after a delay
     setTimeout(() => {
       setIsSubmitted(false)
       setSubmitMessage("")
@@ -98,7 +97,6 @@ export default function ContactSection() {
     },
   ]
 
-  // Reduced animation duration for mobile
   const animationDuration = isMobile ? 0.6 : 1
   const animationDelay = isMobile ? 0.1 : 0.2
 
@@ -112,13 +110,12 @@ export default function ContactSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white drop-shadow-lg">Send a Messenger Bird</h2>
-          <p className="text-slate-800 text-lg font-medium">Ready for your next mission? Let's connect!</p>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white drop-shadow-lg">Send a Message</h2>
+          <p className="text-slate-800 text-lg font-medium">Got something in mind? Let's connect!</p>
         </motion.div>
 
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Contact Form - Summoning Circle */}
             <motion.div
               initial={{ opacity: 0, x: isMobile ? 0 : -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -126,7 +123,6 @@ export default function ContactSection() {
               viewport={{ once: true }}
               className="relative"
             >
-              {/* Summoning Circle Background - Simplified for mobile */}
               {!isMobile && (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <motion.div
@@ -148,14 +144,14 @@ export default function ContactSection() {
               )}
 
               <div className="relative z-10 bg-white/95 backdrop-blur-md border-2 border-slate-800 rounded-lg p-8 shadow-2xl">
-                <h3 className="text-2xl font-bold text-slate-800 mb-6 text-center">Summoning Jutsu: Contact Form</h3>
+                <h3 className="text-2xl font-bold text-slate-800 mb-6 text-center">Mission Request Form</h3>
 
                 {!isSubmitted ? (
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-4">
                       <div>
                         <label htmlFor="name" className="block text-slate-700 text-sm font-medium mb-2">
-                          Ninja Name
+                          Shinobi Name
                         </label>
                         <input
                           type="text"
@@ -170,7 +166,7 @@ export default function ContactSection() {
                       </div>
                       <div>
                         <label htmlFor="email" className="block text-slate-700 text-sm font-medium mb-2">
-                          Messenger Bird Address
+                          Messenger Bird
                         </label>
                         <input
                           type="email"
@@ -263,7 +259,6 @@ export default function ContactSection() {
               </div>
             </motion.div>
 
-            {/* Contact Info */}
             <motion.div
               initial={{ opacity: 0, x: isMobile ? 0 : 50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -305,7 +300,6 @@ export default function ContactSection() {
                 </div>
               </div>
 
-              {/* Social Links */}
               <motion.div
                 initial={{ opacity: 0, x: isMobile ? 0 : 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -338,7 +332,6 @@ export default function ContactSection() {
                 </div>
               </motion.div>
 
-              {/* Availability Status */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
