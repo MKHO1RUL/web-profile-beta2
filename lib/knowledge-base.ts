@@ -6,11 +6,15 @@ export interface KnowledgeChunk {
 export const knowledgeBase: KnowledgeChunk[] = [
   {
     id: "about-me",
-    text: "I'm Khoirul, my full name is Muhammad Khoirul Irsyadul Ibad. I'm a passionate AI Engineer from Sidoarjo, East Java, Indonesia. My journey into the world of programming began in 2021 when I first entered university. I graduated with a degree in Mathematics from Universitas Airlangga, where I focused on computational mathematics.",
+    text: "My full name is Muhammad Khoirul Irsyadul Ibad, people often call me Khoirul. I'm a passionate AI Engineer from Sidoarjo, East Java, Indonesia. My journey into the world of programming began in 2021 when I first entered university. I graduated with a degree in Mathematics from Airlangga University (Indonesia), where I focused on computational mathematics.",
   },
   {
-    id: "quick-facts",
-    text: "I started learning programming with C++, which introduced me to object-oriented programming. My very first project during university was developing a full-stack online bookstore website using PHP and MySQL. As time went on, I took a course in artificial intelligence, and that was the moment I became deeply interested in the field of machine learning. Beyond academic projects, I have developed strong technical skills in modern frameworks and tools. I work extensively with React and Next.js for building responsive and dynamic user interfaces, while leveraging Node.js for backend services. I also utilize Tailwind CSS to streamline UI development and ensure clean, maintainable styling. These experiences have strengthened my ability to deliver full-stack applications efficiently. In addition, my focus lies in the field of machine learning and AI development. I am proficient in Python and its data science ecosystem, including libraries such as TensorFlow, PyTorch, and scikit-learn. I have experience in tasks ranging from forecasting and classification to image processing. I approach every project with a mindset of continuous learning, aiming to create solutions that are both technically sound and impactful.",
+    id: "my-journey",
+    text: "I started learning programming with C++, which introduced me to object-oriented programming. My very first project during university was developing a full-stack online bookstore website using PHP and MySQL. As time went on, I took a course in artificial intelligence, and that was the moment I became deeply interested in the field of machine learning.",
+  },
+  {
+    id: "my-experience",
+    text: "Beyond academic projects, I have developed strong technical skills in modern frameworks and tools. I work extensively with React and Next.js for building responsive and dynamic user interfaces, while leveraging Node.js for backend services. I also utilize Tailwind CSS to streamline UI development and ensure clean, maintainable styling. These experiences have strengthened my ability to deliver full-stack applications efficiently. In addition, my focus lies in the field of machine learning and AI development. I am proficient in Python and its data science ecosystem, including libraries such as TensorFlow, PyTorch, and scikit-learn. I have experience in tasks ranging from forecasting and classification to image processing.",
   },
   {
   id: "skills-ml",
