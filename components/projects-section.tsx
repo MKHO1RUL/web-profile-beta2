@@ -24,6 +24,7 @@ export default function ProjectsSection() {
       image: "/modern-ecommerce-website.png",
       github: "https://github.com/MKHO1RUL/forecast-gru-hho",
       live: "https://mkii-forecast.vercel.app/",
+      newTab: true,
     },
     {
       id: 2,
