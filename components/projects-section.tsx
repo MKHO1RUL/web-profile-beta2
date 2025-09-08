@@ -13,17 +13,17 @@ export default function ProjectsSection() {
   const projects = [
     {
       id: 1,
-      title: "E-Commerce Platform",
+      title: "GRU-HHO Forex Prediction",
       subtitle: "S-Rank Mission",
       description:
-        "A full-stack e-commerce platform with advanced features like real-time inventory, payment processing, and admin dashboard.",
-      tech: ["React", "Node.js", "PostgreSQL", "Stripe"],
-      category: "web",
+        "Forecasting app using hybrid model of Gated Recurrent Unit and Harris Hawks Optimization for Forex Market",
+      tech: ["GRU", "HHO", "Python", "FastAPI", "Next.js", "Railway"],
+      category: "ai",
       difficulty: "S-Rank",
       status: "Completed",
       image: "/modern-ecommerce-website.png",
-      github: "#",
-      live: "#",
+      github: "https://github.com/MKHO1RUL/forecast-gru-hho",
+      live: "https://mkii-forecast.vercel.app/",
     },
     {
       id: 2,
