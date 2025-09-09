@@ -24,7 +24,6 @@ export default function ProjectsSection() {
       image: "/modern-ecommerce-website.png",
       github: "https://github.com/MKHO1RUL/forecast-gru-hho",
       live: "https://mkii-forecast.vercel.app/",
-      newTab: true,
     },
     {
       id: 2,
@@ -301,6 +300,8 @@ export default function ProjectsSection() {
                             <div className="flex gap-3">
                               <motion.a
                                 href={project.github}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 whileHover={!isMobile ? { scale: 1.05 } : {}}
                                 whileTap={{ scale: 0.95 }}
                                 className="flex-1 bg-slate-800 text-white py-3 px-4 rounded-lg text-center text-sm font-medium hover:bg-slate-700 transition-colors duration-300 flex items-center justify-center"
@@ -310,6 +311,8 @@ export default function ProjectsSection() {
                               </motion.a>
                               <motion.a
                                 href={project.live}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 whileHover={!isMobile ? { scale: 1.05 } : {}}
                                 whileTap={{ scale: 0.95 }}
                                 className="flex-1 bg-gradient-to-r from-orange-400 to-blue-400 text-white py-3 px-4 rounded-lg text-center text-sm font-medium hover:shadow-lg transition-all duration-300 flex items-center justify-center"
