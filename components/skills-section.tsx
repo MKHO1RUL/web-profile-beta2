@@ -13,6 +13,15 @@ const iconMap: { [key: string]: ComponentType<LucideProps> } = {
   ChartArea,
 }
 
+// Peta untuk menerjemahkan nama warna dari database ke kelas Tailwind CSS
+// Ini memastikan Tailwind JIT dapat mendeteksi semua kelas yang mungkin digunakan.
+const colorMap: { [key: string]: string } = {
+  "orange-blue": "from-orange-400 to-blue-400",
+  "green-teal": "from-green-400 to-teal-400",
+  "purple-pink": "from-purple-400 to-pink-500",
+  "slate-gray": "from-slate-500 to-slate-600",
+}
+
 interface Skill {
   name: string
   tech: string
@@ -93,7 +102,7 @@ const SkillItem = ({
             delay: delay + 0.3,
           }}
           viewport={{ once: true }}
-          className={`h-full bg-gradient-to-r ${category.color} rounded-full relative`}
+          className={`h-full bg-gradient-to-r ${colorMap[category.color] || "from-gray-400 to-gray-500"} rounded-full relative`}
         >
           {!isMobile && <div className="absolute inset-0 bg-white/20 animate-pulse" />}
         </motion.div>
@@ -148,7 +157,7 @@ export default function SkillsSection() {
                 >
                   <div className="text-center mb-6">
                     <div
-                      className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r ${category.color} flex items-center justify-center`}
+                      className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r ${colorMap[category.color] || "from-gray-400 to-gray-500"} flex items-center justify-center`}
                     >
                       <Icon className="w-8 h-8 text-white" />
                     </div>
