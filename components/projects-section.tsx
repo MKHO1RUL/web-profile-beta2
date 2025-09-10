@@ -9,7 +9,6 @@ import { supabase } from "@/lib/supabase"
 interface Project {
   id: number
   title: string
-  subtitle: string
   description: string
   tech: string[]
   category: string
@@ -194,10 +193,9 @@ export default function ProjectsSection() {
                             </div>
                           </div>
 
-                          <div className="relative z-10 px-8 py-6 flex flex-col h-[480px]">
-                            <div className="text-center mb-4 flex-shrink-0">
+                          <div className="relative z-10 px-8 py-6 flex flex-col h-[500px]">
+                            <div className="text-center mb-4 flex-shrink-0 h-16 flex flex-col justify-center">
                               <h3 className="text-xl font-bold text-slate-800 mb-1">{project.title}</h3>
-                              <p className="text-slate-600 text-sm">{project.subtitle}</p>
                             </div>
 
                             <div className="relative h-32 overflow-hidden rounded-lg mb-4 border-2 border-amber-600 flex-shrink-0">
