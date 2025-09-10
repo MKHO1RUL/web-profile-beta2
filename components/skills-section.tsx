@@ -14,7 +14,7 @@ const iconMap: { [key: string]: ComponentType<LucideProps> } = {
 }
 
 const colorMap: { [key: string]: string } = {
-  "orange-blue": "from-orange-400 to-blue-400",
+  "orange-blue": "from-orange-400 to-yellow-400",
   "green-teal": "from-green-400 to-teal-400",
   "purple-pink": "from-purple-400 to-pink-500",
   "slate-gray": "from-slate-500 to-slate-600",
