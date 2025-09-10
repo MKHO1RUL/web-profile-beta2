@@ -13,8 +13,6 @@ const iconMap: { [key: string]: ComponentType<LucideProps> } = {
   ChartArea,
 }
 
-// Peta untuk menerjemahkan nama warna dari database ke kelas Tailwind CSS
-// Ini memastikan Tailwind JIT dapat mendeteksi semua kelas yang mungkin digunakan.
 const colorMap: { [key: string]: string } = {
   "orange-blue": "from-orange-400 to-blue-400",
   "green-teal": "from-green-400 to-teal-400",
@@ -36,8 +34,6 @@ interface JutsuCategory {
   skills: Skill[]
 }
 
-// Komponen baru untuk menangani setiap item skill secara terpisah
-// Ini akan menyelesaikan masalah pelanggaran "Rules of Hooks"
 const SkillItem = ({
   skill,
   category,

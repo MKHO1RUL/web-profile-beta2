@@ -194,10 +194,10 @@ export default function ProjectsSection() {
                             </div>
                           </div>
 
-                          <div className="relative z-10 px-8 py-6">
-                            <div className="text-center mb-4">
-                              <h3 className="text-xl font-bold text-slate-800 mb-1">{project.title}</h3>
-                              <p className="text-slate-600 text-sm">{project.subtitle}</p>
+                          <div className="relative z-10 px-8 py-6 flex flex-col h-[480px]">
+                            <div className="text-center mb-4 h-16 flex flex-col justify-center">
+                              <h3 className="text-xl font-bold text-slate-800 mb-1 truncate" title={project.title}>{project.title}</h3>
+                              <p className="text-slate-600 text-sm truncate" title={project.subtitle}>{project.subtitle}</p>
                             </div>
 
                             <div className="relative h-32 overflow-hidden rounded-lg mb-4 border-2 border-amber-600">
@@ -209,11 +209,11 @@ export default function ProjectsSection() {
                               />
                             </div>
 
-                            <p className="text-slate-700 text-sm mb-4 leading-relaxed text-center">
+                            <p className="text-slate-700 text-sm mb-4 leading-relaxed text-center h-24 overflow-hidden line-clamp-5">
                               {project.description}
                             </p>
 
-                            <div className="flex flex-wrap gap-2 mb-4 justify-center">
+                            <div className="flex flex-wrap gap-2 mb-4 justify-center h-16 overflow-y-auto scrollbar-thin scrollbar-track-slate-200 scrollbar-thumb-amber-600">
                               {(project.tech || []).map((tech) => (
                                 <span
                                   key={tech}
@@ -224,7 +224,7 @@ export default function ProjectsSection() {
                               ))}
                             </div>
 
-                            <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center justify-between mt-auto">
                               <span
                                 className={`px-3 py-1 rounded-full text-xs font-medium ${
                                   project.status === "Completed"
@@ -276,6 +276,26 @@ export default function ProjectsSection() {
           </motion.div>
         </AnimatePresence>
       </div>
+
+      <style jsx>{`
+        .scrollbar-thin::-webkit-scrollbar {
+          width: 5px;
+        }
+        .scrollbar-track-slate-200::-webkit-scrollbar-track {
+          background: #e2e8f0; /* slate-200 */
+          border-radius: 10px;
+        }
+        .scrollbar-thumb-amber-600::-webkit-scrollbar-thumb {
+          background: #d97706; /* amber-600 */
+          border-radius: 10px;
+        }
+        .scrollbar-thumb-amber-600::-webkit-scrollbar-thumb:hover {
+          background: #b45309; /* amber-700 */
+        }
+        .scrollbar-thin {
+          scrollbar-width: thin;
+          scrollbar-color: #d97706 #e2e8f0;
+        }`}</style>
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
