@@ -1,59 +1,44 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
-import { Zap, CodeXml, Database, BrainCog, ChartArea } from "lucide-react"
+import { useState, useRef, useEffect, ComponentType } from "react"
+import { Zap, CodeXml, Database, BrainCog, ChartArea, LucideProps } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { supabase } from "@/lib/supabase"
+
+const iconMap: { [key: string]: ComponentType<LucideProps> } = {
+  BrainCog,
+  Database,
+  CodeXml,
+  ChartArea,
+}
+
+interface Skill {
+  name: string
+  tech: string
+  level: number
+}
+
+interface JutsuCategory {
+  id: number
+  title: string
+  icon_name: string
+  color: string
+  skills: Skill[]
+}
 
 export default function SkillsSection() {
   const isMobile = useIsMobile()
+  const [jutsuCategories, setJutsuCategories] = useState<JutsuCategory[]>([])
 
-  const jutsuCategories = [
-    {
-      title: "AI & ML",
-      icon: BrainCog,
-      color: "from-orange-400 to-red-400",
-      skills: [
-        { name: "Machine Learning", tech: "Forecasting, Classification, Clustering, Computer Vision", level: 95 },
-        { name: "Deep Learning", tech: "RNN/LSTM/GRU, CNN, Transformer", level: 90 },
-        { name: "NLP", tech: "Text Classification, Sentiment Analysis, Chatbot", level: 95 },
-        { name: "Generative AI", tech: "LLM Fine-tuning, RAG", level: 85 },
-      ],
-    },
-    {
-      title: "MLOps & Deployment",
-      icon: Database,
-      color: "from-blue-400 to-purple-400",
-      skills: [
-        { name: "Model Deployment", tech: "FastAPI, Flask", level: 80 },
-        { name: "Model Monitoring & Logging", tech: "Grafana, ELK Stack", level: 70 },
-        { name: "Experiment Tracking & Workflow", tech: "MLflow, DVC, Airflow", level: 70 },
-        { name: "Vector Database & Orchestration", tech: "Pinecone, LangChain", level: 85 },
-      ],
-    },
-    {
-      title: "Programming & Tools",
-      icon: CodeXml,
-      color: "from-green-400 to-teal-400",
-      skills: [
-        { name: "Programming Language", tech: "Python, C++, PHP, JavaScript", level: 90 },
-        { name: "Libraries", tech: "NumPy, Pandas, Scikit-learn", level: 90 },
-        { name: "Version Control", tech: "Git, Github", level: 95 },
-        { name: "Dev Tools", tech: "VS Code, Jupyter Notebook", level: 90 },
-      ],
-    },
-    {
-      title: "Data Science & Analytics",
-      icon: ChartArea,
-      color: "from-purple-400 to-pink-400",
-      skills: [
-        { name: "Data Collection & Cleaning", tech: "Pandas, NumPy", level: 95 },
-        { name: "Exploratory Data Analysis", tech: "Matplotlib, Seaborn, Pandas Profiling", level: 85 },
-        { name: "Feature Engineering", tech: "Scikit-learn, Featuretools", level: 70 },
-        { name: "Data Visualization", tech: "Matplotlib, Seaborn, Plotly", level: 85 },
-      ],
-    },
-  ]
+  useEffect(() => {
+    const fetchSkills = async () => {
+      const { data, error } = await supabase.from("skill_categories").select("*, skills(*)").order("display_order")
+      if (error) console.error("Error fetching skills:", error)
+      else if (data) setJutsuCategories(data as JutsuCategory[])
+    }
+    fetchSkills()
+  }, [])
 
   const animationDuration = isMobile ? 0.6 : 1
   const animationDelay = isMobile ? 0.1 : 0.2
@@ -76,7 +61,7 @@ export default function SkillsSection() {
         <div className="overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-track-slate-800/50 scrollbar-thumb-orange-400/60 hover:scrollbar-thumb-orange-400/80 pb-6">
           <div className="flex gap-8 min-w-max px-4">
             {jutsuCategories.map((category, categoryIndex) => {
-              const Icon = category.icon
+              const Icon = iconMap[category.icon_name] || Zap
               return (
                 <motion.div
                   key={category.title}

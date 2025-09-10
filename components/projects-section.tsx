@@ -1,109 +1,53 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ExternalLink, Github, Filter, Star } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { supabase } from "@/lib/supabase"
+
+interface Project {
+  id: number
+  title: string
+  subtitle: string
+  description: string
+  tech: string[]
+  category: string
+  difficulty: string
+  status: string
+  image: string
+  github: string
+  live: string
+}
 
 export default function ProjectsSection() {
   const [selectedFilter, setSelectedFilter] = useState("all")
   const [openScrolls, setOpenScrolls] = useState<number[]>([])
   const isMobile = useIsMobile()
+  const [projects, setProjects] = useState<Project[]>([])
+  const [filters, setFilters] = useState<{ id: string; label: string; count: number }[]>([])
 
-  const projects = [
-    {
-      id: 1,
-      title: "GRU-HHO Forex Prediction",
-      subtitle: "S-Rank Mission",
-      description:
-        "Forecasting app using hybrid model of Gated Recurrent Unit and Harris Hawks Optimization for Forex Market",
-      tech: ["GRU", "HHO", "Python", "FastAPI", "Next.js", "Railway"],
-      category: "ai",
-      difficulty: "S-Rank",
-      status: "Completed",
-      image: "/modern-ecommerce-website.png",
-      github: "https://github.com/MKHO1RUL/forecast-gru-hho",
-      live: "https://mkii-forecast.vercel.app/",
-    },
-    {
-      id: 2,
-      title: "AI Chat Assistant",
-      subtitle: "A-Rank Mission",
-      description:
-        "An intelligent chatbot using natural language processing to provide customer support and assistance.",
-      tech: ["Python", "TensorFlow", "FastAPI", "React"],
-      category: "ai",
-      difficulty: "A-Rank",
-      status: "Completed",
-      image: "/ai-chatbot-interface.png",
-      github: "#",
-      live: "#",
-    },
-    {
-      id: 3,
-      title: "Task Management App",
-      subtitle: "B-Rank Mission",
-      description:
-        "A collaborative task management application with real-time updates, team collaboration, and progress tracking.",
-      tech: ["Next.js", "Supabase", "Tailwind CSS"],
-      category: "web",
-      difficulty: "B-Rank",
-      status: "In Progress",
-      image: "/task-management-dashboard.png",
-      github: "#",
-      live: "#",
-    },
-    {
-      id: 4,
-      title: "Data Visualization Tool",
-      subtitle: "A-Rank Mission",
-      description:
-        "Interactive data visualization platform for analyzing complex datasets with custom charts and reports.",
-      tech: ["D3.js", "Python", "Flask", "PostgreSQL"],
-      category: "data",
-      difficulty: "A-Rank",
-      status: "Completed",
-      image: "/data-visualization-charts.png",
-      github: "#",
-      live: "#",
-    },
-    {
-      id: 5,
-      title: "Mobile Fitness App",
-      subtitle: "B-Rank Mission",
-      description:
-        "Cross-platform mobile app for fitness tracking with workout plans, progress monitoring, and social features.",
-      tech: ["React Native", "Firebase", "Redux"],
-      category: "mobile",
-      difficulty: "B-Rank",
-      status: "Completed",
-      image: "/fitness-mobile-app-interface.png",
-      github: "#",
-      live: "#",
-    },
-    {
-      id: 6,
-      title: "Blockchain Voting System",
-      subtitle: "S-Rank Mission",
-      description: "Secure and transparent voting system built on blockchain technology with smart contracts.",
-      tech: ["Solidity", "Web3.js", "React", "Ethereum"],
-      category: "blockchain",
-      difficulty: "S-Rank",
-      status: "Completed",
-      image: "/blockchain-voting-interface.png",
-      github: "#",
-      live: "#",
-    },
-  ]
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const { data, error } = await supabase.from("projects").select("*").order("display_order")
+      if (error) console.error("Error fetching projects:", error)
+      else if (data) setProjects(data as Project[])
+    }
+    fetchProjects()
+  }, [])
 
-  const filters = [
-    { id: "all", label: "All Missions", count: projects.length },
-    { id: "web", label: "Web Development", count: projects.filter((p) => p.category === "web").length },
-    { id: "ai", label: "AI/ML", count: projects.filter((p) => p.category === "ai").length },
-    { id: "mobile", label: "Mobile", count: projects.filter((p) => p.category === "mobile").length },
-    { id: "data", label: "Data Science", count: projects.filter((p) => p.category === "data").length },
-    { id: "blockchain", label: "Blockchain", count: projects.filter((p) => p.category === "blockchain").length },
-  ]
+  useEffect(() => {
+    if (projects.length > 0) {
+      setFilters([
+        { id: "all", label: "All Missions", count: projects.length },
+        { id: "web", label: "Web Development", count: projects.filter((p) => p.category === "web").length },
+        { id: "ai", label: "AI/ML", count: projects.filter((p) => p.category === "ai").length },
+        { id: "mobile", label: "Mobile", count: projects.filter((p) => p.category === "mobile").length },
+        { id: "data", label: "Data Science", count: projects.filter((p) => p.category === "data").length },
+        { id: "blockchain", label: "Blockchain", count: projects.filter((p) => p.category === "blockchain").length },
+      ])
+    }
+  }, [projects])
 
   const filteredProjects =
     selectedFilter === "all" ? projects : projects.filter((project) => project.category === selectedFilter)
