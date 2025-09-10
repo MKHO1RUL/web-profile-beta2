@@ -195,12 +195,12 @@ export default function ProjectsSection() {
                           </div>
 
                           <div className="relative z-10 px-8 py-6 flex flex-col h-[480px]">
-                            <div className="text-center mb-4 h-16 flex flex-col justify-center">
-                              <h3 className="text-xl font-bold text-slate-800 mb-1 truncate" title={project.title}>{project.title}</h3>
-                              <p className="text-slate-600 text-sm truncate" title={project.subtitle}>{project.subtitle}</p>
+                            <div className="text-center mb-4 flex-shrink-0">
+                              <h3 className="text-xl font-bold text-slate-800 mb-1">{project.title}</h3>
+                              <p className="text-slate-600 text-sm">{project.subtitle}</p>
                             </div>
 
-                            <div className="relative h-32 overflow-hidden rounded-lg mb-4 border-2 border-amber-600">
+                            <div className="relative h-32 overflow-hidden rounded-lg mb-4 border-2 border-amber-600 flex-shrink-0">
                               <img
                                 src={project.image || "/placeholder.svg"}
                                 alt={project.title}
@@ -209,61 +209,65 @@ export default function ProjectsSection() {
                               />
                             </div>
 
-                            <p className="text-slate-700 text-sm mb-4 leading-relaxed text-center h-24 overflow-hidden line-clamp-5">
+                            <p className="text-slate-700 text-sm mb-4 leading-relaxed text-center flex-1 overflow-y-auto scrollbar-thin scrollbar-track-slate-200 scrollbar-thumb-amber-600 pr-2">
                               {project.description}
                             </p>
 
-                            <div className="flex flex-wrap gap-2 mb-4 justify-center h-16 overflow-y-auto scrollbar-thin scrollbar-track-slate-200 scrollbar-thumb-amber-600">
-                              {(project.tech || []).map((tech) => (
-                                <span
-                                  key={tech}
-                                  className="px-3 py-1 bg-slate-200 text-slate-700 text-xs rounded-full border border-slate-300"
-                                >
-                                  {tech}
-                                </span>
-                              ))}
-                            </div>
-
-                            <div className="flex items-center justify-between mt-auto">
-                              <span
-                                className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                  project.status === "Completed"
-                                    ? "bg-green-100 text-green-800 border border-green-300"
-                                    : "bg-yellow-100 text-yellow-800 border border-yellow-300"
-                                }`}
-                              >
-                                {project.status}
-                              </span>
-                              <div className="flex items-center text-orange-600">
-                                {[...Array(5)].map((_, i) => (
-                                  <Star key={i} className="w-4 h-4 fill-current" />
+                            <div className="flex-shrink-0 pt-2 pb-4">
+                              <div className="flex items-center flex-nowrap gap-2 overflow-x-auto scrollbar-thin scrollbar-track-slate-200 scrollbar-thumb-amber-600 pb-2">
+                                {(project.tech || []).map((tech) => (
+                                  <span
+                                    key={tech}
+                                    className="flex-shrink-0 px-3 py-1 bg-slate-200 text-slate-700 text-xs rounded-full border border-slate-300"
+                                  >
+                                    {tech}
+                                  </span>
                                 ))}
                               </div>
                             </div>
 
-                            <div className="flex gap-3">
-                              <motion.a
-                                href={project.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                whileHover={!isMobile ? { scale: 1.05 } : {}}
-                                whileTap={{ scale: 0.95 }}
-                                className="flex-1 bg-slate-800 text-white py-3 px-4 rounded-lg text-center text-sm font-medium hover:bg-slate-700 transition-colors duration-300 flex items-center justify-center"
-                              >
-                                <Github className="w-4 h-4 mr-2" />
-                                Code
-                              </motion.a>
-                              <motion.a
-                                href={project.live}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                whileHover={!isMobile ? { scale: 1.05 } : {}}
-                                whileTap={{ scale: 0.95 }}
-                                className="flex-1 bg-gradient-to-r from-orange-400 to-blue-400 text-white py-3 px-4 rounded-lg text-center text-sm font-medium hover:shadow-lg transition-all duration-300 flex items-center justify-center"
-                              >
-                                <ExternalLink className="w-4 h-4 mr-2" />
-                                Live
-                              </motion.a>
+                            <div className="mt-auto pt-4 border-t border-slate-300 space-y-4 flex-shrink-0">
+                              <div className="flex items-center justify-between">
+                                <span
+                                  className={`px-3 py-1 rounded-full text-xs font-medium ${
+                                    project.status === "Completed"
+                                      ? "bg-green-100 text-green-800 border border-green-300"
+                                      : "bg-yellow-100 text-yellow-800 border border-yellow-300"
+                                  }`}
+                                >
+                                  {project.status}
+                                </span>
+                                <div className="flex items-center text-orange-600">
+                                  {[...Array(5)].map((_, i) => (
+                                    <Star key={i} className="w-4 h-4 fill-current" />
+                                  ))}
+                                </div>
+                              </div>
+
+                              <div className="flex gap-3">
+                                <motion.a
+                                  href={project.github}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  whileHover={!isMobile ? { scale: 1.05 } : {}}
+                                  whileTap={{ scale: 0.95 }}
+                                  className="flex-1 bg-slate-800 text-white py-3 px-4 rounded-lg text-center text-sm font-medium hover:bg-slate-700 transition-colors duration-300 flex items-center justify-center"
+                                >
+                                  <Github className="w-4 h-4 mr-2" />
+                                  Code
+                                </motion.a>
+                                <motion.a
+                                  href={project.live}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  whileHover={!isMobile ? { scale: 1.05 } : {}}
+                                  whileTap={{ scale: 0.95 }}
+                                  className="flex-1 bg-gradient-to-r from-orange-400 to-blue-400 text-white py-3 px-4 rounded-lg text-center text-sm font-medium hover:shadow-lg transition-all duration-300 flex items-center justify-center"
+                                >
+                                  <ExternalLink className="w-4 h-4 mr-2" />
+                                  Live
+                                </motion.a>
+                              </div>
                             </div>
                           </div>
                         </div>
