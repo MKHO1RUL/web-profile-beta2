@@ -214,7 +214,7 @@ export default function ProjectsSection() {
                             </p>
 
                             <div className="flex flex-wrap gap-2 mb-4 justify-center">
-                              {project.tech.map((tech) => (
+                              {(project.tech || []).map((tech) => (
                                 <span
                                   key={tech}
                                   className="px-3 py-1 bg-slate-200 text-slate-700 text-xs rounded-full border border-slate-300"
