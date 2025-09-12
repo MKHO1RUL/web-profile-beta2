@@ -1,7 +1,7 @@
-import { GoogleGenerativeAI, type Content } from "@google/generative-ai";
+import { GoogleGenAI, type Content } from "@google/genai";
 import knowledgeEmbeddings from "@/lib/knowledge-base-embeddings.json";
 
-const MODEL_NAME = "gemini-1.5-flash-latest";
+const MODEL_NAME = "gemini-2.0-flash";
 const EMBEDDING_MODEL = "embedding-001";
 const API_KEY = process.env.GEMINI_API_KEY;
 
@@ -24,19 +24,24 @@ function cosineSimilarity(vecA: number[], vecB: number[]): number {
 
 /**
  * Wraps the embedding API call with a retry mechanism.
- * @param embeddingModel The Google Generative AI embedding model instance.
+ * @param genAI The GoogleGenAI instance.
  * @param content The text content to embed.
  * @param retries The maximum number of retries.
  * @param initialDelay The initial delay in milliseconds.
  * @returns The embedding result.
  */
-async function embedWithRetry(embeddingModel: any, content: string, retries = 3, initialDelay = 1000) {
+async function embedWithRetry(genAI: GoogleGenAI, content: string, retries = 3, initialDelay = 1000) {
   let delay = initialDelay;
   for (let i = 0; i < retries; i++) {
     try {
-      return await embeddingModel.embedContent(content);
+      return await genAI.models.embedContent({ model: EMBEDDING_MODEL, contents: [content] });
     } catch (error: any) {
-      if (error instanceof Error && error.message.includes("429") && i < retries - 1) {
+      // Only retry for temporary rate limit errors, not for hard quota exhaustion.
+      const errorMessage = (error?.message || '').toLowerCase();
+      const isRateLimitError = errorMessage.includes("429");
+      const isQuotaExhaustedError = errorMessage.includes("quota");
+
+      if (isRateLimitError && !isQuotaExhaustedError && i < retries - 1) {
         console.warn(`Rate limit hit for embedding. Retrying in ${delay / 1000}s... (Attempt ${i + 1}/${retries})`);
         await new Promise(res => setTimeout(res, delay));
         delay *= 2;
@@ -54,7 +59,7 @@ export async function POST(req: Request) {
       throw new Error("The GEMINI_API_KEY environment variable is not set.");
     }
 
-    const genAI = new GoogleGenerativeAI(API_KEY);
+    const genAI = new GoogleGenAI({ apiKey: API_KEY });
     const { history, message } = await req.json();
 
     let queryEmbedding: number[];
@@ -62,9 +67,11 @@ export async function POST(req: Request) {
     if (embeddingCache.has(message)) {
       queryEmbedding = embeddingCache.get(message)!;
     } else {
-      const embeddingModel = genAI.getGenerativeModel({ model: EMBEDDING_MODEL });
-      const queryEmbeddingResult = await embedWithRetry(embeddingModel, message);
-      queryEmbedding = queryEmbeddingResult.embedding.values; 
+      const queryEmbeddingResult = await embedWithRetry(genAI, message);
+      if (!queryEmbeddingResult?.embeddings?.[0]?.values) {
+        throw new Error("Failed to generate embedding for the user message.");
+      }
+      queryEmbedding = queryEmbeddingResult.embeddings[0].values;
       embeddingCache.set(message, queryEmbedding);
     }
 
@@ -104,19 +111,17 @@ ${relevantContext}
       ],
     };
 
-    const generativeModel = genAI.getGenerativeModel({
+    const contents: Content[] = [dynamicSystemInstruction, ...history, { role: "user", parts: [{ text: message }] }];
+    const resultStream = await genAI.models.generateContentStream({
       model: MODEL_NAME,
-      systemInstruction: dynamicSystemInstruction,
+      contents,
     });
-
-    const contents: Content[] = [...history, { role: "user", parts: [{ text: message }] }];
-    const resultStream = await generativeModel.generateContentStream({ contents });
 
     const stream = new ReadableStream({
       async start(controller) {
         const encoder = new TextEncoder();
-        for await (const chunk of resultStream.stream) {
-          controller.enqueue(encoder.encode(chunk.text()));
+        for await (const chunk of resultStream) {
+          controller.enqueue(encoder.encode(chunk.text));
         }
         controller.close();
       },

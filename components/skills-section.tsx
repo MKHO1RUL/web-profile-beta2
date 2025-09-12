@@ -14,10 +14,10 @@ const iconMap: { [key: string]: ComponentType<LucideProps> } = {
 }
 
 const colorMap: { [key: string]: string } = {
-  "orange-blue": "from-orange-400 to-yellow-400",
-  "green-teal": "from-green-400 to-teal-400",
-  "purple-pink": "from-purple-400 to-pink-500",
-  "slate-gray": "from-slate-500 to-slate-600",
+  "naruto": "from-orange-400 to-orange-500",
+  "sasuke": "from-blue-600 to-coolGray-300",
+  "kakashi": "from-green-600 to-emerald-400",
+  "sakutrash": "from-pink-600 to-pink-300",
 }
 
 interface Skill {
@@ -132,7 +132,7 @@ export default function SkillsSection() {
         viewport={{ once: true }}
         className="text-center mb-16"
       >
-        <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-blue-400 bg-clip-text text-transparent">
+        <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-blue-400 bg-clip-text text-transparent pb-3">
           My Skills
         </h2>
       </motion.div>
