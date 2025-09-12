@@ -18,23 +18,23 @@ export default function Home() {
       <Chatbot />
 
       <main className="relative">
-        <section id="hero">
+        <section id="hero" className="min-h-screen">
           <HeroSection />
         </section>
 
-        <section id="about">
+        <section id="about" className="min-h-screen pb-10">
           <AboutSection />
         </section>
 
-        <section id="skills">
+        <section id="skills" className="min-h-screen pb-10">
           <SkillsSection />
         </section>
 
-        <section id="projects">
+        <section id="projects" className="min-h-screen pb-10">
           <ProjectsSection />
         </section>
 
-        <section id="contact">
+        <section id="contact" className="min-h-screen pb-10">
           <ContactSection />
         </section>
       </main>
