@@ -86,14 +86,15 @@ export default function App() {
       console.error(error)
       const displayError = error instanceof Error ? error.message : "An unknown error occurred."
       setMessages((prev) => {
-        const lastMessage = prev[prev.length -1];
-        if (lastMessage && lastMessage.role === 'model' && lastMessage.text === '') {
-          const updatedLastMessage = { ...lastMessage, text: `Oops! Something went wrong. ${displayError}` };
-          return [...prev.slice(0, -1), updatedLastMessage];
-        }
-        return [...prev, { role: "model", text: `Oops! Something went wrong. ${displayError}` }];
-      });
+        const newMessages = [...prev]
+        const lastMessage = newMessages[newMessages.length - 1]
 
+        if (lastMessage?.role === "model" && lastMessage.text === "") {
+          lastMessage.text = `Oops! Something went wrong. ${displayError}`
+          return newMessages
+        }
+        return [...newMessages, { role: "model", text: `Oops! Something went wrong. ${displayError}` }]
+      })
     }
   }
 

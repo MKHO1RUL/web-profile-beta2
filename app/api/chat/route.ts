@@ -5,6 +5,8 @@ const MODEL_NAME = "gemini-1.5-flash-latest";
 const EMBEDDING_MODEL = "embedding-001";
 const API_KEY = process.env.GEMINI_API_KEY;
 
+const embeddingCache = new Map<string, number[]>();
+
 function cosineSimilarity(vecA: number[], vecB: number[]): number {
   let dotProduct = 0;
   let normA = 0;
@@ -29,9 +31,16 @@ export async function POST(req: Request) {
     const genAI = new GoogleGenerativeAI(API_KEY);
     const { history, message } = await req.json();
 
-    const embeddingModel = genAI.getGenerativeModel({ model: EMBEDDING_MODEL });
-    const queryEmbeddingResult = await embeddingModel.embedContent(message);
-    const queryEmbedding = queryEmbeddingResult.embedding.values;
+    let queryEmbedding: number[];
+
+    if (embeddingCache.has(message)) {
+      queryEmbedding = embeddingCache.get(message)!;
+    } else {
+      const embeddingModel = genAI.getGenerativeModel({ model: EMBEDDING_MODEL });
+      const queryEmbeddingResult = await embeddingModel.embedContent(message);
+      queryEmbedding = queryEmbeddingResult.embedding.values;
+      embeddingCache.set(message, queryEmbedding);
+    }
 
     const similarChunks = knowledgeEmbeddings
       .map(chunk => ({
