@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ExternalLink, Github, Filter, Star } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -24,7 +24,6 @@ export default function ProjectsSection() {
   const [openScrolls, setOpenScrolls] = useState<number[]>([])
   const isMobile = useIsMobile()
   const [projects, setProjects] = useState<Project[]>([])
-  const [filters, setFilters] = useState<{ id: string; label: string; count: number }[]>([])
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -35,17 +34,16 @@ export default function ProjectsSection() {
     fetchProjects()
   }, [])
 
-  useEffect(() => {
-    if (projects.length > 0) {
-      setFilters([
-        { id: "all", label: "All Missions", count: projects.length },
-        { id: "web", label: "Web Development", count: projects.filter((p) => p.category === "web").length },
-        { id: "ai", label: "AI/ML", count: projects.filter((p) => p.category === "ai").length },
-        { id: "mobile", label: "Mobile", count: projects.filter((p) => p.category === "mobile").length },
-        { id: "data", label: "Data Science", count: projects.filter((p) => p.category === "data").length },
-        { id: "blockchain", label: "Blockchain", count: projects.filter((p) => p.category === "blockchain").length },
-      ])
-    }
+  const filters = useMemo(() => {
+    if (projects.length === 0) return []
+    return [
+      { id: "all", label: "All Missions", count: projects.length },
+      { id: "web", label: "Web Development", count: projects.filter((p) => p.category === "web").length },
+      { id: "ai", label: "AI/ML", count: projects.filter((p) => p.category === "ai").length },
+      { id: "mobile", label: "Mobile", count: projects.filter((p) => p.category === "mobile").length },
+      { id: "data", label: "Data Science", count: projects.filter((p) => p.category === "data").length },
+      { id: "blockchain", label: "Blockchain", count: projects.filter((p) => p.category === "blockchain").length },
+    ]
   }, [projects])
 
   const filteredProjects =
