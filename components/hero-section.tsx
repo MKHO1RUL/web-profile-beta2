@@ -1,22 +1,21 @@
 "use client"
 
-import { useState } from "react"
-import { motion } from "framer-motion"
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence, Transition } from "framer-motion"
 import { ChevronDown, X } from "lucide-react"
 
 const useIsMobile = () => {
-    if (typeof window !== 'undefined') {
-        const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-        
-        useState(() => {
-            const handleResize = () => setIsMobile(window.innerWidth < 768);
-            window.addEventListener('resize', handleResize);
-            return () => window.removeEventListener('resize', handleResize);
-        });
+  const [isMobile, setIsMobile] = useState(false)
 
-        return isMobile;
-    }
-    return false;
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    // Set initial value on client-side to avoid hydration mismatch
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
+  return isMobile
 }
 
 export default function App() {
@@ -33,7 +32,7 @@ export default function App() {
         opacity: [0.3, 0.6, 0.3],
       }
 
-  const chakraTransition = isMobile
+  const chakraTransition: Transition = isMobile
     ? {
         duration: 6,
         repeat: Number.POSITIVE_INFINITY,
@@ -129,7 +128,7 @@ export default function App() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: isMobile ? 0.6 : 1, delay: isMobile ? 0.2 : 0.3 }}
-          className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-blue-400 bg-clip-text text-transparent"
+          className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-blue-600 bg-clip-text text-transparent"
         >
           Hi, I'm Khoirul
         </motion.h1>
@@ -165,7 +164,7 @@ export default function App() {
           transition={{ duration: isMobile ? 0.6 : 1, delay: isMobile ? 0.5 : 1.2 }}
           whileHover={!isMobile ? { scale: 1.05 } : {}}
           whileTap={{ scale: 0.95 }}
-          className="bg-gradient-to-r from-orange-400 to-blue-400 text-slate-900 px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+          className="bg-gradient-to-r from-orange-400 to-blue-600 text-slate-900 px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
           onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
         >
           Get to Know Me!
