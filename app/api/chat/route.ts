@@ -22,6 +22,32 @@ function cosineSimilarity(vecA: number[], vecB: number[]): number {
   return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
 }
 
+/**
+ * Wraps the embedding API call with a retry mechanism.
+ * @param embeddingModel The Google Generative AI embedding model instance.
+ * @param content The text content to embed.
+ * @param retries The maximum number of retries.
+ * @param initialDelay The initial delay in milliseconds.
+ * @returns The embedding result.
+ */
+async function embedWithRetry(embeddingModel: any, content: string, retries = 3, initialDelay = 1000) {
+  let delay = initialDelay;
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await embeddingModel.embedContent(content);
+    } catch (error: any) {
+      if (error instanceof Error && error.message.includes("429") && i < retries - 1) {
+        console.warn(`Rate limit hit for embedding. Retrying in ${delay / 1000}s... (Attempt ${i + 1}/${retries})`);
+        await new Promise(res => setTimeout(res, delay));
+        delay *= 2;
+      } else {
+        throw error;
+      }
+    }
+  }
+  throw new Error("Failed to get embedding after multiple retries.");
+}
+
 export async function POST(req: Request) {
   try {
     if (!API_KEY) {
@@ -37,8 +63,8 @@ export async function POST(req: Request) {
       queryEmbedding = embeddingCache.get(message)!;
     } else {
       const embeddingModel = genAI.getGenerativeModel({ model: EMBEDDING_MODEL });
-      const queryEmbeddingResult = await embeddingModel.embedContent(message);
-      queryEmbedding = queryEmbeddingResult.embedding.values;
+      const queryEmbeddingResult = await embedWithRetry(embeddingModel, message);
+      queryEmbedding = queryEmbeddingResult.embedding.values; 
       embeddingCache.set(message, queryEmbedding);
     }
 

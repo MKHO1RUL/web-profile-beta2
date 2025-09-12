@@ -61,17 +61,10 @@ export default function App() {
       const reader = res.body.getReader()
       const decoder = new TextDecoder()
       let done = false
-      let isFirst = true
-
       while (!done) {
         const { value, done: readerDone } = await reader.read()
-        if (isFirst) {
-          setIsLoading(false)
-          isFirst = false
-        }
         done = readerDone
         const chunk = decoder.decode(value, { stream: true })
-
         setMessages((prev) => {
           const lastMessage = prev[prev.length - 1]
           const updatedLastMessage = {
@@ -81,6 +74,8 @@ export default function App() {
           return [...prev.slice(0, -1), updatedLastMessage]
         })
       }
+      // Set loading to false only after the entire stream is complete
+      setIsLoading(false)
     } catch (error) {
       setIsLoading(false)
       console.error(error)
