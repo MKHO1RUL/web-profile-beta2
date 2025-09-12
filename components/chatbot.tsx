@@ -147,7 +147,7 @@ export default function App() {
                         : "bg-slate-700 text-orange-100 rounded-bl-none"
                     }`}
                   >
-                    <p className="text-sm leading-relaxed">{msg.text}</p>
+                    <p className="text-sm leading-relaxed break-words">{msg.text}</p>
                   </div>
                     {msg.role === "user" && (
                      <div className="w-8 h-8 rounded-full bg-slate-700 flex-shrink-0 flex items-center justify-center">
