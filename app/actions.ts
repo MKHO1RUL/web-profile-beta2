@@ -14,11 +14,6 @@ export async function sendContactEmail(formData: FormData) {
     return { success: false, message: "All fields are required." }
   }
 
-  if (!process.env.RESEND_API_KEY) {
-    console.error("Failed to send email: RESEND_API_KEY is not defined in server environment variables.")
-    return { success: false, message: "Email service is currently unconfigured on this site." }
-  }
-
   try {
     const { data, error } = await resend.emails.send({
       from: "Portfolio Contact <onboarding@resend.dev>", // Default Resend sender
