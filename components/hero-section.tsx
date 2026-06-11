@@ -179,75 +179,77 @@ export default function App() {
         <ChevronDown size={32} />
       </motion.div>
 
-      {isModalOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
-          onClick={() => setIsModalOpen(false)}
-        >
+      <AnimatePresence>
+        {isModalOpen && (
           <motion.div
-            initial={{ scale: 0.5, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.5, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="relative max-w-2xl max-h-[80vh] bg-slate-800 rounded-2xl overflow-hidden border-4 border-orange-400/50 shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+            onClick={() => setIsModalOpen(false)}
           >
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 z-10 w-10 h-10 bg-slate-900/80 hover:bg-slate-900 rounded-full flex items-center justify-center text-orange-400 hover:text-orange-300 transition-colors duration-300"
+            <motion.div
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.5, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="relative max-w-2xl max-h-[80vh] bg-slate-800 rounded-2xl overflow-hidden border-4 border-orange-400/50 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
             >
-              <X size={20} />
-            </button>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-4 right-4 z-10 w-10 h-10 bg-slate-900/80 hover:bg-slate-900 rounded-full flex items-center justify-center text-orange-400 hover:text-orange-300 transition-colors duration-300"
+              >
+                <X size={20} />
+              </button>
 
-            <div className="relative">
-              <img
-                src="/profile-expand.jpg"
-                alt="Profile Picture - Enlarged"
-                className="w-full h-auto max-h-[70vh] object-contain"
-              />
+              <div className="relative">
+                <img
+                  src="/profile-expand.jpg"
+                  alt="Profile Picture - Enlarged"
+                  className="w-full h-auto max-h-[70vh] object-contain"
+                />
 
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 to-transparent p-6">
-                <h3 className="text-2xl font-bold text-orange-400 mb-2">Muhammad Khoirul</h3>
-                <p className="text-blue-400 mb-1">AI Engineer - Genin</p>
-                <p className="text-orange-200 text-sm">AI/Machine Learning Developer from Sidoarjo, East Java</p>
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 to-transparent p-6">
+                  <h3 className="text-2xl font-bold text-orange-400 mb-2">Muhammad Khoirul</h3>
+                  <p className="text-blue-400 mb-1">AI Engineer - Genin</p>
+                  <p className="text-orange-200 text-sm">AI/Machine Learning Developer from Sidoarjo, East Java</p>
+                </div>
+
+                {!isMobile && (
+                  <>
+                    <motion.div
+                      animate={{
+                        scale: [1, 1.1, 1],
+                        opacity: [0.3, 0.6, 0.3],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Number.POSITIVE_INFINITY,
+                        ease: "easeInOut",
+                      }}
+                      className="absolute top-4 left-4 w-8 h-8 bg-blue-400/30 rounded-full blur-sm"
+                    />
+                    <motion.div
+                      animate={{
+                        scale: [1.1, 1, 1.1],
+                        opacity: [0.2, 0.5, 0.2],
+                      }}
+                      transition={{
+                        duration: 2.5,
+                        repeat: Number.POSITIVE_INFINITY,
+                        ease: "easeInOut",
+                        delay: 1,
+                      }}
+                      className="absolute top-8 right-8 w-6 h-6 bg-orange-400/30 rounded-full blur-sm"
+                    />
+                  </>
+                )}
               </div>
-
-              {!isMobile && (
-                <>
-                  <motion.div
-                    animate={{
-                      scale: [1, 1.1, 1],
-                      opacity: [0.3, 0.6, 0.3],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: "easeInOut",
-                    }}
-                    className="absolute top-4 left-4 w-8 h-8 bg-blue-400/30 rounded-full blur-sm"
-                  />
-                  <motion.div
-                    animate={{
-                      scale: [1.1, 1, 1.1],
-                      opacity: [0.2, 0.5, 0.2],
-                    }}
-                    transition={{
-                      duration: 2.5,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: "easeInOut",
-                      delay: 1,
-                    }}
-                    className="absolute top-8 right-8 w-6 h-6 bg-orange-400/30 rounded-full blur-sm"
-                  />
-                </>
-              )}
-            </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
-      )}
+        )}
+      </AnimatePresence>
     </div>
   )
 }

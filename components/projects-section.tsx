@@ -252,17 +252,19 @@ export default function ProjectsSection() {
                                   <Github className="w-4 h-4 mr-2" />
                                   Code
                                 </motion.a>
-                                <motion.a
-                                  href={project.live}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  whileHover={!isMobile ? { scale: 1.05 } : {}}
-                                  whileTap={{ scale: 0.95 }}
-                                  className="flex-1 bg-gradient-to-r from-orange-400 to-blue-400 text-white py-3 px-4 rounded-lg text-center text-sm font-medium hover:shadow-lg transition-all duration-300 flex items-center justify-center"
-                                >
-                                  <ExternalLink className="w-4 h-4 mr-2" />
-                                  Live
-                                </motion.a>
+                                {project.live && (
+                                  <motion.a
+                                    href={project.live}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    whileHover={!isMobile ? { scale: 1.05 } : {}}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="flex-1 bg-gradient-to-r from-orange-400 to-blue-400 text-white py-3 px-4 rounded-lg text-center text-sm font-medium hover:shadow-lg transition-all duration-300 flex items-center justify-center"
+                                  >
+                                    <ExternalLink className="w-4 h-4 mr-2" />
+                                    Live
+                                  </motion.a>
+                                )}
                               </div>
                             </div>
                           </div>

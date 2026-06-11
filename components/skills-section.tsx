@@ -113,7 +113,11 @@ export default function SkillsSection() {
 
   useEffect(() => {
     const fetchSkills = async () => {
-      const { data, error } = await supabase.from("skill_categories").select("*, skills(*)").order("display_order")
+      const { data, error } = await supabase
+        .from("skill_categories")
+        .select("*, skills(*)")
+        .order("display_order")
+        .order("display_order", { foreignTable: "skills" })
       if (error) console.error("Error fetching skills:", error)
       else if (data) setJutsuCategories(data as JutsuCategory[])
     }

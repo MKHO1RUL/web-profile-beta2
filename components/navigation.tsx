@@ -59,13 +59,11 @@ export default function Navigation({ currentSection, setCurrentSection }: Naviga
                 whileTap={{ scale: 0.95 }}
               >
                 <Icon size={20} />
-                <motion.span
-                  initial={{ opacity: 0, x: -10 }}
-                  whileHover={{ opacity: 1, x: 0 }}
-                  className="absolute left-full ml-3 top-1/2 transform -translate-y-1/2 bg-slate-800 text-orange-400 px-2 py-1 rounded text-sm whitespace-nowrap pointer-events-none"
+                <span
+                  className="absolute left-full ml-3 top-1/2 transform -translate-y-1/2 bg-slate-800 text-orange-400 px-2 py-1 rounded text-sm whitespace-nowrap pointer-events-none opacity-0 translate-x-[-10px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
                 >
                   {item.label}
-                </motion.span>
+                </span>
               </motion.button>
             )
           })}
