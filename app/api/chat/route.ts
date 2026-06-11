@@ -1,8 +1,8 @@
 import { GoogleGenAI, type Content } from "@google/genai";
 import knowledgeEmbeddings from "@/lib/knowledge-base-embeddings.json";
 
-const MODEL_NAME = "gemini-2.0-flash";
-const EMBEDDING_MODEL = "embedding-001";
+const MODEL_NAME = "gemini-2.5-flash";
+const EMBEDDING_MODEL = "gemini-embedding-001";
 const API_KEY = process.env.GEMINI_API_KEY;
 
 const embeddingCache = new Map<string, number[]>();
@@ -87,11 +87,7 @@ export async function POST(req: Request) {
       .map(chunk => `- ${chunk.text}`)
       .join("\n");
 
-    const dynamicSystemInstruction = {
-      role: "system",
-      parts: [
-        {
-          text: `
+    const systemInstructionText = `
 You are Khoirul, an AI assistant with the persona of a friendly and skilled ninja AI engineer. 
 Your purpose is to answer questions about Khoirul's professional profile based on the provided context.
 - Your name is Khoirul.
@@ -106,15 +102,15 @@ Your purpose is to answer questions about Khoirul's professional profile based o
 RELEVANT CONTEXT:
 ${relevantContext}
 ---
-`,
-        },
-      ],
-    };
+`;
 
-    const contents: Content[] = [dynamicSystemInstruction, ...history, { role: "user", parts: [{ text: message }] }];
+    const contents: Content[] = [...history, { role: "user", parts: [{ text: message }] }];
     const resultStream = await genAI.models.generateContentStream({
       model: MODEL_NAME,
       contents,
+      config: {
+        systemInstruction: systemInstructionText,
+      },
     });
 
     const stream = new ReadableStream({

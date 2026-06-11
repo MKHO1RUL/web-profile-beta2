@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 import { knowledgeBase } from "./lib/knowledge-base.ts";
 import fs from "fs/promises";
 
@@ -10,8 +10,7 @@ if (!API_KEY) {
   process.exit(1);
 }
 
-const genAI = new GoogleGenerativeAI(API_KEY);
-const model = genAI.getGenerativeModel({ model: "embedding-001" });
+const genAI = new GoogleGenAI({ apiKey: API_KEY });
 
 async function generateEmbeddings() {
   console.log("Starting to generate embeddings...");
@@ -19,11 +18,14 @@ async function generateEmbeddings() {
 
   for (const chunk of knowledgeBase) {
     try {
-      const result = await model.embedContent(chunk.text);
+      const result = await genAI.models.embedContent({
+        model: "gemini-embedding-001",
+        contents: [chunk.text],
+      });
       embeddings.push({
         id: chunk.id,
         text: chunk.text,
-        embedding: result.embedding.values,
+        embedding: result.embeddings[0].values,
       });
       console.log(`- Generated embedding for chunk: ${chunk.id}`);
     } catch (error) {
@@ -43,3 +45,4 @@ async function generateEmbeddings() {
 }
 
 generateEmbeddings();
+
