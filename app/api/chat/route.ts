@@ -1,5 +1,6 @@
 import { GoogleGenAI, type Content } from "@google/genai";
 import knowledgeEmbeddings from "@/lib/knowledge-base-embeddings.json";
+import { isRateLimited } from "@/lib/rate-limit";
 
 const MODEL_NAME = "gemini-2.5-flash";
 const EMBEDDING_MODEL = "gemini-embedding-001";
@@ -59,6 +60,27 @@ export async function POST(req: Request) {
       throw new Error("The GEMINI_API_KEY environment variable is not set.");
     }
 
+    // --- 1. Rate Limiting System (Spam Protection) ---
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() || 
+               req.headers.get("x-real-ip")?.trim() || 
+               "127.0.0.1";
+
+    const limitCheck = isRateLimited(ip);
+    if (limitCheck.limited) {
+      return new Response(
+        `Patience, shinobi! You are using too much chakra (requests). Let it recover for a moment before casting another question. (Cooldown: ${limitCheck.reset} seconds)`,
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': String(limitCheck.limit),
+            'X-RateLimit-Remaining': String(limitCheck.remaining),
+            'X-RateLimit-Reset': String(limitCheck.reset),
+            'Content-Type': 'text/plain; charset=utf-8'
+          }
+        }
+      );
+    }
+
     const genAI = new GoogleGenAI({ apiKey: API_KEY });
     const { history, message } = await req.json();
 
@@ -75,17 +97,20 @@ export async function POST(req: Request) {
       embeddingCache.set(message, queryEmbedding);
     }
 
+    // --- 2. Token-Efficient RAG Pipeline (Context Filtering) ---
+    // Only include context chunks with similarity > 0.4, and cap at top 2 chunks (saves ~300 tokens per call)
     const similarChunks = knowledgeEmbeddings
       .map(chunk => ({
         ...chunk,
         similarity: cosineSimilarity(queryEmbedding, chunk.embedding as number[]),
       }))
+      .filter(chunk => chunk.similarity > 0.4)
       .sort((a, b) => b.similarity - a.similarity)
-      .slice(0, 3);
+      .slice(0, 2);
 
-    const relevantContext = similarChunks
-      .map(chunk => `- ${chunk.text}`)
-      .join("\n");
+    const relevantContext = similarChunks.length > 0
+      ? similarChunks.map(chunk => `- ${chunk.text}`).join("\n")
+      : "No direct relevant context found for this query.";
 
     const systemInstructionText = `
 You are Khoirul, an AI assistant with the persona of a friendly and skilled ninja AI engineer. 
@@ -104,7 +129,12 @@ ${relevantContext}
 ---
 `;
 
-    const contents: Content[] = [...history, { role: "user", parts: [{ text: message }] }];
+    // --- 3. Chat History Cap (Token Control) ---
+    // Capping the conversation history to the last 8 messages (approx 4 back-and-forth turns)
+    const MAX_HISTORY_LENGTH = 8;
+    const trimmedHistory = Array.isArray(history) ? history.slice(-MAX_HISTORY_LENGTH) : [];
+    const contents: Content[] = [...trimmedHistory, { role: "user", parts: [{ text: message }] }];
+
     const resultStream = await genAI.models.generateContentStream({
       model: MODEL_NAME,
       contents,
@@ -124,7 +154,12 @@ ${relevantContext}
     });
 
     return new Response(stream, {
-      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+      headers: { 
+        'Content-Type': 'text/plain; charset=utf-8',
+        'X-RateLimit-Limit': String(limitCheck.limit),
+        'X-RateLimit-Remaining': String(limitCheck.remaining),
+        'X-RateLimit-Reset': String(limitCheck.reset)
+      },
     });
 
   } catch (error) {

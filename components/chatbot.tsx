@@ -19,6 +19,7 @@ export default function App() {
   ])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [cooldown, setCooldown] = useState(0)
   const chatContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -27,13 +28,26 @@ export default function App() {
     }
   }, [messages])
 
+  // Manage client-side cooldown countdown
+  useEffect(() => {
+    if (cooldown <= 0) return
+    const timer = setInterval(() => {
+      setCooldown((prev) => prev - 1)
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [cooldown])
+
   const handleSend = async () => {
-    if (input.trim() === "" || isLoading) return
+    if (input.trim() === "" || isLoading || cooldown > 0) return
 
     const userMessage: Message = { role: "user", text: input }
     setMessages((prev) => [...prev, userMessage])
+    const currentInput = input
     setInput("")
     setIsLoading(true)
+
+    // Set a short local cooldown (3s) to prevent immediate double clicks
+    setCooldown(3)
 
     try {
       const history = messages.map((msg) => ({
@@ -44,8 +58,23 @@ export default function App() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ history, message: input }),
+        body: JSON.stringify({ history, message: currentInput }),
       })
+
+      // Handle server-side rate limit response (429)
+      if (res.status === 429) {
+        const errorText = await res.text()
+        const resetSecondsHeader = res.headers.get("X-RateLimit-Reset")
+        const resetSec = resetSecondsHeader ? parseInt(resetSecondsHeader, 10) : 30
+        
+        setCooldown(resetSec)
+        setMessages((prev) => [
+          ...prev,
+          { role: "model", text: errorText }
+        ])
+        setIsLoading(false)
+        return
+      }
 
       if (!res.ok) {
         const errorText = await res.text()
@@ -74,7 +103,6 @@ export default function App() {
           return [...prev.slice(0, -1), updatedLastMessage]
         })
       }
-      // Set loading to false only after the entire stream is complete
       setIsLoading(false)
     } catch (error) {
       setIsLoading(false)
@@ -180,13 +208,15 @@ export default function App() {
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask about my skills..."
-                  className="flex-1 w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-full text-orange-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-400"
-                  disabled={isLoading}
+                  placeholder={cooldown > 0 ? `Chakra refilling... (${cooldown}s)` : "Ask about my skills..."}
+                  className={`flex-1 w-full px-4 py-2 bg-slate-700 border rounded-full text-orange-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-400 ${
+                    cooldown > 0 ? "border-orange-400/50 cursor-not-allowed opacity-80" : "border-slate-600"
+                  }`}
+                  disabled={isLoading || cooldown > 0}
                 />
                 <button
                   type="submit"
-                  disabled={isLoading}
+                  disabled={isLoading || cooldown > 0 || input.trim() === ""}
                   className="w-10 h-10 flex-shrink-0 bg-orange-400 text-slate-900 rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? <Loader className="w-5 h-5 animate-spin" /> : <Send size={18} />}
