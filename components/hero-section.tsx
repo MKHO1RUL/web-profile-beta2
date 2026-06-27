@@ -51,11 +51,12 @@ export default function App() {
       </div>
 
       {!isMobile && (
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 overflow-hidden">
           <motion.div
             animate={chakraAnimation}
             transition={chakraTransition}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"
+            style={{ willChange: "transform, opacity" }}
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[radial-gradient(circle,_rgba(96,165,250,0.2)_0%,_rgba(96,165,250,0)_70%)] rounded-full"
           />
           <motion.div
             animate={{
@@ -68,7 +69,8 @@ export default function App() {
               ease: "easeInOut",
               delay: 1,
             }}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-orange-400/20 rounded-full blur-3xl"
+            style={{ willChange: "transform, opacity" }}
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[radial-gradient(circle,_rgba(251,146,60,0.2)_0%,_rgba(251,146,60,0)_70%)] rounded-full"
           />
         </div>
       )}
