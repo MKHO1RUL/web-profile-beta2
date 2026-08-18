@@ -154,6 +154,8 @@ ${relevantContext}
     return new Response(stream, {
       headers: {
         'Content-Type': 'text/plain; charset=utf-8',
+        'Cache-Control': 'no-cache, no-transform',
+        'Connection': 'keep-alive',
         'X-RateLimit-Limit': String(limitCheck.limit),
         'X-RateLimit-Remaining': String(limitCheck.remaining),
         'X-RateLimit-Reset': String(limitCheck.reset)

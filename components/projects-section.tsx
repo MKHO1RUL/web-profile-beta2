@@ -4,7 +4,6 @@ import { useState, useEffect, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ExternalLink, Github, Filter, Star } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { supabase } from "@/lib/supabase"
 
 interface Project {
   id: number
@@ -27,9 +26,14 @@ export default function ProjectsSection() {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const { data, error } = await supabase.from("projects").select("*").order("display_order")
-      if (error) console.error("Error fetching projects:", error)
-      else if (data) setProjects(data as Project[])
+      try {
+        const res = await fetch("/api/projects")
+        if (!res.ok) throw new Error("Failed to fetch projects")
+        const data = await res.json()
+        setProjects(data as Project[])
+      } catch (error) {
+        console.error("Error fetching projects:", error)
+      }
     }
     fetchProjects()
   }, [])

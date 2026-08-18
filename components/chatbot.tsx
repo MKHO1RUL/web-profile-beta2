@@ -171,8 +171,8 @@ export default function App() {
                   <div
                     className={`max-w-[80%] p-3 rounded-xl ${
                       msg.role === "user"
-                        ? "bg-blue-500 text-white rounded-br-none"
-                        : "bg-slate-700 text-orange-100 rounded-bl-none"
+                        ? "bg-blue-500 text-white rounded-tr-none"
+                        : "bg-slate-700 text-orange-100 rounded-tl-none"
                     }`}
                   >
                     <p className="text-sm leading-relaxed break-words">{msg.text}</p>
@@ -184,12 +184,12 @@ export default function App() {
                    )}
                 </div>
               ))}
-              {isLoading && (
+              {isLoading && messages[messages.length - 1]?.role === "user" && (
                    <div className="flex gap-3 justify-start">
                      <div className="w-8 h-8 rounded-full bg-slate-700 flex-shrink-0 flex items-center justify-center">
                        <Bot size={18} className="text-orange-400" />
                      </div>
-                     <div className="max-w-[80%] p-3 rounded-xl bg-slate-700 text-orange-100 rounded-bl-none flex items-center">
+                     <div className="max-w-[80%] p-3 rounded-xl bg-slate-700 text-orange-100 rounded-tl-none flex items-center">
                          <Loader className="w-5 h-5 animate-spin text-orange-400" />
                      </div>
                    </div>

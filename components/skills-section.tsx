@@ -4,7 +4,6 @@ import { motion } from "framer-motion"
 import { useState, useRef, useEffect, ComponentType } from "react"
 import { Zap, CodeXml, Database, BrainCog, ChartArea, LucideProps } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { supabase } from "@/lib/supabase"
 
 const iconMap: { [key: string]: ComponentType<LucideProps> } = {
   BrainCog,
@@ -113,13 +112,14 @@ export default function SkillsSection() {
 
   useEffect(() => {
     const fetchSkills = async () => {
-      const { data, error } = await supabase
-        .from("skill_categories")
-        .select("*, skills(*)")
-        .order("display_order")
-        .order("display_order", { foreignTable: "skills" })
-      if (error) console.error("Error fetching skills:", error)
-      else if (data) setJutsuCategories(data as JutsuCategory[])
+      try {
+        const res = await fetch("/api/skills")
+        if (!res.ok) throw new Error("Failed to fetch skills")
+        const data = await res.json()
+        setJutsuCategories(data as JutsuCategory[])
+      } catch (error) {
+        console.error("Error fetching skills:", error)
+      }
     }
     fetchSkills()
   }, [])
