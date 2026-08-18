@@ -253,7 +253,7 @@ export default function Chatbot() {
                     Khoirul AI Shinobi
                     <Sparkles className="w-3.5 h-3.5 text-yellow-400 animate-pulse" />
                   </h3>
-                  <p className="text-[11px] text-orange-200/70">Powered by Gemini 2.5 + Turso RAG</p>
+                  <p className="text-[11px] text-orange-200/70">Powered by Gemini 3.5 flash lite</p>
                 </div>
               </div>
               <div className="flex items-center gap-1">
@@ -288,11 +288,10 @@ export default function Chatbot() {
 
                   <div className="relative max-w-[82%]">
                     <div
-                      className={`p-3.5 rounded-2xl text-sm leading-relaxed ${
-                        msg.role === "user"
+                      className={`p-3.5 rounded-2xl text-sm leading-relaxed ${msg.role === "user"
                           ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-tr-none shadow-md shadow-blue-500/10"
                           : "bg-slate-800/90 text-orange-50 rounded-tl-none border border-orange-400/20 shadow-md"
-                      }`}
+                        }`}
                     >
                       {msg.role === "model" ? renderFormattedText(msg.text) : <p className="whitespace-pre-wrap">{msg.text}</p>}
                     </div>
@@ -370,9 +369,8 @@ export default function Chatbot() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder={cooldown > 0 ? `Chakra refilling... (${cooldown}s)` : "Ask about skills, projects, or research..."}
-                  className={`flex-1 px-4 py-2.5 text-sm bg-slate-800/90 border rounded-full text-orange-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-400/50 transition-all ${
-                    cooldown > 0 ? "border-orange-400/50 cursor-not-allowed opacity-75" : "border-slate-700 hover:border-slate-600"
-                  }`}
+                  className={`flex-1 px-4 py-2.5 text-sm bg-slate-800/90 border rounded-full text-orange-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-400/50 transition-all ${cooldown > 0 ? "border-orange-400/50 cursor-not-allowed opacity-75" : "border-slate-700 hover:border-slate-600"
+                    }`}
                   disabled={isLoading || cooldown > 0}
                 />
                 <button
