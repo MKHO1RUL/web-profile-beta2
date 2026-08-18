@@ -2,7 +2,7 @@ import { GoogleGenAI, type Content } from "@google/genai";
 import knowledgeEmbeddings from "@/lib/knowledge-base-embeddings.json";
 import { isRateLimited } from "@/lib/rate-limit";
 
-const MODEL_NAME = "gemini-2.5-flash";
+const MODEL_NAME = "gemini-3.5-flash-lite";
 const EMBEDDING_MODEL = "gemini-embedding-001";
 const API_KEY = process.env.GEMINI_API_KEY;
 
