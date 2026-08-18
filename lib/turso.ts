@@ -1,13 +1,29 @@
-import { createClient } from "@libsql/client"
+import { createClient, type Client } from "@libsql/client"
 
-const url = process.env.TURSO_DATABASE_URL
-const authToken = process.env.TURSO_AUTH_TOKEN
+let clientInstance: Client | null = null
 
-if (!url) {
-  console.warn("TURSO_DATABASE_URL is not set in environment variables.")
+export function getTursoClient(): Client {
+  if (!clientInstance) {
+    const url = process.env.TURSO_DATABASE_URL
+    const authToken = process.env.TURSO_AUTH_TOKEN
+
+    if (!url) {
+      throw new Error("TURSO_DATABASE_URL environment variable is missing.")
+    }
+
+    clientInstance = createClient({
+      url,
+      authToken: authToken || undefined,
+    })
+  }
+  return clientInstance
 }
 
-export const turso = createClient({
-  url: url || "",
-  authToken: authToken || undefined,
+// Proxy wrapper enables lazy initialization, avoiding top-level build-time crashes when env vars are missing
+export const turso = new Proxy({} as Client, {
+  get(_target, prop) {
+    const instance = getTursoClient()
+    const value = (instance as any)[prop]
+    return typeof value === "function" ? value.bind(instance) : value
+  },
 })
