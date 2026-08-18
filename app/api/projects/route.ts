@@ -10,7 +10,11 @@ export async function GET() {
       ...row,
       tech: typeof row.tech === "string" ? JSON.parse(row.tech) : row.tech || [],
     }))
-    return NextResponse.json(projects)
+    return NextResponse.json(projects, {
+      headers: {
+        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+      },
+    })
   } catch (error) {
     console.error("Error fetching projects from Turso:", error)
     return NextResponse.json({ error: "Failed to fetch projects" }, { status: 500 })
